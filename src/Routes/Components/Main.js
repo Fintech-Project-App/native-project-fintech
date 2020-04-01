@@ -33,8 +33,8 @@ function Main(props) {
                     height: 60,
                     top: -20,
                     borderRadius: 50,
-                    borderWidth: 5,
-                    borderWidthColor: 'white',
+                    borderWidth: 3,
+                    borderColor: 'white',
                     elevation: 3,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -52,8 +52,8 @@ function Main(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#60cbbc',
-        inactiveTintColor: '#bababa',
+        activeTintColor: '#50b5a6',
+        inactiveTintColor: '#868989',
         showLabel: false,
         style: {
           position: 'relative',
