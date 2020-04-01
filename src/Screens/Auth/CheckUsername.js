@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import {Button, Input, Image} from 'react-native-elements';
-import BGVerify from '../../Helpers/Image/verify.png';
+import Forgot from '../../Helpers/Image/forgot.png';
 
-function Verify(props) {
+function ForgotPassword(props) {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{flex: 2, paddingBottom: 20}}>
@@ -24,23 +24,25 @@ function Verify(props) {
         <ScrollView>
           <Image
             rounded
-            source={BGVerify}
+            source={Forgot}
             containerStyle={style.bgVerify}></Image>
           <View style={style.container}>
-            <Text style={style.titleVerify}>Verification</Text>
+            <Text style={style.titleVerify}>Forgot Password</Text>
             <Text style={{...style.quotes, marginTop: 5}}>
-              Your verification code send to example@gmail.com
+              Enter your username if it is available before resetting your
+              password
             </Text>
           </View>
           <Input
+            placeholder="Your username"
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
             labelStyle={{marginHorizontal: 50}}
           />
           <View style={{alignSelf: 'center'}}>
             <Button
-              title="Verify"
-              onPress={() => props.navigation.navigate('VerifySuccess')}
+              title="Check"
+              onPress={() => props.navigation.navigate('ChangePassword')}
               buttonStyle={style.verify}
             />
           </View>
@@ -101,12 +103,12 @@ const style = StyleSheet.create({
     borderBottomWidth: 0,
     backgroundColor: '#f0efef',
     width: 260,
-    height: 70,
+    height: 40,
     alignSelf: 'center',
     paddingLeft: 0,
   },
   inputText: {
-    fontSize: 25,
+    fontSize: 15,
     textAlign: 'center',
     color: '#525252',
   },
@@ -118,4 +120,4 @@ const style = StyleSheet.create({
     color: '#979797',
   },
 });
-export default Verify;
+export default ForgotPassword;

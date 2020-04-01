@@ -50,9 +50,10 @@ const style = StyleSheet.create({
     height: '100%',
   },
   brand: {
-    width: 100,
-    height: 90,
+    width: 150,
+    height: 95,
     resizeMode: 'center',
+    marginBottom: 5,
   },
   quotes: {
     fontSize: 15,

@@ -7,15 +7,16 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Item, Form, Label, Thumbnail} from 'native-base';
-import {Button, Input, Avatar, Image} from 'react-native-elements';
-import BGLogin from '../../Helpers/Image/bgLogin.jpg';
-import Logo from '../../Helpers/Image/QC.png';
+import {Form} from 'native-base';
+import {Button, Input, CheckBox} from 'react-native-elements';
 
 function Register(props) {
+  const [hidePassword, setHidePassword] = React.useState(true);
+  const [hideConfirmPass, setHideConfirmPass] = React.useState(true);
+
   return (
     <View style={{flex: 1, backgroundColor: '#f1edee'}}>
-      <View style={{flex: 2, paddingBottom: 20}}>
+      <View style={{flex: 1, paddingBottom: 30}}>
         <TouchableOpacity
           style={{width: 50, marginTop: 25}}
           onPress={() => props.navigation.goBack()}>
@@ -26,7 +27,93 @@ function Register(props) {
         </View>
       </View>
       <View style={style.viewForm}>
-        <ScrollView></ScrollView>
+        <ScrollView>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: -60,
+            }}></View>
+          <View>
+            <Form
+              style={{
+                paddingLeft: 50,
+                paddingRight: 50,
+                marginTop: 60,
+                marginBottom: 70,
+              }}>
+              <Input
+                placeholder="Your username ..."
+                inputContainerStyle={style.input}
+                inputStyle={style.inputText}
+              />
+              <Input
+                placeholder="Email ..."
+                inputContainerStyle={style.input}
+                inputStyle={style.inputText}
+              />
+              <Input
+                placeholder="Password ..."
+                secureTextEntry={hidePassword ? true : false}
+                rightIcon={
+                  <TouchableOpacity
+                    onPress={() => setHidePassword(!hidePassword)}>
+                    <Icons
+                      name={hidePassword ? 'eye-slash' : 'eye'}
+                      size={15}
+                      color="grey"
+                    />
+                  </TouchableOpacity>
+                }
+                rightIconContainerStyle={{paddingRight: 20}}
+                inputContainerStyle={style.input}
+                inputStyle={style.inputText}
+              />
+              <Input
+                placeholder="Confirm password ..."
+                secureTextEntry={hideConfirmPass ? true : false}
+                rightIcon={
+                  <TouchableOpacity
+                    onPress={() => setHideConfirmPass(!hideConfirmPass)}>
+                    <Icons
+                      name={hideConfirmPass ? 'eye-slash' : 'eye'}
+                      size={15}
+                      color="grey"
+                    />
+                  </TouchableOpacity>
+                }
+                rightIconContainerStyle={{paddingRight: 20}}
+                inputContainerStyle={style.input}
+                inputStyle={style.inputText}
+              />
+              <View>
+                <Button
+                  title="Sign up"
+                  buttonStyle={style.signup}
+                  onPress={() => props.navigation.navigate('Verify')}
+                />
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={style.quotes}>
+                  If signing up, you agreed with your terms of services and
+                  privacy policy
+                </Text>
+              </View>
+
+              <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+                <Text
+                  style={{...style.quotes, marginTop: 70, marginBottom: -60}}>
+                  Already have account ?
+                </Text>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('Login')}
+                  style={{marginTop: 45, marginBottom: -60}}>
+                  <Text style={style.alreadySign}>Log in</Text>
+                </TouchableOpacity>
+              </View>
+            </Form>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -50,8 +137,9 @@ const style = StyleSheet.create({
     width: 20,
   },
   viewForm: {
-    flex: 9,
-    paddingTop: 50,
+    flex: 10,
+    paddingTop: 40,
+    marginTop: 50,
     justifyContent: 'center',
   },
   anotherLogin: {
@@ -63,8 +151,8 @@ const style = StyleSheet.create({
     elevation: 4,
     marginHorizontal: 10,
   },
-  login: {
-    marginTop: 60,
+  signup: {
+    marginTop: 20,
     width: '100%',
     borderRadius: 18,
     backgroundColor: '#53C9BE',
@@ -72,6 +160,7 @@ const style = StyleSheet.create({
   },
   textButton: {
     fontSize: 14,
+    marginLeft: 15,
   },
   input: {
     borderRadius: 50,
@@ -87,12 +176,21 @@ const style = StyleSheet.create({
   inputText: {
     fontSize: 15,
     paddingLeft: 20,
+    color: '#525252',
   },
   quotes: {
     textAlign: 'center',
     marginTop: 25,
-    fontSize: 14,
-    color: '#4f4f4f',
+    fontSize: 13,
+    color: '#717070',
+  },
+  alreadySign: {
+    marginTop: 25,
+    fontSize: 13,
+    color: '#717070',
+    paddingLeft: 10,
+    color: '#53C9BE',
+    fontWeight: 'bold',
   },
 });
 export default Register;
