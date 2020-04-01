@@ -28,8 +28,10 @@ function OverlayImg(props) {
           <Image source={Success} style={{width: 150, height: 120}} />
         </View>
         <Button
-          title="Yes"
-          onPress={() => props.setHideVisible(false)}
+          title="OK"
+          onPress={() =>
+            props.onPressOk ? props.onPressOk() : props.setHideVisible(false)
+          }
           buttonStyle={style.confirm}
         />
       </Overlay>

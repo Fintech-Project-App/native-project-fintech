@@ -9,8 +9,35 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import {Button, Input, Image} from 'react-native-elements';
 import Forgot from '../../Helpers/Image/forgot.png';
-
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import CustomTextInput from '../../Components/CustomInputText';
+import CustomAlert from '../../Components/CustomAlert';
+import {submitData} from '../../Helpers/CRUD';
 function ForgotPassword(props) {
+  const FormCheckUsername = useFormik({
+    initialValues: {username: ''},
+    validationSchema: Yup.object({
+      username: Yup.string().required('Enter Username To Reset Your Password'),
+    }),
+    onSubmit: async (values, form) => {
+      console.log(values);
+      try {
+        const response = await submitData('forgot-password', values);
+        if (response.data && response.data.success) {
+          form.setSubmitting(false);
+          form.resetForm();
+          CustomAlert(response.data.success, response.data.msg, () =>
+            props.navigation.navigate('ChangePassword'),
+          );
+        } else {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{flex: 2, paddingBottom: 20}}>
@@ -22,10 +49,7 @@ function ForgotPassword(props) {
       </View>
       <View style={style.viewForm}>
         <ScrollView>
-          <Image
-            rounded
-            source={Forgot}
-            containerStyle={style.bgVerify}></Image>
+          <Image rounded source={Forgot} containerStyle={style.bgVerify} />
           <View style={style.container}>
             <Text style={style.titleVerify}>Forgot Password</Text>
             <Text style={{...style.quotes, marginTop: 5}}>
@@ -33,8 +57,11 @@ function ForgotPassword(props) {
               password
             </Text>
           </View>
-          <Input
+          <CustomTextInput
+            form={FormCheckUsername}
+            name="username"
             placeholder="Your username"
+            containerStyle={{alignItems: 'center'}}
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
             labelStyle={{marginHorizontal: 50}}
@@ -42,7 +69,8 @@ function ForgotPassword(props) {
           <View style={{alignSelf: 'center'}}>
             <Button
               title="Check"
-              onPress={() => props.navigation.navigate('ChangePassword')}
+              disabled={!FormCheckUsername.isValid}
+              onPress={() => FormCheckUsername.handleSubmit()}
               buttonStyle={style.verify}
             />
           </View>
@@ -98,7 +126,6 @@ const style = StyleSheet.create({
   input: {
     marginTop: 30,
     borderRadius: 30,
-    borderWidth: 1,
     borderWidth: 0,
     borderBottomWidth: 0,
     backgroundColor: '#f0efef',
