@@ -1,12 +1,11 @@
-/**
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import Routes from './src/Routes/MainNaigation';
+import {View, Text} from 'react-native';
 
-function App(props) {
-  return <Routes />;
+function Topup(props) {
+  return (
+    <View>
+      <Text></Text>
+    </View>
+  );
 }
-export default App;
+export default Topup;

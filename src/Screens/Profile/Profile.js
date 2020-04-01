@@ -47,7 +47,7 @@ function Profile(props) {
               <View style={{flexDirection: 'row', marginTop: 20}}>
                 <Icon
                   reverse
-                  name="ios-qr"
+                  name="ios-person"
                   type="ionicon"
                   color="grey"
                   size={15}
@@ -58,7 +58,8 @@ function Profile(props) {
             </TouchableOpacity>
             <View style={style.line} />
             <Text style={{...style.titleBlock, marginTop: 15}}>Account</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('ProfileUpdate')}>
               <View style={{flexDirection: 'row', marginTop: 20}}>
                 <Icon
                   reverse
