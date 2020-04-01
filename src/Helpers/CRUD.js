@@ -10,3 +10,13 @@ export const submitData = async (dataUrl, formDta) => {
     throw err;
   }
 };
+
+export const getData = async (dataUrl, formDta) => {
+  try {
+    const url = API_URL + dataUrl;
+    const response = await axios.get(url);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

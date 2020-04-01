@@ -47,7 +47,7 @@ function Register(props) {
           form.setSubmitting(false);
           form.resetForm();
           CustomAlert(response.data.success, response.data.msg, () =>
-            props.navigation.navigate('Verify'),
+            props.navigation.navigate('Verify', {email: values.email}),
           );
         } else {
           CustomAlert(response.data.success, response.data.msg);
