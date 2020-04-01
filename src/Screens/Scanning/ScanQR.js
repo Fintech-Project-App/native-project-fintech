@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-function Profile(props) {
+function ScanQR(props) {
   return (
     <View>
-      <Text>Hello Profile</Text>
+      <Text>Hello</Text>
     </View>
   );
 }
-export default Profile;
+export default ScanQR;
