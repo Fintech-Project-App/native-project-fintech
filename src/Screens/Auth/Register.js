@@ -9,11 +9,54 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import {Form} from 'native-base';
 import {Button, Input, CheckBox} from 'react-native-elements';
-
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import CustomInputText from '../../Components/CustomInputText';
+import {submitData} from '../../Helpers/CRUD';
+import CustomAlert from '../../Components/CustomAlert';
 function Register(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [hideConfirmPass, setHideConfirmPass] = React.useState(true);
-
+  const FormRegister = useFormik({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirm_passoword: '',
+    },
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .min(6, 'Username Must have More Than 6 character')
+        .required('Username Is Required'),
+      email: Yup.string()
+        .email('Enter Valid Valid Email')
+        .required('Email is Required'),
+      password: Yup.string()
+        .min(8, 'Password Must have More Than 8 Character')
+        .required('Passoword Is Required'),
+      confirm_password: Yup.string()
+        .oneOf([Yup.ref('password')], 'Password Not Match')
+        .required('Confirm Password is Required'),
+    }),
+    onSubmit: async (values, form) => {
+      console.log(values);
+      try {
+        const response = await submitData('register', values);
+        console.log(response.data);
+        if (response.data && response.data.success) {
+          form.setSubmitting(false);
+          form.resetForm();
+          CustomAlert(response.data.success, response.data.msg, () =>
+            props.navigation.navigate('Verify'),
+          );
+        } else {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
   return (
     <View style={{flex: 1, backgroundColor: '#f1edee'}}>
       <View style={{flex: 1, paddingBottom: 30}}>
@@ -33,7 +76,8 @@ function Register(props) {
               flexDirection: 'row',
               justifyContent: 'center',
               marginTop: -60,
-            }}></View>
+            }}
+          />
           <View>
             <Form
               style={{
@@ -42,17 +86,23 @@ function Register(props) {
                 marginTop: 60,
                 marginBottom: 70,
               }}>
-              <Input
+              <CustomInputText
                 placeholder="Your username ..."
+                form={FormRegister}
+                name="username"
+                containerStyle={style.containerInput}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
               />
-              <Input
+              <CustomInputText
                 placeholder="Email ..."
+                form={FormRegister}
+                name="email"
+                containerStyle={style.containerInput}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
               />
-              <Input
+              <CustomInputText
                 placeholder="Password ..."
                 secureTextEntry={hidePassword ? true : false}
                 rightIcon={
@@ -65,11 +115,14 @@ function Register(props) {
                     />
                   </TouchableOpacity>
                 }
+                form={FormRegister}
+                name="password"
                 rightIconContainerStyle={{paddingRight: 20}}
+                containerStyle={style.containerInput}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
               />
-              <Input
+              <CustomInputText
                 placeholder="Confirm password ..."
                 secureTextEntry={hideConfirmPass ? true : false}
                 rightIcon={
@@ -82,7 +135,10 @@ function Register(props) {
                     />
                   </TouchableOpacity>
                 }
+                form={FormRegister}
+                name="confirm_password"
                 rightIconContainerStyle={{paddingRight: 20}}
+                containerStyle={style.containerInput}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
               />
@@ -90,7 +146,8 @@ function Register(props) {
                 <Button
                   title="Sign up"
                   buttonStyle={style.signup}
-                  onPress={() => props.navigation.navigate('Verify')}
+                  disabled={!FormRegister.isValid}
+                  onPress={() => FormRegister.handleSubmit()}
                 />
               </View>
               <View style={{flexDirection: 'row'}}>
@@ -162,6 +219,9 @@ const style = StyleSheet.create({
     fontSize: 14,
     marginLeft: 15,
   },
+  containerInput: {
+    marginBottom: 15,
+  },
   input: {
     borderRadius: 50,
     borderWidth: 1,
@@ -170,7 +230,6 @@ const style = StyleSheet.create({
     width: 280,
     alignSelf: 'center',
     backgroundColor: '#F5F5F5',
-    marginBottom: 15,
     paddingLeft: 10,
   },
   inputText: {
@@ -187,7 +246,6 @@ const style = StyleSheet.create({
   alreadySign: {
     marginTop: 25,
     fontSize: 13,
-    color: '#717070',
     paddingLeft: 10,
     color: '#53C9BE',
     fontWeight: 'bold',
