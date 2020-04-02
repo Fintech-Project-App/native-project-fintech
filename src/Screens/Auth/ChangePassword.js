@@ -62,7 +62,6 @@ function ChangePassword(props) {
           isVisible={isVisible}
           setHideVisible={setHideVisible}
           onPressOk={() => {
-            setHideVisible(false);
             props.navigation.navigate('Login');
           }}
         />

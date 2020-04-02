@@ -15,25 +15,28 @@ function OverlayImg(props) {
         borderRadius={20}
         style={{padding: 20}}
         overlayStyle={{padding: 20, paddingTop: 40}}>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 18,
-            color: '#545454',
-            marginTop: -10,
-          }}>
-          {props.message}
-        </Text>
-        <View style={{alignSelf: 'center', marginTop: 20}}>
-          <Image source={Success} style={{width: 150, height: 120}} />
-        </View>
-        <Button
-          title="OK"
-          onPress={() =>
-            props.onPressOk ? props.onPressOk() : props.setHideVisible(false)
-          }
-          buttonStyle={style.confirm}
-        />
+        <>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 18,
+              color: '#545454',
+              marginTop: -10,
+            }}>
+            {props.message}
+          </Text>
+          <View style={{alignSelf: 'center', marginTop: 20}}>
+            <Image source={Success} style={{width: 150, height: 120}} />
+          </View>
+          <Button
+            title="OK"
+            onPress={() => {
+              props.setHideVisible(false);
+              props.onPressOk && props.onPressOk();
+            }}
+            buttonStyle={style.confirm}
+          />
+        </>
       </Overlay>
     </View>
   );

@@ -5,8 +5,16 @@
 
 import React from 'react';
 import Routes from './src/Routes/MainNaigation';
-
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './src/Redux/store';
 function App(props) {
-  return <Routes />;
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Routes />
+      </PersistGate>
+    </Provider>
+  );
 }
 export default App;

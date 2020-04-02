@@ -10,8 +10,10 @@ import {Image, Avatar, Icon, Button} from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import BGProfile from '../../Helpers/Image/bgprofile.png';
 import User from '../../Helpers/Image/opa.jpg';
-
+import {useDispatch} from 'react-redux';
+import {userLogout} from '../../Redux/actions/userDataAction';
 function Profile(props) {
+  const dispatch = useDispatch();
   return (
     <View style={{flex: 1, backgroundColor: '#f6f6f8'}}>
       <View style={{flex: 2}}>
@@ -131,7 +133,11 @@ function Profile(props) {
             </TouchableOpacity>
             <View>
               <Text style={style.hastag}>#PakeQuickCashaja</Text>
-              <Button title="Log Out" buttonStyle={style.logout} />
+              <Button
+                title="Log Out"
+                buttonStyle={style.logout}
+                onPress={async () => await dispatch(userLogout())}
+              />
             </View>
           </View>
         </ScrollView>
