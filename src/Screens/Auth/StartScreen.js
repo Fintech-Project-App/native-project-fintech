@@ -6,23 +6,25 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {Item, Form, Input, Label, Thumbnail} from 'native-base';
-import {Button, Avatar, Image, withTheme} from 'react-native-elements';
+import { Item, Form, Input, Label, Thumbnail } from 'native-base';
+import { Button, Avatar, Image, withTheme } from 'react-native-elements';
 import BGStart from '../../Helpers/Image/bgstart.png';
 import Logo from '../../Helpers/Image/QCToska.png';
 
 function StartScreen(props) {
   return (
-    <View style={{flex: 1}}>
-      <ImageBackground source={BGStart} style={{width: '100%', height: '100%'}}>
+    <View style={{ flex: 1 }}>
+      <ImageBackground
+        source={BGStart}
+        style={{ width: '100%', height: '100%' }}>
         <View style={style.bgPage}>
-          <View style={{alignItems: 'center', marginTop: 20}}>
+          <View style={{ alignItems: 'center', marginTop: 20 }}>
             <Image source={Logo} style={style.brand} />
             <Text style={style.quotes}>
               Pay and transaction quickly, just quick cash
             </Text>
           </View>
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <Button
               title="Get started"
               buttonStyle={style.login}

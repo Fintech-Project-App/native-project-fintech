@@ -7,23 +7,22 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Button, Input, Image} from 'react-native-elements';
+import { Button, Input, Image } from 'react-native-elements';
 import BGVerify from '../../Helpers/Image/verify.png';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomTextInput from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
-import {getData} from '../../Helpers/CRUD';
+import { getData } from '../../Helpers/CRUD';
 function Verify(props) {
   const FormVerify = useFormik({
-    initialValues: {code_verify: ''},
+    initialValues: { code_verify: '' },
     validationSchema: Yup.object({
       code_verify: Yup.string()
         .length(6, 'Code Verify Only Have 6 Character')
         .required('Code Verify Is Required'),
     }),
     onSubmit: async (values, form) => {
-      console.log(values);
       try {
         const response = await getData('verify?code=' + values.code_verify);
         if (response.data && response.data.success) {
@@ -39,10 +38,10 @@ function Verify(props) {
     },
   });
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={{flex: 2, paddingBottom: 20}}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -52,7 +51,7 @@ function Verify(props) {
           <Image rounded source={BGVerify} containerStyle={style.bgVerify} />
           <View style={style.container}>
             <Text style={style.titleVerify}>Verification</Text>
-            <Text style={{...style.quotes, marginTop: 5}}>
+            <Text style={{ ...style.quotes, marginTop: 5 }}>
               Your verification code send to {props.route.params.email}
             </Text>
           </View>
@@ -61,10 +60,10 @@ function Verify(props) {
             name="code_verify"
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
-            labelStyle={{marginHorizontal: 50}}
+            labelStyle={{ marginHorizontal: 50 }}
           />
 
-          <View style={{alignSelf: 'center'}}>
+          <View style={{ alignSelf: 'center' }}>
             <Button
               title="Verify"
               onPress={() => FormVerify.handleSubmit()}

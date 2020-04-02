@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_URL} from 'react-native-dotenv';
+import { API_URL } from 'react-native-dotenv';
 
 export const submitData = async (dataUrl, formDta) => {
   try {

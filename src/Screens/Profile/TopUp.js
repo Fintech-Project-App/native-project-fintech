@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import {Image, Button, Input} from 'react-native-elements';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { Image, Button, Input } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 
 function Topup(props) {
@@ -8,22 +8,22 @@ function Topup(props) {
   const [activeInput, setActiveInput] = React.useState(true);
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fbfbfb'}}>
-      <View style={{flex: 6, paddingTop: 20}}>
+    <View style={{ flex: 1, backgroundColor: '#fbfbfb' }}>
+      <View style={{ flex: 6, paddingTop: 20 }}>
         <ScrollView>
-          <View style={{paddingHorizontal: 25}}>
+          <View style={{ paddingHorizontal: 25 }}>
             <Text style={style.title}>Top Up to</Text>
             <View style={style.container}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Image
                   source={QCTopup}
-                  style={{width: 45, height: 37, marginRight: 18}}
+                  style={{ width: 45, height: 37, marginRight: 18 }}
                 />
                 <View>
-                  <Text style={{fontWeight: 'bold', color: '#646464'}}>
+                  <Text style={{ fontWeight: 'bold', color: '#646464' }}>
                     Quick Cash
                   </Text>
-                  <Text style={{color: '#646464', fontSize: 13}}>
+                  <Text style={{ color: '#646464', fontSize: 13 }}>
                     Saldo Rp. 1000
                   </Text>
                 </View>
@@ -33,15 +33,15 @@ function Topup(props) {
 
           <View style={style.line} />
 
-          <View style={{paddingHorizontal: 25}}>
+          <View style={{ paddingHorizontal: 25 }}>
             <Text style={style.title}>Choose Nominal Top Up</Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Button
                 title="Rp. 50.000"
                 buttonStyle={activeBtn === 1 ? style.nominals : style.nominal}
                 titleStyle={
                   activeBtn === 1
-                    ? {...style.nominalText, color: 'black'}
+                    ? { ...style.nominalText, color: 'black' }
                     : style.nominalText
                 }
                 onPress={() => setActiveBtn(1)}
@@ -51,7 +51,7 @@ function Topup(props) {
                 buttonStyle={activeBtn === 2 ? style.nominals : style.nominal}
                 titleStyle={
                   activeBtn === 2
-                    ? {...style.nominalText, color: 'black'}
+                    ? { ...style.nominalText, color: 'black' }
                     : style.nominalText
                 }
                 onPress={() => setActiveBtn(2)}
@@ -61,20 +61,20 @@ function Topup(props) {
                 buttonStyle={activeBtn === 3 ? style.nominals : style.nominal}
                 titleStyle={
                   activeBtn === 3
-                    ? {...style.nominalText, color: 'black'}
+                    ? { ...style.nominalText, color: 'black' }
                     : style.nominalText
                 }
                 onPress={() => setActiveBtn(3)}
               />
             </View>
             <View>
-              <Text style={{...style.nominalText, marginTop: 20}}>
+              <Text style={{ ...style.nominalText, marginTop: 20 }}>
                 Or input nominal top up here
               </Text>
               <Input
                 // disabled={activeBtn ? !activeInput : activeInput}
                 placeholder="Minimal Rp. 10.000"
-                inputContainerStyle={{...style.input}}
+                inputContainerStyle={{ ...style.input }}
                 inputStyle={style.inputText}
                 onChange={() => setActiveInput(activeInput)}
               />

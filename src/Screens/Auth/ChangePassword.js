@@ -7,21 +7,21 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Button, Input, Image} from 'react-native-elements';
+import { Button, Input, Image } from 'react-native-elements';
 import Reset from '../../Helpers/Image/reset.png';
 import OverlayImg from '../../Components/OverlayImg';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomTextInput from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
-import {submitData} from '../../Helpers/CRUD';
+import { submitData } from '../../Helpers/CRUD';
 
 function ChangePassword(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [hideConfirmPass, setHideConfirmPass] = React.useState(true);
   const [isVisible, setHideVisible] = React.useState(false);
   const FormChangePassword = useFormik({
-    initialValues: {code_verify: '', new_password: '', confirm_password: ''},
+    initialValues: { code_verify: '', new_password: '', confirm_password: '' },
     validationSchema: Yup.object({
       code_verify: Yup.string()
         .length(6, 'Code Verify Only Have 6 Character')
@@ -38,7 +38,7 @@ function ChangePassword(props) {
       try {
         const response = await submitData(
           'change-password?code=' + values.code_verify,
-          values,
+          values
         );
         console.log(response.data);
         if (response.data && response.data.success) {
@@ -55,7 +55,7 @@ function ChangePassword(props) {
   });
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       {isVisible && (
         <OverlayImg
           message={'Success To Changes Password'}
@@ -66,9 +66,9 @@ function ChangePassword(props) {
           }}
         />
       )}
-      <View style={{flex: 2, paddingBottom: 20}}>
+      <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -78,7 +78,7 @@ function ChangePassword(props) {
           <Image rounded source={Reset} containerStyle={style.bgReset} />
           <View style={style.container}>
             <Text style={style.titleVerify}>Reset Password</Text>
-            <Text style={{...style.quotes, marginTop: 5, marginBottom: 30}}>
+            <Text style={{ ...style.quotes, marginTop: 5, marginBottom: 30 }}>
               Complete this validation to reset your Password
             </Text>
           </View>
@@ -89,7 +89,7 @@ function ChangePassword(props) {
             containerStyle={style.containerInput}
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
-            labelStyle={{marginHorizontal: 50}}
+            labelStyle={{ marginHorizontal: 50 }}
           />
           <CustomTextInput
             form={FormChangePassword}
@@ -105,11 +105,11 @@ function ChangePassword(props) {
                 />
               </TouchableOpacity>
             }
-            rightIconContainerStyle={{paddingRight: 20}}
+            rightIconContainerStyle={{ paddingRight: 20 }}
             containerStyle={style.containerInput}
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
-            labelStyle={{marginHorizontal: 50}}
+            labelStyle={{ marginHorizontal: 50 }}
           />
           <CustomTextInput
             form={FormChangePassword}
@@ -126,13 +126,13 @@ function ChangePassword(props) {
                 />
               </TouchableOpacity>
             }
-            rightIconContainerStyle={{paddingRight: 20}}
+            rightIconContainerStyle={{ paddingRight: 20 }}
             containerStyle={style.containerInput}
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
-            labelStyle={{marginHorizontal: 50}}
+            labelStyle={{ marginHorizontal: 50 }}
           />
-          <View style={{alignSelf: 'center'}}>
+          <View style={{ alignSelf: 'center' }}>
             <Button
               title="Reset"
               disabled={!FormChangePassword.isValid}
@@ -189,7 +189,7 @@ const style = StyleSheet.create({
     fontSize: 14,
     marginLeft: 15,
   },
-  containerInput: {alignItems: 'center'},
+  containerInput: { alignItems: 'center' },
   input: {
     marginTop: 10,
     borderRadius: 30,

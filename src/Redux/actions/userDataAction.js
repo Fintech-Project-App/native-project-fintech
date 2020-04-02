@@ -1,5 +1,5 @@
-import {USER_LOGIN, USER_LOGOUT} from './actionTypes';
-import {submitData} from '../../Helpers/CRUD';
+import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
+import { submitData } from '../../Helpers/CRUD';
 
 export const userLogin = (data) => async (dispatch) => {
   try {

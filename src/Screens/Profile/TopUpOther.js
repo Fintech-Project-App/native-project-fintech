@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Card, Icon} from 'react-native-elements';
+import { Card, Icon } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 
 function TopupOther(props) {
@@ -29,17 +29,17 @@ function TopupOther(props) {
   ];
 
   return (
-    <View style={{flex: 1, backgroundColor: '#eeeded'}}>
-      <View style={{flex: 6}}>
+    <View style={{ flex: 1, backgroundColor: '#eeeded' }}>
+      <View style={{ flex: 6 }}>
         <View style={style.container}>
-          <Text style={{color: 'grey', marginBottom: 3, fontSize: 12}}>
+          <Text style={{ color: 'grey', marginBottom: 3, fontSize: 12 }}>
             Top Up Balance To
           </Text>
           <Text style={style.title}>Quick Cash</Text>
           <View style={style.line} />
           <View style={style.square}>
             <Text style={style.blockTitle}>Saldo Quick Cash</Text>
-            <Text style={{...style.blockTitle, fontWeight: 'bold'}}>
+            <Text style={{ ...style.blockTitle, fontWeight: 'bold' }}>
               Rp. 10.000
             </Text>
           </View>
@@ -54,11 +54,11 @@ function TopupOther(props) {
             marginRight: 30,
             alignItems: 'center',
           }}>
-          <Text style={{...style.textMax, fontSize: 14, marginBottom: 15}}>
+          <Text style={{ ...style.textMax, fontSize: 14, marginBottom: 15 }}>
             Use this method to make it easier for you
           </Text>
           <ScrollView>
-            {data.map(val => {
+            {data.map((val) => {
               return (
                 <TouchableOpacity
                   onPress={() => props.navigation.navigate('OnProgress')}>

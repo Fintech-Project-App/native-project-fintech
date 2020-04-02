@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button, Overlay} from 'react-native-elements';
+import { View, Text, StyleSheet } from 'react-native';
+import { Button, Overlay } from 'react-native-elements';
 
 function Overlays(props) {
   return (
@@ -12,8 +12,8 @@ function Overlays(props) {
         width={300}
         height={180}
         borderRadius={20}
-        style={{padding: 20}}
-        overlayStyle={{padding: 20, paddingTop: 40}}>
+        style={{ padding: 20 }}
+        overlayStyle={{ padding: 20, paddingTop: 40 }}>
         <>
           <Text
             style={{

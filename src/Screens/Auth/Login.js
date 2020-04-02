@@ -7,11 +7,11 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Form} from 'native-base';
-import {Button, Input, Overlay} from 'react-native-elements';
-import {useDispatch} from 'react-redux';
-import {userLogin} from '../../Redux/actions/userDataAction';
-import {useFormik} from 'formik';
+import { Form } from 'native-base';
+import { Button, Input, Overlay } from 'react-native-elements';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../Redux/actions/userDataAction';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
@@ -19,7 +19,7 @@ function Login(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   const dispatch = useDispatch();
   const FormLogin = useFormik({
-    initialValues: {username: '', password: ''},
+    initialValues: { username: '', password: '' },
     validationSchema: Yup.object({
       username: Yup.string().required('Username is Required'),
       password: Yup.string().required('Passowrd is Required'),
@@ -30,19 +30,17 @@ function Login(props) {
         if (response.data && !response.data.success) {
           CustomAlert(response.data.success, response.data.msg);
         }
-        console.log(response.data);
       } catch (err) {
-        console.log(err);
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
     },
   });
 
   return (
-    <View style={{flex: 1, backgroundColor: '#f1edee'}}>
-      <View style={{flex: 2, paddingBottom: 20}}>
+    <View style={{ flex: 1, backgroundColor: '#f1edee' }}>
+      <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -67,7 +65,10 @@ function Login(props) {
             <Button
               title="Google+"
               icon={<Icons name="google-plus-g" size={15} color="white" />}
-              buttonStyle={{...style.anotherLogin, backgroundColor: '#c63027'}}
+              buttonStyle={{
+                ...style.anotherLogin,
+                backgroundColor: '#c63027',
+              }}
               titleStyle={style.textButton}
             />
           </View>
@@ -104,7 +105,7 @@ function Login(props) {
                     />
                   </TouchableOpacity>
                 }
-                rightIconContainerStyle={{paddingRight: 20}}
+                rightIconContainerStyle={{ paddingRight: 20 }}
                 placeholder="Password ..."
                 containerStyle={style.inputContainer}
                 inputContainerStyle={style.input}
@@ -113,7 +114,7 @@ function Login(props) {
               <TouchableOpacity
                 onPress={() => props.navigation.navigate('CheckUsername')}>
                 <Text
-                  style={{...style.quotes, marginTop: 2, textAlign: 'right'}}>
+                  style={{ ...style.quotes, marginTop: 2, textAlign: 'right' }}>
                   Forgot your password
                 </Text>
               </TouchableOpacity>

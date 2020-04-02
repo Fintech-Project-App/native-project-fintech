@@ -1,5 +1,5 @@
 import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Topup from '../../Screens/Profile/TopUp';
 import TopupOther from '../../Screens/Profile/TopUpOther';
 import Header from '../../Screens/Profile/Component/Header';
@@ -20,8 +20,8 @@ export default function TopupNavigate() {
             fontWeight: 'bold',
             textTransform: 'capitalize',
           },
-          indicatorStyle: {backgroundColor: 'white'},
-          style: {backgroundColor: '#59cfbe'},
+          indicatorStyle: { backgroundColor: 'white' },
+          style: { backgroundColor: '#59cfbe' },
         }}>
         <Tab.Screen name="Instant topup" component={Topup} />
         <Tab.Screen name="Other method" component={TopupOther} />

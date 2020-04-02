@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import StartScreen from '../Screens/Auth/StartScreen';
 import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
