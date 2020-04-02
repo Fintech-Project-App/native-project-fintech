@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Picker,
+  Picker
 } from 'react-native';
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
 import { Form, Label, Item } from 'native-base';
@@ -22,7 +22,7 @@ function ProfileUpdate(props) {
           flex: 1,
           backgroundColor: '#53C9BE',
           flexDirection: 'row',
-          marginBottom: -150,
+          marginBottom: -150
         }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
@@ -38,7 +38,7 @@ function ProfileUpdate(props) {
           backgroundColor: '#53C9BE',
           alignItems: 'center',
           marginTop: 110,
-          marginBottom: 40,
+          marginBottom: 40
         }}>
         <Avatar
           rounded
@@ -75,7 +75,7 @@ function ProfileUpdate(props) {
                 textAlign: 'center',
                 color: 'grey',
                 marginLeft: 100,
-                width: 100,
+                width: 100
               }}
               selectedValue={selectedValue}
               onValueChange={(itemValue, itemIndex) =>
@@ -106,23 +106,23 @@ const style = StyleSheet.create({
     color: 'white',
     marginTop: 25,
     marginLeft: 30,
-    marginBottom: 20,
+    marginBottom: 20
   },
   backIcon: {
     color: 'white',
     marginLeft: 15,
-    width: 20,
+    width: 20
   },
   avatar: {
     marginTop: 20,
     borderWidth: 5,
-    borderColor: '#f6f6f8',
+    borderColor: '#f6f6f8'
   },
   name: {
     color: 'white',
     fontSize: 18,
     fontWeight: '700',
-    marginTop: 10,
+    marginTop: 10
   },
   input: {
     borderRadius: 15,
@@ -133,21 +133,21 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#F5F5F5',
     marginTop: 10,
-    elevation: 2,
+    elevation: 2
   },
   inputText: {
     fontSize: 15,
     textAlign: 'center',
-    color: '#525252',
+    color: '#525252'
   },
   inputForm: {
     color: 'grey',
-    fontSize: 15,
+    fontSize: 15
   },
   form: {
     marginTop: 60,
     paddingHorizontal: 30,
-    paddingRight: 40,
+    paddingRight: 40
   },
   update: {
     marginTop: 20,
@@ -156,20 +156,19 @@ const style = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#53C9BE',
     elevation: 4,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   picker: {
     flex: 1,
     marginTop: 10,
-
     backgroundColor: 'transparent',
     borderWidth: 2,
     borderColor: '#cfcfcf',
     borderRadius: 15,
     width: '70%',
     height: 50,
-    alignSelf: 'center',
-  },
+    alignSelf: 'center'
+  }
 });
 
 export default ProfileUpdate;
