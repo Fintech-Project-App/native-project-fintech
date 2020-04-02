@@ -4,9 +4,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import PrivateNavigator from './PrivateNavigation';
 import PublicNavigator from './Public.Navigation';
 import Splash from '../Screens/Splash/Splash';
-
+import {useSelector} from 'react-redux';
 function MainRoutes(props) {
-  const [isLogin, setIsLogin] = React.useState(true);
+  const {isLogin} = useSelector((state) => state.userData);
+  console.log(useSelector((state) => state.userData));
   if (isLogin === true) {
     return <PrivateNavigator />;
   } else {

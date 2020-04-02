@@ -9,30 +9,37 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import {Form} from 'native-base';
 import {Button, Input, Overlay} from 'react-native-elements';
-import Overlays from '../../Components/Overlay';
-
+import {useDispatch} from 'react-redux';
+import {userLogin} from '../../Redux/actions/userDataAction';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import CustomInputText from '../../Components/CustomInputText';
+import CustomAlert from '../../Components/CustomAlert';
 function Login(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
-  const [isVisible, setHideVisible] = React.useState(false);
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-
-  const handleLogin = async () => {
-    if (username === '' || password === '') {
-      setHideVisible(true);
-    } else {
-    }
-  };
+  const dispatch = useDispatch();
+  const FormLogin = useFormik({
+    initialValues: {username: '', password: ''},
+    validationSchema: Yup.object({
+      username: Yup.string().required('Username is Required'),
+      password: Yup.string().required('Passowrd is Required'),
+    }),
+    onSubmit: async (values, form) => {
+      try {
+        const response = await dispatch(userLogin(values));
+        if (response.data && !response.data.success) {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
 
   return (
     <View style={{flex: 1, backgroundColor: '#f1edee'}}>
-      {isVisible && (
-        <Overlays
-          message={'Text still empty'}
-          isVisible={isVisible}
-          setHideVisible={setHideVisible}
-        />
-      )}
       <View style={{flex: 2, paddingBottom: 20}}>
         <TouchableOpacity
           style={{width: 50, marginTop: 25}}
@@ -75,17 +82,18 @@ function Login(props) {
                 marginTop: 30,
                 marginBottom: 50,
               }}>
-              <Input
+              <CustomInputText
+                form={FormLogin}
+                name="username"
                 placeholder="Your username ..."
+                containerStyle={style.inputContainer}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
-                onChangeText={username => setUsername({username})}
-                value={username}
               />
-              <Input
+              <CustomInputText
                 secureTextEntry={hidePassword ? true : false}
-                onChangeText={password => setPassword({password})}
-                value={password}
+                form={FormLogin}
+                name="password"
                 rightIcon={
                   <TouchableOpacity
                     onPress={() => setHidePassword(!hidePassword)}>
@@ -98,6 +106,7 @@ function Login(props) {
                 }
                 rightIconContainerStyle={{paddingRight: 20}}
                 placeholder="Password ..."
+                containerStyle={style.inputContainer}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
               />
@@ -113,7 +122,7 @@ function Login(props) {
                 <Button
                   title="Log in"
                   buttonStyle={style.login}
-                  onPress={handleLogin}
+                  onPress={FormLogin.handleSubmit}
                 />
               </View>
             </Form>
@@ -166,6 +175,9 @@ const style = StyleSheet.create({
     fontSize: 14,
     marginLeft: 15,
   },
+  inputContainer: {
+    marginBottom: 15,
+  },
   input: {
     borderRadius: 50,
     borderWidth: 1,
@@ -174,7 +186,6 @@ const style = StyleSheet.create({
     width: 280,
     alignSelf: 'center',
     backgroundColor: '#F5F5F5',
-    marginBottom: 15,
     paddingLeft: 10,
   },
   inputText: {
