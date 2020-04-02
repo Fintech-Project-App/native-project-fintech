@@ -7,10 +7,11 @@ import {
   StyleSheet,
   FlatList
 } from 'react-native';
-import { Image, Card } from 'react-native-elements';
+import Icons from 'react-native-vector-icons/FontAwesome5';
+import { Image, Card, Icon } from 'react-native-elements';
+import OnProgress from '../../Components/OnProgress';
 import Logo from '../../Helpers/Image/QC.png';
 import Navbar from '../../Helpers/Image/navbar.png';
-import Icons from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Method from './Components/Method';
 import Topup from '../../Helpers/Image/topup.png';
@@ -33,34 +34,34 @@ function Home(props) {
     {
       image: TF,
       title: 'Transfer',
-      navigate: 'TopupNavigate'
+      navigate: 'Transfer'
     },
     {
       image: History,
       title: 'History',
-      navigate: 'Method'
+      navigate: 'History'
     }
   ];
   const fiture = [
     {
       image: PLN,
       title: 'PLN',
-      navigate: 'TopupNavigate'
+      navigate: 'OnProgress'
     },
     {
       image: Pulsa,
       title: 'Pulsa',
-      navigate: 'TopupNavigate'
+      navigate: 'OnProgress'
     },
     {
       image: Data,
       title: 'Data',
-      navigate: 'TopupNavigate'
+      navigate: 'OnProgress'
     },
     {
       image: BPJS,
       title: 'BPJS',
-      navigate: 'TopupNavigate'
+      navigate: 'OnProgress'
     }
   ];
   const methode = [{ image: Success }, { image: Pay }];
@@ -68,12 +69,33 @@ function Home(props) {
   return (
     <View style={{ flex: 1, backgroundColor: 'grey' }}>
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, backgroundColor: '#37b2a1' }}>
+        <View
+          style={{ flex: 1, flexDirection: 'row', backgroundColor: '#37b2a1' }}>
           <Image
             source={Logo}
             style={{ width: 50, height: 40 }}
             containerStyle={{ marginTop: 20, marginLeft: 20 }}
           />
+          <TouchableOpacity style={{ marginLeft: 200 }}>
+            <View
+              style={{
+                borderRadius: 100,
+                width: 8,
+                height: 8,
+                backgroundColor: 'red',
+                position: 'absolute',
+                marginTop: 27,
+                marginRight: 25,
+                right: 0
+              }}></View>
+            <Icon
+              reverse
+              name="ios-notifications"
+              type="ionicon"
+              color="transparent"
+              size={30}
+            />
+          </TouchableOpacity>
         </View>
         <View style={{ flex: 7, backgroundColor: 'white' }}>
           <ScrollView>
@@ -104,14 +126,7 @@ function Home(props) {
                             props.navigation.navigate(val.navigate)
                           }>
                           <View>
-                            <Image
-                              source={val.image}
-                              style={{
-                                width: 33,
-                                height: 33,
-                                marginLeft: -20
-                              }}
-                            />
+                            <Image source={val.image} style={style.iconTopup} />
                             <Text
                               style={{
                                 color: '#3a746b',
@@ -152,15 +167,7 @@ function Home(props) {
                             height: 40
                           }}
                         />
-                        <Text
-                          style={{
-                            marginTop: 8,
-                            color: '#3d3d3d',
-                            fontSize: 12,
-                            textAlign: 'center'
-                          }}>
-                          {val.title}
-                        </Text>
+                        <Text style={style.featureTitle}>{val.title}</Text>
                       </View>
                     </TouchableOpacity>
                   ))}
@@ -168,24 +175,10 @@ function Home(props) {
               </View>
               <View style={style.line} />
               <View style={{ paddingHorizontal: 30 }}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                    color: '#363636'
-                  }}>
-                  How to use Quick Cash
-                </Text>
+                <Text style={style.methodTitle}>How to use Quick Cash</Text>
               </View>
             </ImageBackground>
-            <View
-              style={{
-                height: 150,
-                marginTop: 50,
-                marginBottom: 30,
-                flex: 1,
-                paddingHorizontal: 20
-              }}>
+            <View style={style.methodCard}>
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
@@ -254,6 +247,34 @@ const style = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
     paddingLeft: 30
+  },
+  methodCard: {
+    height: 150,
+    marginTop: 50,
+    marginBottom: 30,
+    flex: 1,
+    paddingHorizontal: 20
+  },
+  methodTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#363636'
+  },
+  featureTitle: {
+    marginTop: 8,
+    color: '#3d3d3d',
+    fontSize: 12,
+    textAlign: 'center'
+  },
+  iconTopup: {
+    width: 33,
+    height: 33,
+    marginLeft: -20
+  },
+  backIcon: {
+    color: 'white',
+    marginLeft: 15,
+    width: 20
   }
 });
 export default Home;
