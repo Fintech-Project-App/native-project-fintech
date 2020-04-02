@@ -14,20 +14,25 @@ function Overlays(props) {
         borderRadius={20}
         style={{padding: 20}}
         overlayStyle={{padding: 20, paddingTop: 40}}>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 18,
-            color: '#545454',
-            marginTop: -10,
-          }}>
-          {props.message}
-        </Text>
-        <Button
-          title="Yes"
-          onPress={() => props.setHideVisible(false)}
-          buttonStyle={style.confirm}
-        />
+        <>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 18,
+              color: '#545454',
+              marginTop: -10,
+            }}>
+            {props.message}
+          </Text>
+          <Button
+            title="OK"
+            onPress={() => {
+              props.setHideVisible(false);
+              props.onPressOk && props.onPressOk();
+            }}
+            buttonStyle={style.confirm}
+          />
+        </>
       </Overlay>
     </View>
   );

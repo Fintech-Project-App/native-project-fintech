@@ -1,4 +1,4 @@
-import {USER_LOGIN} from './actionTypes';
+import {USER_LOGIN, USER_LOGOUT} from './actionTypes';
 import {submitData} from '../../Helpers/CRUD';
 
 export const userLogin = (data) => async (dispatch) => {
@@ -14,4 +14,9 @@ export const userLogin = (data) => async (dispatch) => {
   } catch (err) {
     throw err;
   }
+};
+export const userLogout = () => async (dispatch) => {
+  await dispatch({
+    type: USER_LOGOUT,
+  });
 };
