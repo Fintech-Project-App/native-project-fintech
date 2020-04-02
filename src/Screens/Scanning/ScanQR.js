@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-function Topup(props) {
+function ScanQR(props) {
   return (
     <View>
-      <Text></Text>
+      <Text>Hello</Text>
     </View>
   );
 }
-export default Topup;
+export default ScanQR;

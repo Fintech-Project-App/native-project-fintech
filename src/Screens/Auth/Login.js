@@ -21,7 +21,6 @@ function Login(props) {
     if (username === '' || password === '') {
       setHideVisible(true);
     } else {
-      props.navigation.navigate('Home');
     }
   };
 

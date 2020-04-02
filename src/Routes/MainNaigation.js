@@ -7,7 +7,7 @@ import Splash from '../Screens/Splash/Splash';
 
 function MainRoutes(props) {
   const [isLogin, setIsLogin] = React.useState(true);
-  if (isLogin === false) {
+  if (isLogin === true) {
     return <PrivateNavigator />;
   } else {
     return <PublicNavigator />;
