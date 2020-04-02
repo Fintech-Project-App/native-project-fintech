@@ -7,8 +7,8 @@ import {
   ScrollView,
   Picker,
 } from 'react-native';
-import {Avatar, Icon, Input, Button} from 'react-native-elements';
-import {Form, Label, Item} from 'native-base';
+import { Avatar, Icon, Input, Button } from 'react-native-elements';
+import { Form, Label, Item } from 'native-base';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import User from '../../Helpers/Image/opa.jpg';
 
@@ -16,7 +16,7 @@ function ProfileUpdate(props) {
   const [selectedValue, setSelectedValue] = React.useState('java');
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
@@ -25,7 +25,7 @@ function ProfileUpdate(props) {
           marginBottom: -150,
         }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -47,7 +47,7 @@ function ProfileUpdate(props) {
           title="MD"
           containerStyle={style.avatar}
         />
-        <TouchableOpacity style={{marginTop: -50, marginLeft: 80}}>
+        <TouchableOpacity style={{ marginTop: -50, marginLeft: 80 }}>
           <Icon
             reverse
             name="ios-camera"
@@ -57,16 +57,16 @@ function ProfileUpdate(props) {
           />
         </TouchableOpacity>
       </View>
-      <View style={{flex: 4, marginTop: 20}}>
+      <View style={{ flex: 4, marginTop: 20 }}>
         <ScrollView>
           <Input
             placeholder="Fullname"
-            inputContainerStyle={{...style.input}}
+            inputContainerStyle={{ ...style.input }}
             inputStyle={style.inputText}
           />
           <Input
             placeholder="Email"
-            inputContainerStyle={{...style.input}}
+            inputContainerStyle={{ ...style.input }}
             inputStyle={style.inputText}
           />
           <View style={style.picker}>
@@ -87,7 +87,7 @@ function ProfileUpdate(props) {
           </View>
           <Input
             placeholder="Address"
-            inputContainerStyle={{...style.input}}
+            inputContainerStyle={{ ...style.input }}
             inputStyle={style.inputText}
           />
           <View>

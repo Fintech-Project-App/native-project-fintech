@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input} from 'react-native-elements';
+import { Input } from 'react-native-elements';
 export default function CustomInputText(props) {
   return (
     <Input

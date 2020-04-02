@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {Overlay} from 'react-native-elements';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Overlay } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import QRCodes from '../../../Helpers/Image/qrcode.png';
 
@@ -14,18 +14,22 @@ function QRCode(props) {
         width={300}
         height={400}
         borderRadius={10}
-        style={{padding: 20}}
-        overlayStyle={{paddingTop: 40, paddingHorizontal: 25}}>
+        style={{ padding: 20 }}
+        overlayStyle={{ paddingTop: 40, paddingHorizontal: 25 }}>
         <>
-          <Text style={{fontWeight: 'bold', fontSize: 18, marginTop: -10}}>
+          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: -10 }}>
             QR Code
           </Text>
-          <Text style={{fontSize: 12, marginTop: 4, color: '#5f5f5f'}}>
+          <Text style={{ fontSize: 12, marginTop: 4, color: '#5f5f5f' }}>
             Show this for fellow Quick Cash transfers
           </Text>
-          <Image source={QRCodes} style={{width: 250, height: 250}} />
+          <Image source={QRCodes} style={{ width: 250, height: 250 }} />
           <View
-            style={{alignSelf: 'center', alignItems: 'center', marginTop: 30}}>
+            style={{
+              alignSelf: 'center',
+              alignItems: 'center',
+              marginTop: 30,
+            }}>
             <TouchableOpacity onPress={() => props.setHideVisible(false)}>
               <Icons name="chevron-down" size={20} />
             </TouchableOpacity>

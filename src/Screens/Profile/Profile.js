@@ -6,24 +6,24 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {Image, Avatar, Icon, Button} from 'react-native-elements';
+import { Image, Avatar, Icon, Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import BGProfile from '../../Helpers/Image/bgprofile.png';
 import User from '../../Helpers/Image/opa.jpg';
-import {useDispatch} from 'react-redux';
-import {userLogout} from '../../Redux/actions/userDataAction';
+import { useDispatch } from 'react-redux';
+import { userLogout } from '../../Redux/actions/userDataAction';
 import QRCode from './Component/QRCode';
 function Profile(props) {
   const dispatch = useDispatch();
   const [isVisible, setHideVisible] = React.useState(false);
   return (
-    <View style={{flex: 1, backgroundColor: '#f6f6f8'}}>
+    <View style={{ flex: 1, backgroundColor: '#f6f6f8' }}>
       {isVisible && (
         <QRCode isVisible={isVisible} setHideVisible={setHideVisible} />
       )}
-      <View style={{flex: 2}}>
-        <Image source={BGProfile} style={{width: '100%', height: 140}} />
-        <View style={{alignSelf: 'center'}}>
+      <View style={{ flex: 2 }}>
+        <Image source={BGProfile} style={{ width: '100%', height: 140 }} />
+        <View style={{ alignSelf: 'center' }}>
           <Avatar
             rounded
             source={User}
@@ -31,7 +31,7 @@ function Profile(props) {
             title="MD"
             containerStyle={style.avatar}
           />
-          <TouchableOpacity style={{marginTop: -50, marginLeft: 80}}>
+          <TouchableOpacity style={{ marginTop: -50, marginLeft: 80 }}>
             <Icon
               reverse
               name="ios-camera"
@@ -50,7 +50,7 @@ function Profile(props) {
           <View style={style.block}>
             <Text style={style.titleBlock}>Quick Code</Text>
             <TouchableOpacity onPress={() => setHideVisible(true)}>
-              <View style={{flexDirection: 'row', marginTop: 20}}>
+              <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
                   name="ios-person"
@@ -63,10 +63,10 @@ function Profile(props) {
               </View>
             </TouchableOpacity>
             <View style={style.line} />
-            <Text style={{...style.titleBlock, marginTop: 15}}>Account</Text>
+            <Text style={{ ...style.titleBlock, marginTop: 15 }}>Account</Text>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('ProfileUpdate')}>
-              <View style={{flexDirection: 'row', marginTop: 20}}>
+              <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
                   name="ios-person"
@@ -80,7 +80,7 @@ function Profile(props) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('TopupNavigate')}>
-              <View style={{flexDirection: 'row', marginTop: 10}}>
+              <View style={{ flexDirection: 'row', marginTop: 10 }}>
                 <Icon
                   reverse
                   name="ios-cloud-upload"
@@ -93,9 +93,9 @@ function Profile(props) {
               </View>
             </TouchableOpacity>
             <View style={style.line} />
-            <Text style={{...style.titleBlock, marginTop: 15}}>Security</Text>
+            <Text style={{ ...style.titleBlock, marginTop: 15 }}>Security</Text>
             <TouchableOpacity>
-              <View style={{flexDirection: 'row', marginTop: 20}}>
+              <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
                   name="ios-code"
@@ -108,7 +108,7 @@ function Profile(props) {
               </View>
             </TouchableOpacity>
             <TouchableOpacity>
-              <View style={{flexDirection: 'row', marginTop: 10}}>
+              <View style={{ flexDirection: 'row', marginTop: 10 }}>
                 <Icon
                   reverse
                   name="ios-key"
@@ -121,9 +121,9 @@ function Profile(props) {
               </View>
             </TouchableOpacity>
             <View style={style.line} />
-            <Text style={{...style.titleBlock, marginTop: 15}}>About</Text>
+            <Text style={{ ...style.titleBlock, marginTop: 15 }}>About</Text>
             <TouchableOpacity>
-              <View style={{flexDirection: 'row', marginTop: 20}}>
+              <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
                   name="ios-information-circle"

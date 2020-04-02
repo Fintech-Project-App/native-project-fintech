@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -13,7 +13,7 @@ function Header(props) {
             backgroundColor: '',
           }}>
           <TouchableOpacity
-            style={{width: 50, marginTop: 25}}
+            style={{ width: 50, marginTop: 25 }}
             onPress={() => props.navigation.goBack()}>
             <Icons name="chevron-left" size={20} style={style.backIcon} />
           </TouchableOpacity>

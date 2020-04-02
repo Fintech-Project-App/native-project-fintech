@@ -7,16 +7,16 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Button, Input, Image} from 'react-native-elements';
+import { Button, Input, Image } from 'react-native-elements';
 import Forgot from '../../Helpers/Image/forgot.png';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomTextInput from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
-import {submitData} from '../../Helpers/CRUD';
+import { submitData } from '../../Helpers/CRUD';
 function ForgotPassword(props) {
   const FormCheckUsername = useFormik({
-    initialValues: {username: ''},
+    initialValues: { username: '' },
     validationSchema: Yup.object({
       username: Yup.string().required('Enter Username To Reset Your Password'),
     }),
@@ -28,7 +28,7 @@ function ForgotPassword(props) {
           form.setSubmitting(false);
           form.resetForm();
           CustomAlert(response.data.success, response.data.msg, () =>
-            props.navigation.navigate('ChangePassword'),
+            props.navigation.navigate('ChangePassword')
           );
         } else {
           CustomAlert(response.data.success, response.data.msg);
@@ -39,10 +39,10 @@ function ForgotPassword(props) {
     },
   });
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={{flex: 2, paddingBottom: 20}}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -52,7 +52,7 @@ function ForgotPassword(props) {
           <Image rounded source={Forgot} containerStyle={style.bgVerify} />
           <View style={style.container}>
             <Text style={style.titleVerify}>Forgot Password</Text>
-            <Text style={{...style.quotes, marginTop: 5}}>
+            <Text style={{ ...style.quotes, marginTop: 5 }}>
               Enter your username if it is available before resetting your
               password
             </Text>
@@ -61,12 +61,12 @@ function ForgotPassword(props) {
             form={FormCheckUsername}
             name="username"
             placeholder="Your username"
-            containerStyle={{alignItems: 'center'}}
+            containerStyle={{ alignItems: 'center' }}
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
-            labelStyle={{marginHorizontal: 50}}
+            labelStyle={{ marginHorizontal: 50 }}
           />
-          <View style={{alignSelf: 'center'}}>
+          <View style={{ alignSelf: 'center' }}>
             <Button
               title="Check"
               disabled={!FormCheckUsername.isValid}
