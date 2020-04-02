@@ -9,8 +9,35 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import {Button, Input, Image} from 'react-native-elements';
 import BGVerify from '../../Helpers/Image/verify.png';
-
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import CustomTextInput from '../../Components/CustomInputText';
+import CustomAlert from '../../Components/CustomAlert';
+import {getData} from '../../Helpers/CRUD';
 function Verify(props) {
+  const FormVerify = useFormik({
+    initialValues: {code_verify: ''},
+    validationSchema: Yup.object({
+      code_verify: Yup.string()
+        .length(6, 'Code Verify Only Have 6 Character')
+        .required('Code Verify Is Required'),
+    }),
+    onSubmit: async (values, form) => {
+      console.log(values);
+      try {
+        const response = await getData('verify?code=' + values.code_verify);
+        if (response.data && response.data.success) {
+          form.setSubmitting(false);
+          form.resetForm();
+          props.navigation.navigate('VerifySuccess');
+        } else {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{flex: 2, paddingBottom: 20}}>
@@ -22,25 +49,26 @@ function Verify(props) {
       </View>
       <View style={style.viewForm}>
         <ScrollView>
-          <Image
-            rounded
-            source={BGVerify}
-            containerStyle={style.bgVerify}></Image>
+          <Image rounded source={BGVerify} containerStyle={style.bgVerify} />
           <View style={style.container}>
             <Text style={style.titleVerify}>Verification</Text>
             <Text style={{...style.quotes, marginTop: 5}}>
-              Your verification code send to example@gmail.com
+              Your verification code send to {props.route.params.email}
             </Text>
           </View>
-          <Input
+          <CustomTextInput
+            form={FormVerify}
+            name="code_verify"
             inputContainerStyle={style.input}
             inputStyle={style.inputText}
             labelStyle={{marginHorizontal: 50}}
           />
+
           <View style={{alignSelf: 'center'}}>
             <Button
               title="Verify"
-              onPress={() => props.navigation.navigate('VerifySuccess')}
+              onPress={() => FormVerify.handleSubmit()}
+              disabled={!FormVerify.isValid}
               buttonStyle={style.verify}
             />
           </View>

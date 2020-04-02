@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Button, Overlay, Image} from 'react-native-elements';
-import Success from '../Helpers/Image/success.png';
+import {Button, Overlay} from 'react-native-elements';
 
-function OverlayImg(props) {
+function Loader(props) {
   return (
     <View>
       <Overlay
@@ -11,7 +10,7 @@ function OverlayImg(props) {
         windowBackgroundColor="rgba(46, 46, 46, .8)"
         overlayBackgroundColor="white"
         width={300}
-        height={310}
+        height={180}
         borderRadius={20}
         style={{padding: 20}}
         overlayStyle={{padding: 20, paddingTop: 40}}>
@@ -24,14 +23,9 @@ function OverlayImg(props) {
           }}>
           {props.message}
         </Text>
-        <View style={{alignSelf: 'center', marginTop: 20}}>
-          <Image source={Success} style={{width: 150, height: 120}} />
-        </View>
         <Button
-          title="OK"
-          onPress={() =>
-            props.onPressOk ? props.onPressOk() : props.setHideVisible(false)
-          }
+          title="Yes"
+          onPress={() => props.setHideVisible(false)}
           buttonStyle={style.confirm}
         />
       </Overlay>
@@ -49,4 +43,4 @@ const style = StyleSheet.create({
     elevation: 4,
   },
 });
-export default OverlayImg;
+export default Loader;
