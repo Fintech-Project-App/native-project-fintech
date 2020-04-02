@@ -1,11 +1,12 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+/**
+ * @format
+ * @flow strict-local
+ */
 
-function Topup(props) {
-  return (
-    <View>
-      <Text></Text>
-    </View>
-  );
+import React from 'react';
+import Routes from './src/Routes/MainNaigation';
+
+function App(props) {
+  return <Routes />;
 }
-export default Topup;
+export default App;
