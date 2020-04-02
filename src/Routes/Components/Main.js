@@ -62,7 +62,11 @@ function Main(props) {
       }}>
       <Tab.Screen name="Home" component={Home} options={{headerShown: true}} />
       <Tab.Screen name="ScanQR" component={ScanQR} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        tabBarOptions={{tabBarVisible: false}}
+      />
     </Tab.Navigator>
   );
 }

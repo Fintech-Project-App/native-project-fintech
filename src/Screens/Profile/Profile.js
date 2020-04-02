@@ -12,13 +12,17 @@ import BGProfile from '../../Helpers/Image/bgprofile.png';
 import User from '../../Helpers/Image/opa.jpg';
 import {useDispatch} from 'react-redux';
 import {userLogout} from '../../Redux/actions/userDataAction';
+import QRCode from './Component/QRCode';
 function Profile(props) {
   const dispatch = useDispatch();
+  const [isVisible, setHideVisible] = React.useState(false);
   return (
     <View style={{flex: 1, backgroundColor: '#f6f6f8'}}>
+      {isVisible && (
+        <QRCode isVisible={isVisible} setHideVisible={setHideVisible} />
+      )}
       <View style={{flex: 2}}>
         <Image source={BGProfile} style={{width: '100%', height: 140}} />
-
         <View style={{alignSelf: 'center'}}>
           <Avatar
             rounded
@@ -45,7 +49,7 @@ function Profile(props) {
         <ScrollView>
           <View style={style.block}>
             <Text style={style.titleBlock}>Quick Code</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setHideVisible(true)}>
               <View style={{flexDirection: 'row', marginTop: 20}}>
                 <Icon
                   reverse
