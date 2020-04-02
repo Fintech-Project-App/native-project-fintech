@@ -9,12 +9,13 @@ import {
 import { Image, Avatar, Icon, Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import BGProfile from '../../Helpers/Image/bgprofile.png';
-import User from '../../Helpers/Image/opa.jpg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../../Redux/actions/userDataAction';
 import QRCode from './Component/QRCode';
+import { API_URL } from 'react-native-dotenv';
 function Profile(props) {
   const dispatch = useDispatch();
+  const { dataProfile } = useSelector((state) => state.userData);
   const [isVisible, setHideVisible] = React.useState(false);
   return (
     <View style={{ flex: 1, backgroundColor: '#f6f6f8' }}>
@@ -26,23 +27,16 @@ function Profile(props) {
         <View style={{ alignSelf: 'center' }}>
           <Avatar
             rounded
-            source={User}
+            title={dataProfile.username && dataProfile.username.substring(0, 2)}
+            source={
+              dataProfile.picture && { uri: API_URL + dataProfile.picture }
+            }
             size={130}
-            title="MD"
             containerStyle={style.avatar}
           />
-          <TouchableOpacity style={{ marginTop: -50, marginLeft: 80 }}>
-            <Icon
-              reverse
-              name="ios-camera"
-              type="ionicon"
-              color="#53d3c4"
-              size={15}
-            />
-          </TouchableOpacity>
           <View>
-            <Text style={style.name}>Alen Dwi Aya</Text>
-            <Text style={style.email}>example@gmail.com</Text>
+            <Text style={style.name}>{dataProfile.username}</Text>
+            <Text style={style.email}>{dataProfile.email}</Text>
           </View>
         </View>
         <View style={style.line} />
@@ -152,7 +146,6 @@ function Profile(props) {
 
 const style = StyleSheet.create({
   avatar: {
-    marginRight: 20,
     marginTop: -70,
     borderWidth: 5,
     borderColor: '#f6f6f8',
