@@ -72,7 +72,8 @@ function Profile(props) {
                 <Icons name="chevron-right" size={13} style={style.icons} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('TopupNavigate')}>
               <View style={{flexDirection: 'row', marginTop: 10}}>
                 <Icon
                   reverse

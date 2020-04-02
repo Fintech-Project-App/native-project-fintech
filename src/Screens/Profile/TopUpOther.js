@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-function Topup(props) {
+function TopupOther(props) {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
+      <Text>Settings!</Text>
     </View>
   );
 }
-export default Topup;
+export default TopupOther;
