@@ -7,12 +7,12 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Form} from 'native-base';
-import {Button, Input, CheckBox} from 'react-native-elements';
-import {useFormik} from 'formik';
+import { Form } from 'native-base';
+import { Button, Input, CheckBox } from 'react-native-elements';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
-import {submitData} from '../../Helpers/CRUD';
+import { submitData } from '../../Helpers/CRUD';
 import CustomAlert from '../../Components/CustomAlert';
 function Register(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
@@ -39,15 +39,13 @@ function Register(props) {
         .required('Confirm Password is Required'),
     }),
     onSubmit: async (values, form) => {
-      console.log(values);
       try {
         const response = await submitData('register', values);
-        console.log(response.data);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
           form.resetForm();
           CustomAlert(response.data.success, response.data.msg, () =>
-            props.navigation.navigate('Verify', {email: values.email}),
+            props.navigation.navigate('Verify', { email: values.email })
           );
         } else {
           CustomAlert(response.data.success, response.data.msg);
@@ -58,10 +56,10 @@ function Register(props) {
     },
   });
   return (
-    <View style={{flex: 1, backgroundColor: '#f1edee'}}>
-      <View style={{flex: 1, paddingBottom: 30}}>
+    <View style={{ flex: 1, backgroundColor: '#f1edee' }}>
+      <View style={{ flex: 1, paddingBottom: 30 }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -117,7 +115,7 @@ function Register(props) {
                 }
                 form={FormRegister}
                 name="password"
-                rightIconContainerStyle={{paddingRight: 20}}
+                rightIconContainerStyle={{ paddingRight: 20 }}
                 containerStyle={style.containerInput}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
@@ -137,7 +135,7 @@ function Register(props) {
                 }
                 form={FormRegister}
                 name="confirm_password"
-                rightIconContainerStyle={{paddingRight: 20}}
+                rightIconContainerStyle={{ paddingRight: 20 }}
                 containerStyle={style.containerInput}
                 inputContainerStyle={style.input}
                 inputStyle={style.inputText}
@@ -150,21 +148,21 @@ function Register(props) {
                   onPress={() => FormRegister.handleSubmit()}
                 />
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={style.quotes}>
                   If signing up, you agreed with your terms of services and
                   privacy policy
                 </Text>
               </View>
 
-              <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+              <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
                 <Text
-                  style={{...style.quotes, marginTop: 70, marginBottom: -60}}>
+                  style={{ ...style.quotes, marginTop: 70, marginBottom: -60 }}>
                   Already have account ?
                 </Text>
                 <TouchableOpacity
                   onPress={() => props.navigation.navigate('Login')}
-                  style={{marginTop: 45, marginBottom: -60}}>
+                  style={{ marginTop: 45, marginBottom: -60 }}>
                   <Text style={style.alreadySign}>Log in</Text>
                 </TouchableOpacity>
               </View>

@@ -7,17 +7,17 @@ import {
   ScrollView,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import {Form} from 'native-base';
-import {Button, Input, Image} from 'react-native-elements';
+import { Form } from 'native-base';
+import { Button, Input, Image } from 'react-native-elements';
 import Success from '../../Helpers/Image/success.png';
 
 function VerifySuccess(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={{flex: 2, paddingBottom: 20}}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
-          style={{width: 50, marginTop: 25}}
+          style={{ width: 50, marginTop: 25 }}
           onPress={() => props.navigation.goBack()}>
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
@@ -31,15 +31,16 @@ function VerifySuccess(props) {
             width: 170,
             height: 170,
             alignSelf: 'center',
-          }}></Image>
+          }}
+        />
         <View style={style.container}>
           <Text style={style.titleSuccess}>Account was created</Text>
-          <Text style={{...style.quotes, marginTop: 5}}>
+          <Text style={{ ...style.quotes, marginTop: 5 }}>
             You have successfully registered, please click the confirmation
             button to login
           </Text>
         </View>
-        <View style={{alignSelf: 'center'}}>
+        <View style={{ alignSelf: 'center' }}>
           <Button
             title="Confirm"
             onPress={() => props.navigation.navigate('Login')}

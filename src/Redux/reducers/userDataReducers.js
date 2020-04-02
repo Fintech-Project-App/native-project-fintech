@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_LOGOUT} from '../actions/actionTypes';
+import { USER_LOGIN, USER_LOGOUT } from '../actions/actionTypes';
 const initialState = {
   token: '',
   isLogin: false,

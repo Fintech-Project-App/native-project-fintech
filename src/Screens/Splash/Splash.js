@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, Button} from 'react-native';
+import { View, Text, Image, Button } from 'react-native';
 
 export default function Splash(props) {
   React.useEffect(() => {
@@ -18,7 +18,7 @@ export default function Splash(props) {
         }}>
         <Image
           source={require('../../Helpers/Image/QCSplash.png')}
-          style={{marginTop: -50, width: 160, height: 130}}
+          style={{ marginTop: -50, width: 160, height: 130 }}
         />
       </View>
     </>

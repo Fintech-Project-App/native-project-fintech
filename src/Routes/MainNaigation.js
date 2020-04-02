@@ -1,13 +1,12 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import PrivateNavigator from './PrivateNavigation';
 import PublicNavigator from './Public.Navigation';
 import Splash from '../Screens/Splash/Splash';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 function MainRoutes(props) {
-  const {isLogin} = useSelector((state) => state.userData);
-  console.log(useSelector((state) => state.userData));
+  const { isLogin } = useSelector((state) => state.userData);
   if (isLogin === true) {
     return <PrivateNavigator />;
   } else {

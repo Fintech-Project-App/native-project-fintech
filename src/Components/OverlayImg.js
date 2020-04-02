@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button, Overlay, Image} from 'react-native-elements';
+import { View, Text, StyleSheet } from 'react-native';
+import { Button, Overlay, Image } from 'react-native-elements';
 import Success from '../Helpers/Image/success.png';
 
 function OverlayImg(props) {
@@ -13,8 +13,8 @@ function OverlayImg(props) {
         width={300}
         height={310}
         borderRadius={20}
-        style={{padding: 20}}
-        overlayStyle={{padding: 20, paddingTop: 40}}>
+        style={{ padding: 20 }}
+        overlayStyle={{ padding: 20, paddingTop: 40 }}>
         <>
           <Text
             style={{
@@ -25,8 +25,8 @@ function OverlayImg(props) {
             }}>
             {props.message}
           </Text>
-          <View style={{alignSelf: 'center', marginTop: 20}}>
-            <Image source={Success} style={{width: 150, height: 120}} />
+          <View style={{ alignSelf: 'center', marginTop: 20 }}>
+            <Image source={Success} style={{ width: 150, height: 120 }} />
           </View>
           <Button
             title="OK"
