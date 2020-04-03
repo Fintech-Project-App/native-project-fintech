@@ -2,13 +2,59 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { Image, Button, Input } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProfile } from '../../Redux/actions/userDataAction';
+import formatRupiah from '../../Helpers/formatRupiah';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { submitData } from '../../Helpers/CRUD';
+import OverlayImg from '../../Components/OverlayImg';
+import CustomAlert from '../../Components/CustomAlert';
+import CustomInputText from '../../Components/CustomInputText';
 function Topup(props) {
+  const { dataProfile } = useSelector((state) => state.userData);
   const [activeBtn, setActiveBtn] = React.useState(0);
-  const [activeInput, setActiveInput] = React.useState(true);
-
+  const [isVisible, setHideVisible] = React.useState(false);
+  const dispatch = useDispatch();
+  const FormTopUp = useFormik({
+    enableReinitialize: true,
+    initialValues: { nominal_topup: '' },
+    validationSchema: Yup.object({
+      nominal_topup: Yup.number()
+        .min(10000, 'Nominal Topup Must be Greather than or equal 10.000')
+        .required('Required Nominal'),
+    }),
+    onSubmit: async (values, form) => {
+      try {
+        const response = await submitData('topup', values);
+        if (response.data && response.data.success) {
+          dispatch(updateProfile());
+          setActiveBtn(0);
+          form.setSubmitting(false);
+          form.resetForm();
+          setHideVisible(true);
+        } else {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        console.log(err);
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
+  const handleBtnNominalTopup = (value) => {
+    setActiveBtn(value);
+    FormTopUp.setFieldValue('nominal_topup', parseInt(value));
+  };
   return (
     <View style={{ flex: 1, backgroundColor: '#fbfbfb' }}>
+      {isVisible && (
+        <OverlayImg
+          message={`Topup Success For ${dataProfile.username}`}
+          isVisible={isVisible}
+          setHideVisible={setHideVisible}
+        />
+      )}
       <View style={{ flex: 6, paddingTop: 20 }}>
         <ScrollView>
           <View style={{ paddingHorizontal: 25 }}>
@@ -24,7 +70,7 @@ function Topup(props) {
                     Quick Cash
                   </Text>
                   <Text style={{ color: '#646464', fontSize: 13 }}>
-                    Saldo Rp. 1000
+                    Saldo Rp. {formatRupiah(dataProfile.balance)}
                   </Text>
                 </View>
               </View>
@@ -36,47 +82,37 @@ function Topup(props) {
           <View style={{ paddingHorizontal: 25 }}>
             <Text style={style.title}>Choose Nominal Top Up</Text>
             <View style={{ flexDirection: 'row' }}>
-              <Button
-                title="Rp. 50.000"
-                buttonStyle={activeBtn === 1 ? style.nominals : style.nominal}
-                titleStyle={
-                  activeBtn === 1
-                    ? { ...style.nominalText, color: 'black' }
-                    : style.nominalText
-                }
-                onPress={() => setActiveBtn(1)}
-              />
-              <Button
-                title="Rp. 100.000"
-                buttonStyle={activeBtn === 2 ? style.nominals : style.nominal}
-                titleStyle={
-                  activeBtn === 2
-                    ? { ...style.nominalText, color: 'black' }
-                    : style.nominalText
-                }
-                onPress={() => setActiveBtn(2)}
-              />
-              <Button
-                title="Rp. 500.000"
-                buttonStyle={activeBtn === 3 ? style.nominals : style.nominal}
-                titleStyle={
-                  activeBtn === 3
-                    ? { ...style.nominalText, color: 'black' }
-                    : style.nominalText
-                }
-                onPress={() => setActiveBtn(3)}
-              />
+              {[50000, 100000, 500000].map((v, i) => (
+                <Button
+                  key={i}
+                  title={`Rp. ${formatRupiah(v)}`}
+                  buttonStyle={
+                    parseInt(activeBtn) === v ? style.nominals : style.nominal
+                  }
+                  titleStyle={
+                    activeBtn === v
+                      ? { ...style.nominalText, color: 'black' }
+                      : style.nominalText
+                  }
+                  onPress={() => handleBtnNominalTopup(v)}
+                />
+              ))}
             </View>
             <View>
               <Text style={{ ...style.nominalText, marginTop: 20 }}>
                 Or input nominal top up here
               </Text>
-              <Input
-                // disabled={activeBtn ? !activeInput : activeInput}
+              <CustomInputText
+                form={FormTopUp}
+                name="nominal_topup"
+                onChangeText={(value) => {
+                  setActiveBtn(0);
+                  FormTopUp.handleChange('nominal_topup')(value);
+                }}
                 placeholder="Minimal Rp. 10.000"
                 inputContainerStyle={{ ...style.input }}
+                keyboardType="numeric"
                 inputStyle={style.inputText}
-                onChange={() => setActiveInput(activeInput)}
               />
             </View>
           </View>
@@ -87,8 +123,13 @@ function Topup(props) {
             backgroundColor: '#f6f6f7',
             marginTop: 20,
             elevation: 7,
-          }}>
-          <Button title="Top Up" buttonStyle={style.topupbtn} />
+          }}
+        >
+          <Button
+            title="Top Up"
+            buttonStyle={style.topupbtn}
+            onPress={() => FormTopUp.handleSubmit()}
+          />
         </View>
       </View>
     </View>
@@ -154,7 +195,6 @@ const style = StyleSheet.create({
     borderBottomWidth: 0,
     width: '100%',
     alignSelf: 'center',
-    backgroundColor: '#F5F5F5',
     marginTop: 10,
     backgroundColor: '#eaeaea',
   },

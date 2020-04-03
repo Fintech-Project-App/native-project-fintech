@@ -8,8 +8,10 @@ import {
 } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-
+import { useSelector } from 'react-redux';
+import formatRupiah from '../../Helpers/formatRupiah';
 function TopupOther(props) {
+  const { dataProfile } = useSelector((state) => state.userData);
   const data = [
     {
       name: 'ATM',
@@ -40,7 +42,7 @@ function TopupOther(props) {
           <View style={style.square}>
             <Text style={style.blockTitle}>Saldo Quick Cash</Text>
             <Text style={{ ...style.blockTitle, fontWeight: 'bold' }}>
-              Rp. 10.000
+              Rp. {formatRupiah(dataProfile.balance)}
             </Text>
           </View>
           <Text style={style.textMax}>
@@ -53,22 +55,26 @@ function TopupOther(props) {
             paddingLeft: 30,
             marginRight: 30,
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Text style={{ ...style.textMax, fontSize: 14, marginBottom: 15 }}>
             Use this method to make it easier for you
           </Text>
           <ScrollView>
-            {data.map((val) => {
+            {data.map((val, i) => {
               return (
                 <TouchableOpacity
-                  onPress={() => props.navigation.navigate('OnProgress')}>
+                  key={i}
+                  onPress={() => props.navigation.navigate('OnProgress')}
+                >
                   <Card containerStyle={style.card}>
                     <View
                       style={{
                         flexDirection: 'row',
                         marginTop: -7,
                         marginBottom: -7,
-                      }}>
+                      }}
+                    >
                       <Icon
                         reverse
                         name={val.icon}
