@@ -4,28 +4,30 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-
+import { useSelector } from 'react-redux';
+import formatRupiah from '../../Helpers/formatRupiah';
 function TopupOther(props) {
+  const { dataProfile } = useSelector((state) => state.userData);
   const data = [
     {
       name: 'ATM',
       icon: 'ios-card',
-      color: '#81a652'
+      color: '#81a652',
     },
     {
       name: 'Internet / Mobile Banking',
       icon: 'ios-phone-portrait',
-      color: '#ff9900'
+      color: '#ff9900',
     },
     {
       name: 'Merchant',
       icon: 'ios-card',
-      color: '#b085b4'
-    }
+      color: '#b085b4',
+    },
   ];
 
   return (
@@ -40,7 +42,7 @@ function TopupOther(props) {
           <View style={style.square}>
             <Text style={style.blockTitle}>Saldo Quick Cash</Text>
             <Text style={{ ...style.blockTitle, fontWeight: 'bold' }}>
-              Rp. 10.000
+              Rp. {formatRupiah(dataProfile.balance)}
             </Text>
           </View>
           <Text style={style.textMax}>
@@ -52,23 +54,27 @@ function TopupOther(props) {
             paddingTop: 13,
             paddingLeft: 30,
             marginRight: 30,
-            alignItems: 'center'
-          }}>
+            alignItems: 'center',
+          }}
+        >
           <Text style={{ ...style.textMax, fontSize: 14, marginBottom: 15 }}>
             Use this method to make it easier for you
           </Text>
           <ScrollView>
-            {data.map(val => {
+            {data.map((val, i) => {
               return (
                 <TouchableOpacity
-                  onPress={() => props.navigation.navigate('OnProgress')}>
+                  key={i}
+                  onPress={() => props.navigation.navigate('OnProgress')}
+                >
                   <Card containerStyle={style.card}>
                     <View
                       style={{
                         flexDirection: 'row',
                         marginTop: -7,
-                        marginBottom: -7
-                      }}>
+                        marginBottom: -7,
+                      }}
+                    >
                       <Icon
                         reverse
                         name={val.icon}
@@ -98,31 +104,29 @@ const style = StyleSheet.create({
     backgroundColor: '#f6f6f8',
     paddingHorizontal: 30,
     paddingTop: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#646464'
+    color: '#646464',
   },
   square: {
-    backgroundColor: 'grey',
     padding: 10,
     alignItems: 'center',
     borderWidth: 3,
     borderRadius: 15,
-    borderColor: '#e5e4e4',
-    backgroundColor: '#f6f6f8'
+    backgroundColor: '#f6f6f8',
   },
   blockTitle: {
     textTransform: 'uppercase',
-    color: '#646464'
+    color: '#646464',
   },
   textMax: {
     textAlign: 'center',
     fontSize: 12,
     color: '#515151',
-    marginTop: 5
+    marginTop: 5,
   },
   line: {
     marginTop: 5,
@@ -130,21 +134,21 @@ const style = StyleSheet.create({
     borderBottomWidth: 2,
     width: '100%',
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   list: {
     fontWeight: '600',
     fontSize: 13,
     color: '#605f5f',
     marginLeft: 10,
-    marginTop: 13
+    marginTop: 13,
   },
   icons: {
     color: '#c7c7c7',
     right: 0,
     width: 20,
     marginTop: 18,
-    position: 'absolute'
+    position: 'absolute',
   },
   card: {
     width: 280,
@@ -152,7 +156,7 @@ const style = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 5,
     marginTop: 5,
-    marginLeft: 5
-  }
+    marginLeft: 5,
+  },
 });
 export default TopupOther;

@@ -125,20 +125,32 @@ const style = StyleSheet.create({
     marginTop: 10
   },
   input: {
-    borderRadius: 15,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: 'transparent',
     borderBottomWidth: 0,
-    width: 250,
+    width: '80%',
     alignSelf: 'center',
-    backgroundColor: '#F5F5F5',
     marginTop: 10,
-    elevation: 2
+    backgroundColor: '#eaeaea',
+    paddingRight: 20
   },
   inputText: {
-    fontSize: 15,
-    textAlign: 'center',
-    color: '#525252'
+    fontSize: 13,
+    marginLeft: 20,
+    color: '#525252',
+    textAlign: 'center'
+  },
+  picker: {
+    flex: 1,
+    marginTop: 10,
+    backgroundColor: '#eaeaea',
+    borderWidth: 0,
+    borderColor: '#cfcfcf',
+    borderRadius: 10,
+    width: '75%',
+    height: 50,
+    alignSelf: 'center'
   },
   inputForm: {
     color: 'grey',
@@ -152,21 +164,10 @@ const style = StyleSheet.create({
   update: {
     marginTop: 20,
     marginBottom: 60,
-    width: '70%',
-    borderRadius: 18,
+    width: '75%',
+    borderRadius: 10,
     backgroundColor: '#53C9BE',
     elevation: 4,
-    alignSelf: 'center'
-  },
-  picker: {
-    flex: 1,
-    marginTop: 10,
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#cfcfcf',
-    borderRadius: 15,
-    width: '70%',
-    height: 50,
     alignSelf: 'center'
   }
 });

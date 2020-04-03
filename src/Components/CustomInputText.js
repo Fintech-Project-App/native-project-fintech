@@ -3,7 +3,7 @@ import { Input } from 'react-native-elements';
 export default function CustomInputText(props) {
   return (
     <Input
-      value={props.form && props.name && props.form.values[props.name]}
+      value={props.form && props.name && `${props.form.values[props.name]}`}
       errorMessage={
         props.form &&
         props.name &&
