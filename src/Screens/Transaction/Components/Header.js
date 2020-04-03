@@ -2,9 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+
 function Header(props) {
-  const navigation = useNavigation();
   return (
     <View>
       <LinearGradient colors={['#59cfbe', '#59cfbe']}>
@@ -15,10 +14,10 @@ function Header(props) {
           }}>
           <TouchableOpacity
             style={{ width: 50, marginTop: 25 }}
-            onPress={() => navigation.goBack()}>
+            onPress={() => props.navigation.navigate('Home')}>
             <Icons name="chevron-left" size={20} style={style.backIcon} />
           </TouchableOpacity>
-          <Text style={style.title}>Top Up</Text>
+          <Text style={style.title}>History</Text>
         </View>
       </LinearGradient>
     </View>
