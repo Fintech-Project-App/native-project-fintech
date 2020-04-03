@@ -86,7 +86,7 @@ function Topup(props) {
             flex: 1,
             backgroundColor: '#f6f6f7',
             marginTop: 20,
-            elevation: 7,
+            elevation: 7
           }}>
           <Button title="Top Up" buttonStyle={style.topupbtn} />
         </View>
@@ -103,7 +103,7 @@ const style = StyleSheet.create({
     borderRadius: 17,
     marginTop: 10,
     paddingLeft: 15,
-    paddingVertical: 12,
+    paddingVertical: 12
   },
   line: {
     marginTop: 30,
@@ -111,12 +111,12 @@ const style = StyleSheet.create({
     borderBottomWidth: 7,
     width: '100%',
     alignSelf: 'center',
-    marginBottom: 20,
+    marginBottom: 20
   },
   title: {
     fontWeight: 'bold',
     color: '#646464',
-    fontSize: 16,
+    fontSize: 16
   },
   nominal: {
     marginTop: 10,
@@ -128,7 +128,7 @@ const style = StyleSheet.create({
     width: 95,
     height: 37,
     alignItems: 'center',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   nominals: {
     marginTop: 10,
@@ -140,12 +140,12 @@ const style = StyleSheet.create({
     width: 95,
     height: 37,
     alignItems: 'center',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   nominalText: {
     fontSize: 13,
     color: '#646464',
-    fontWeight: '900',
+    fontWeight: '900'
   },
   input: {
     borderRadius: 10,
@@ -156,12 +156,12 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#F5F5F5',
     marginTop: 10,
-    backgroundColor: '#eaeaea',
+    backgroundColor: '#eaeaea'
   },
   inputText: {
     fontSize: 13,
     marginLeft: 20,
-    color: '#525252',
+    color: '#525252'
   },
   topupbtn: {
     marginTop: 20,
@@ -170,7 +170,7 @@ const style = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#53C9BE',
     elevation: 4,
-    alignSelf: 'center',
-  },
+    alignSelf: 'center'
+  }
 });
 export default Topup;
