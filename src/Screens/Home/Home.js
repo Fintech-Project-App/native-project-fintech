@@ -34,12 +34,12 @@ function Home(props) {
     {
       image: TF,
       title: 'Transfer',
-      navigate: 'Transfer'
+      navigate: 'TransferNavigate'
     },
     {
       image: History,
       title: 'History',
-      navigate: 'History'
+      navigate: 'HistoryNavigate'
     }
   ];
   const fiture = [
@@ -107,7 +107,7 @@ function Home(props) {
                   <Text style={style.title}>Quick Cash</Text>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ ...style.cash, fontSize: 12 }}>Rp </Text>
-                    <Text style={{ ...style.cash }}>1000</Text>
+                    <Text style={{ ...style.cash }}>10.000</Text>
                   </View>
                 </View>
                 <View style={{ alignItem: 'center', marginTop: 5 }}>
@@ -202,7 +202,7 @@ const style = StyleSheet.create({
   },
   cash: {
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 23,
     color: 'white',
     marginTop: 5
   },

@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-function History(props) {
+function HistoryTransaction(props) {
   return (
     <View>
-      <Text>Hello</Text>
+      <Text>Hellos</Text>
     </View>
   );
 }
-export default History;
+export default HistoryTransaction;

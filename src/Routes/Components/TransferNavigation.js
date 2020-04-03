@@ -2,29 +2,29 @@ import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Topup from '../../Screens/Profile/TopUp';
 import TopupOther from '../../Screens/Profile/TopUpOther';
-import Header from '../../Screens/Profile/Component/Header';
+import Header from '../../Screens/Transaction/Components/Header';
+import Transfer from '../../Screens/Transaction/Transfer';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function TopupNavigate() {
   return (
     <>
-      <Header />
       <Tab.Navigator
         tabBarOptions={{
           pressColor: 'grey',
-          pressOpacity: 'black',
           labelStyle: {
-            fontSize: 14,
+            fontSize: 17,
             color: 'white',
             fontWeight: 'bold',
-            textTransform: 'capitalize'
+            textTransform: 'capitalize',
+            marginBottom: 10,
+            marginTop: 15
           },
-          indicatorStyle: { backgroundColor: 'white' },
+          indicatorStyle: { backgroundColor: '#59cfbe' },
           style: { backgroundColor: '#59cfbe' }
         }}>
-        <Tab.Screen name="Instant topup" component={Topup} />
-        <Tab.Screen name="Other method" component={TopupOther} />
+        <Tab.Screen name="Transfer" component={Transfer} />
       </Tab.Navigator>
     </>
   );

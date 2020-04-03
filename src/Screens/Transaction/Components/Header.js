@@ -14,10 +14,10 @@ function Header(props) {
           }}>
           <TouchableOpacity
             style={{ width: 50, marginTop: 25 }}
-            onPress={() => props.navigation.goBack()}>
+            onPress={() => props.navigation.navigate('Home')}>
             <Icons name="chevron-left" size={20} style={style.backIcon} />
           </TouchableOpacity>
-          <Text style={style.title}>Top Up</Text>
+          <Text style={style.title}>History</Text>
         </View>
       </LinearGradient>
     </View>
