@@ -15,8 +15,9 @@ function PrivateNavigation(props) {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false
-      }}>
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="TopupNavigate" component={TopupNavigate} />
       <Stack.Screen name="TransferNavigate" component={TransferNavigate} />

@@ -5,7 +5,7 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
-  FlatList
+  FlatList,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import { Image, Card, Icon } from 'react-native-elements';
@@ -29,40 +29,40 @@ function Home(props) {
     {
       image: Topup,
       title: 'Top Up',
-      navigate: 'TopupNavigate'
+      navigate: 'TopupNavigate',
     },
     {
       image: TF,
       title: 'Transfer',
-      navigate: 'TransferNavigate'
+      navigate: 'TransferNavigate',
     },
     {
       image: History,
       title: 'History',
-      navigate: 'HistoryNavigate'
-    }
+      navigate: 'HistoryNavigate',
+    },
   ];
   const fiture = [
     {
       image: PLN,
       title: 'PLN',
-      navigate: 'OnProgress'
+      navigate: 'OnProgress',
     },
     {
       image: Pulsa,
       title: 'Pulsa',
-      navigate: 'OnProgress'
+      navigate: 'OnProgress',
     },
     {
       image: Data,
       title: 'Data',
-      navigate: 'OnProgress'
+      navigate: 'OnProgress',
     },
     {
       image: BPJS,
       title: 'BPJS',
-      navigate: 'OnProgress'
-    }
+      navigate: 'OnProgress',
+    },
   ];
   const methode = [{ image: Success }, { image: Pay }];
 
@@ -70,7 +70,8 @@ function Home(props) {
     <View style={{ flex: 1, backgroundColor: 'grey' }}>
       <View style={{ flex: 1 }}>
         <View
-          style={{ flex: 1, flexDirection: 'row', backgroundColor: '#37b2a1' }}>
+          style={{ flex: 1, flexDirection: 'row', backgroundColor: '#37b2a1' }}
+        >
           <Image
             source={Logo}
             style={{ width: 50, height: 40 }}
@@ -86,8 +87,9 @@ function Home(props) {
                 position: 'absolute',
                 marginTop: 27,
                 marginRight: 25,
-                right: 0
-              }}></View>
+                right: 0,
+              }}
+            />
             <Icon
               reverse
               name="ios-notifications"
@@ -101,7 +103,8 @@ function Home(props) {
           <ScrollView>
             <ImageBackground
               source={Navbar}
-              style={{ width: '100%', height: '47%' }}>
+              style={{ width: '100%', height: '47%' }}
+            >
               <View style={{ paddingHorizontal: 20 }}>
                 <View>
                   <Text style={style.title}>Quick Cash</Text>
@@ -113,25 +116,30 @@ function Home(props) {
                 <View style={{ alignItem: 'center', marginTop: 5 }}>
                   <Card
                     style={style.cardMain}
-                    containerStyle={style.cardContainer}>
+                    containerStyle={style.cardContainer}
+                  >
                     <View
                       style={{
                         flexDirection: 'row',
-                        alignSelf: 'center'
-                      }}>
-                      {data.map(val => (
+                        alignSelf: 'center',
+                      }}
+                    >
+                      {data.map((val, i) => (
                         <TouchableOpacity
+                          key={i}
                           style={{ marginHorizontal: 25 }}
                           onPress={() =>
                             props.navigation.navigate(val.navigate)
-                          }>
+                          }
+                        >
                           <View>
                             <Image source={val.image} style={style.iconTopup} />
                             <Text
                               style={{
                                 color: '#3a746b',
-                                fontSize: 11
-                              }}>
+                                fontSize: 11,
+                              }}
+                            >
                               {val.title}
                             </Text>
                           </View>
@@ -153,18 +161,21 @@ function Home(props) {
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignSelf: 'center'
-                  }}>
-                  {fiture.map(val => (
+                    alignSelf: 'center',
+                  }}
+                >
+                  {fiture.map((val, i) => (
                     <TouchableOpacity
+                      key={i}
                       style={{ marginHorizontal: 18 }}
-                      onPress={() => props.navigation.navigate(val.navigate)}>
+                      onPress={() => props.navigation.navigate(val.navigate)}
+                    >
                       <View>
                         <Image
                           source={val.image}
                           style={{
                             width: 40,
-                            height: 40
+                            height: 40,
                           }}
                         />
                         <Text style={style.featureTitle}>{val.title}</Text>
@@ -181,9 +192,10 @@ function Home(props) {
             <View style={style.methodCard}>
               <ScrollView
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}>
+                showsHorizontalScrollIndicator={false}
+              >
                 {methode.map((val, idx) => {
-                  return <Method image={val.image} />;
+                  return <Method key={idx} image={val.image} />;
                 })}
               </ScrollView>
             </View>
@@ -198,13 +210,13 @@ const style = StyleSheet.create({
   title: {
     fontWeight: '700',
     fontSize: 15,
-    color: 'white'
+    color: 'white',
   },
   cash: {
     fontWeight: '700',
     fontSize: 23,
     color: 'white',
-    marginTop: 5
+    marginTop: 5,
   },
   cardMain: {
     width: '100%',
@@ -212,13 +224,13 @@ const style = StyleSheet.create({
     height: 200,
     marginTop: 30,
     alignSelf: 'center',
-    elevation: 4
+    elevation: 4,
   },
   cardContainer: {
     borderRadius: 10,
     elevation: 3,
     marginBottom: 20,
-    paddingRight: 15
+    paddingRight: 15,
   },
   saldo: {
     fontWeight: '700',
@@ -228,7 +240,7 @@ const style = StyleSheet.create({
     fontSize: 13,
     fontWeight: 'bold',
     color: 'orange',
-    paddingLeft: 6
+    paddingLeft: 6,
   },
   line: {
     marginTop: 30,
@@ -236,7 +248,7 @@ const style = StyleSheet.create({
     borderBottomWidth: 7,
     width: '100%',
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   banner: {
     alignSelf: 'center',
@@ -246,35 +258,35 @@ const style = StyleSheet.create({
     borderRadius: 20,
     marginBottom: 20,
     padding: 10,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   methodCard: {
     height: 150,
     marginTop: 50,
     marginBottom: 30,
     flex: 1,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   methodTitle: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#363636'
+    color: '#363636',
   },
   featureTitle: {
     marginTop: 8,
     color: '#3d3d3d',
     fontSize: 12,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   iconTopup: {
     width: 33,
     height: 33,
-    marginLeft: -20
+    marginLeft: -20,
   },
   backIcon: {
     color: 'white',
     marginLeft: 15,
-    width: 20
-  }
+    width: 20,
+  },
 });
 export default Home;
