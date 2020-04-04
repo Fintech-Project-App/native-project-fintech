@@ -5,7 +5,8 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
-  FlatList
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import { Image, Card, Icon } from 'react-native-elements';
@@ -29,40 +30,40 @@ function Home(props) {
     {
       image: Topup,
       title: 'Top Up',
-      navigate: 'TopupNavigate'
+      navigate: 'TopupNavigate',
     },
     {
       image: TF,
       title: 'Transfer',
-      navigate: 'TransferNavigate'
+      navigate: 'TransferNavigate',
     },
     {
       image: History,
       title: 'History',
-      navigate: 'HistoryNavigate'
-    }
+      navigate: 'HistoryNavigate',
+    },
   ];
   const fiture = [
     {
       image: PLN,
       title: 'PLN',
-      navigate: 'OnProgress'
+      navigate: 'OnProgress',
     },
     {
       image: Pulsa,
       title: 'Pulsa',
-      navigate: 'OnProgress'
+      navigate: 'OnProgress',
     },
     {
       image: Data,
       title: 'Data',
-      navigate: 'OnProgress'
+      navigate: 'OnProgress',
     },
     {
       image: BPJS,
       title: 'BPJS',
-      navigate: 'OnProgress'
-    }
+      navigate: 'OnProgress',
+    },
   ];
   const methode = [{ image: Success }, { image: Pay }];
 
@@ -77,17 +78,7 @@ function Home(props) {
             containerStyle={{ marginTop: 20, marginLeft: 20 }}
           />
           <TouchableOpacity style={{ marginLeft: 200 }}>
-            <View
-              style={{
-                borderRadius: 100,
-                width: 8,
-                height: 8,
-                backgroundColor: 'red',
-                position: 'absolute',
-                marginTop: 27,
-                marginRight: 25,
-                right: 0
-              }}></View>
+            <View style={style.icoNotif}></View>
             <Icon
               reverse
               name="ios-notifications"
@@ -117,20 +108,24 @@ function Home(props) {
                     <View
                       style={{
                         flexDirection: 'row',
-                        alignSelf: 'center'
+                        alignSelf: 'center',
                       }}>
-                      {data.map(val => (
+                      {data.map((val) => (
                         <TouchableOpacity
                           style={{ marginHorizontal: 25 }}
                           onPress={() =>
                             props.navigation.navigate(val.navigate)
                           }>
                           <View>
-                            <Image source={val.image} style={style.iconTopup} />
+                            <Image
+                              source={val.image}
+                              style={style.iconTopup}
+                              PlaceholderContent={<ActivityIndicator />}
+                            />
                             <Text
                               style={{
                                 color: '#3a746b',
-                                fontSize: 11
+                                fontSize: 11,
                               }}>
                               {val.title}
                             </Text>
@@ -153,18 +148,19 @@ function Home(props) {
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignSelf: 'center'
+                    alignSelf: 'center',
                   }}>
-                  {fiture.map(val => (
+                  {fiture.map((val) => (
                     <TouchableOpacity
                       style={{ marginHorizontal: 18 }}
+                      PlaceholderContent={<ActivityIndicator />}
                       onPress={() => props.navigation.navigate(val.navigate)}>
                       <View>
                         <Image
                           source={val.image}
                           style={{
                             width: 40,
-                            height: 40
+                            height: 40,
                           }}
                         />
                         <Text style={style.featureTitle}>{val.title}</Text>
@@ -198,13 +194,13 @@ const style = StyleSheet.create({
   title: {
     fontWeight: '700',
     fontSize: 15,
-    color: 'white'
+    color: 'white',
   },
   cash: {
     fontWeight: '700',
     fontSize: 23,
     color: 'white',
-    marginTop: 5
+    marginTop: 5,
   },
   cardMain: {
     width: '100%',
@@ -212,13 +208,13 @@ const style = StyleSheet.create({
     height: 200,
     marginTop: 30,
     alignSelf: 'center',
-    elevation: 4
+    elevation: 4,
   },
   cardContainer: {
     borderRadius: 10,
     elevation: 3,
     marginBottom: 20,
-    paddingRight: 15
+    paddingRight: 15,
   },
   saldo: {
     fontWeight: '700',
@@ -228,7 +224,7 @@ const style = StyleSheet.create({
     fontSize: 13,
     fontWeight: 'bold',
     color: 'orange',
-    paddingLeft: 6
+    paddingLeft: 6,
   },
   line: {
     marginTop: 30,
@@ -236,7 +232,7 @@ const style = StyleSheet.create({
     borderBottomWidth: 7,
     width: '100%',
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   banner: {
     alignSelf: 'center',
@@ -246,35 +242,45 @@ const style = StyleSheet.create({
     borderRadius: 20,
     marginBottom: 20,
     padding: 10,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   methodCard: {
     height: 150,
     marginTop: 50,
     marginBottom: 30,
     flex: 1,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   methodTitle: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#363636'
+    color: '#363636',
   },
   featureTitle: {
     marginTop: 8,
     color: '#3d3d3d',
     fontSize: 12,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   iconTopup: {
     width: 33,
     height: 33,
-    marginLeft: -20
+    borderRadius: 7,
   },
   backIcon: {
     color: 'white',
     marginLeft: 15,
-    width: 20
-  }
+    width: 20,
+  },
+  icoNotif: {
+    borderRadius: 100,
+    width: 8,
+    height: 8,
+    backgroundColor: 'red',
+    position: 'absolute',
+    marginTop: 27,
+    marginRight: 25,
+    right: 0,
+  },
 });
 export default Home;

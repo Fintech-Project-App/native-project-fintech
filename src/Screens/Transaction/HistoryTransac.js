@@ -14,6 +14,7 @@ import Data from './Components/DataTransaction';
 function HistoryTransaction(props) {
   const [isAvailable, setIsAvailable] = React.useState(true);
   const [isIncoming, setIsIncoming] = React.useState('Incoming');
+  const [isRender, setIsRender] = React.useState(10);
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {/* <View style={style.containerDel}>
@@ -25,43 +26,47 @@ function HistoryTransaction(props) {
         {isAvailable && (
           <ScrollView>
             <View style={{ paddingHorizontal: 20 }}>
-              {Data.map((val, i) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate('HistoryDetail', {
-                      id: val.id,
-                      name: val.name,
-                      category: val.category,
-                      picture: val.picture,
-                      balance: val.topup_balance,
-                      date: val.created_on,
-                      desc: val.desc,
-                    })
-                  }>
-                  <ListItem
-                    title={val.name}
-                    titleStyle={{ fontWeight: 'bold', color: '#383838' }}
-                    subtitle={
-                      <View>
-                        <View>
-                          <Text style={style.categoryTitle}>
-                            {val.category}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text style={style.date}>{val.created_on}</Text>
-                          <Text style={style.balance}>
-                            {isIncoming === val.category ? '+ ' : '- '}
-                            Rp. {val.topup_balance}
-                          </Text>
-                        </View>
-                      </View>
-                    }
-                    bottomDivider
-                    leftAvatar={{ source: { uri: val.picture } }}
-                  />
-                </TouchableOpacity>
-              ))}
+              {Data.map((val, index) => {
+                if (index + 1 < isRender) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('HistoryDetail', {
+                          id: val.id,
+                          name: val.name,
+                          category: val.category,
+                          picture: val.picture,
+                          balance: val.topup_balance,
+                          date: val.created_on,
+                          desc: val.desc,
+                        })
+                      }>
+                      <ListItem
+                        title={val.name}
+                        titleStyle={{ fontWeight: 'bold', color: '#383838' }}
+                        subtitle={
+                          <View>
+                            <View>
+                              <Text style={style.categoryTitle}>
+                                {val.category}
+                              </Text>
+                            </View>
+                            <View>
+                              <Text style={style.date}>{val.created_on}</Text>
+                              <Text style={style.balance}>
+                                {isIncoming === val.category ? '+ ' : '- '}
+                                Rp. {val.topup_balance}
+                              </Text>
+                            </View>
+                          </View>
+                        }
+                        bottomDivider
+                        leftAvatar={{ source: { uri: val.picture } }}
+                      />
+                    </TouchableOpacity>
+                  );
+                }
+              })}
             </View>
             <View style={{ flex: 1, height: 80 }}></View>
           </ScrollView>

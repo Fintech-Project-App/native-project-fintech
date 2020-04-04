@@ -12,9 +12,32 @@ import { Avatar, Input, Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import BGChange from '../../Helpers/Image/bgchange.png';
 import key from '../../Helpers/Image/key.png';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import CustomInputText from '../../Components/CustomInputText';
+import CustomAlert from '../../Components/CustomAlert';
 
 function ChangePassword(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
+  const dispatch = useDispatch();
+  const FormLogin = useFormik({
+    initialValues: { username: '', password: '' },
+    validationSchema: Yup.object({
+      username: Yup.string().required('Username is Required'),
+      password: Yup.string().required('Passowrd is Required'),
+    }),
+    onSubmit: async (values, form) => {
+      try {
+        const response = await dispatch(userLogin(values));
+        if (response.data && !response.data.success) {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
+
   return (
     <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
       <View style={style.container1}>
