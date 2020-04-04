@@ -5,16 +5,83 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Picker
+  Picker,
 } from 'react-native';
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
-import { Form, Label, Item } from 'native-base';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import User from '../../Helpers/Image/opa.jpg';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import CustomTextInput from '../../Components/CustomInputText';
+import CustomAlert from '../../Components/CustomAlert';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProfile } from '../../Redux/actions/userDataAction';
+import { patchData } from '../../Helpers/CRUD';
+import ImagePicker from 'react-native-image-picker';
+import { API_URL } from 'react-native-dotenv';
 
 function ProfileUpdate(props) {
-  const [selectedValue, setSelectedValue] = React.useState('java');
-
+  const [srcImageUpdate, setSrcImageUpdate] = React.useState('');
+  const { dataProfile } = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+  const FormUpdateUser = useFormik({
+    enableReinitialize: true,
+    initialValues: { ...dataProfile } || {},
+    validationSchema: Yup.object({
+      fullname: Yup.string().nullable(),
+      email: Yup.string().email().nullable(),
+      gender: Yup.string().oneOf(['male', 'female', 'others']).nullable(),
+      address: Yup.string().nullable(),
+      picture: Yup.mixed().nullable(),
+    }),
+    onSubmit: async (values, form) => {
+      try {
+        const formData = new FormData();
+        const fillAble = ['fullname', 'email', 'gender', 'address', 'picture'];
+        fillAble
+          .filter(
+            (keyUpdate) =>
+              values[keyUpdate] && values[keyUpdate] !== dataProfile[keyUpdate]
+          )
+          .forEach((keyUpdate) => {
+            if (keyUpdate !== 'picture') {
+              formData.append(keyUpdate, values[keyUpdate]);
+            } else {
+              console.log('alen');
+              formData.append('picture', {
+                name: values['picture'].fileName,
+                type: values['picture'].type,
+                uri:
+                  Platform.OS === 'android'
+                    ? values['picture'].uri
+                    : values['picture'].uri.replace('file://', ''),
+              });
+            }
+          });
+        const response = await patchData('profile', formData);
+        if (response.data && response.data.success) {
+          await dispatch(updateProfile());
+          CustomAlert(response.data.success, response.data.msg);
+        } else {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        console.log(err);
+        CustomAlert(err.response.data.success, err.response.data.msg);
+      }
+    },
+  });
+  const handleChangePicture = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.uri) {
+        console.log(response);
+        setSrcImageUpdate(response.uri);
+        FormUpdateUser.setFieldValue('picture', response);
+      }
+    });
+  };
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -22,11 +89,13 @@ function ProfileUpdate(props) {
           flex: 1,
           backgroundColor: '#53C9BE',
           flexDirection: 'row',
-          marginBottom: -150
-        }}>
+          marginBottom: -150,
+        }}
+      >
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}>
+          onPress={() => props.navigation.goBack()}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
         <Text style={style.title}>Change Profile</Text>
@@ -38,16 +107,24 @@ function ProfileUpdate(props) {
           backgroundColor: '#53C9BE',
           alignItems: 'center',
           marginTop: 110,
-          marginBottom: 40
-        }}>
+          marginBottom: 40,
+        }}
+      >
         <Avatar
           rounded
-          source={User}
+          source={
+            (srcImageUpdate || dataProfile.picture) && {
+              uri: srcImageUpdate || API_URL + dataProfile.picture,
+            }
+          }
           size={130}
-          title="MD"
+          title={dataProfile && dataProfile.username.substring(0, 2)}
           containerStyle={style.avatar}
         />
-        <TouchableOpacity style={{ marginTop: -50, marginLeft: 80 }}>
+        <TouchableOpacity
+          style={{ marginTop: -50, marginLeft: 80 }}
+          onPress={handleChangePicture}
+        >
           <Icon
             reverse
             name="ios-camera"
@@ -59,12 +136,16 @@ function ProfileUpdate(props) {
       </View>
       <View style={{ flex: 4, marginTop: 20 }}>
         <ScrollView>
-          <Input
+          <CustomTextInput
+            form={FormUpdateUser}
+            name="fullname"
             placeholder="Fullname"
             inputContainerStyle={{ ...style.input }}
             inputStyle={style.inputText}
           />
-          <Input
+          <CustomTextInput
+            form={FormUpdateUser}
+            name="email"
             placeholder="Email"
             inputContainerStyle={{ ...style.input }}
             inputStyle={style.inputText}
@@ -75,23 +156,37 @@ function ProfileUpdate(props) {
                 textAlign: 'center',
                 color: 'grey',
                 marginLeft: 100,
-                width: 100
+                width: 100,
               }}
-              selectedValue={selectedValue}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
-              }>
-              <Picker.Item label="Man" value="man" />
-              <Picker.Item label="Woman" value="woman" />
+              selectedValue={FormUpdateUser.values.gender || 'others'}
+              onValueChange={FormUpdateUser.handleChange('gender')}
+            >
+              {[
+                { label: 'Male', value: 'male' },
+                { label: 'Female', value: 'female' },
+                { label: 'Others', value: 'others' },
+              ].map((option) => (
+                <Picker.Item
+                  label={option.label}
+                  value={option.value}
+                  key={option.value}
+                />
+              ))}
             </Picker>
           </View>
-          <Input
+          <CustomTextInput
+            form={FormUpdateUser}
+            name="address"
             placeholder="Address"
             inputContainerStyle={{ ...style.input }}
             inputStyle={style.inputText}
           />
           <View>
-            <Button title="Edit" buttonStyle={style.update} />
+            <Button
+              title="Edit"
+              buttonStyle={style.update}
+              onPress={() => FormUpdateUser.handleSubmit()}
+            />
           </View>
         </ScrollView>
       </View>
@@ -106,23 +201,23 @@ const style = StyleSheet.create({
     color: 'white',
     marginTop: 25,
     marginLeft: 30,
-    marginBottom: 20
+    marginBottom: 20,
   },
   backIcon: {
     color: 'white',
     marginLeft: 15,
-    width: 20
+    width: 20,
   },
   avatar: {
     marginTop: 20,
     borderWidth: 5,
-    borderColor: '#f6f6f8'
+    borderColor: '#f6f6f8',
   },
   name: {
     color: 'white',
     fontSize: 18,
     fontWeight: '700',
-    marginTop: 10
+    marginTop: 10,
   },
   input: {
     borderRadius: 10,
@@ -133,13 +228,13 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 10,
     backgroundColor: '#eaeaea',
-    paddingRight: 20
+    paddingRight: 20,
   },
   inputText: {
     fontSize: 13,
     marginLeft: 20,
     color: '#525252',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   picker: {
     flex: 1,
@@ -150,16 +245,16 @@ const style = StyleSheet.create({
     borderRadius: 10,
     width: '75%',
     height: 50,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   inputForm: {
     color: 'grey',
-    fontSize: 15
+    fontSize: 15,
   },
   form: {
     marginTop: 60,
     paddingHorizontal: 30,
-    paddingRight: 40
+    paddingRight: 40,
   },
   update: {
     marginTop: 20,
@@ -168,8 +263,8 @@ const style = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#53C9BE',
     elevation: 4,
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });
 
 export default ProfileUpdate;

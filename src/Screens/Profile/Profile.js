@@ -157,7 +157,6 @@ const style = StyleSheet.create({
     marginTop: -70,
     borderWidth: 5,
     borderColor: '#f6f6f8',
-    marginLeft: 15,
     padding: 0,
   },
   email: {
