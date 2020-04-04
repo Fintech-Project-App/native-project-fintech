@@ -4,7 +4,8 @@ import { View, Text } from 'react-native';
 function HistoryDetail(props) {
   return (
     <View>
-      <Text>{props.navigation.name}</Text>
+      {console.log('chelkkkk', props.route.params.id)}
+      <Text>{props.route.params.name}</Text>
     </View>
   );
 }

@@ -17,7 +17,7 @@ function HistoryTransaction(props) {
       picture:
         'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
       name: 'Haii Kevin',
-      category: 'Payment',
+      category: 'Incoming',
       topup_balance: '30000',
       created_on: '3 Juli 2020',
     },
@@ -26,67 +26,102 @@ function HistoryTransaction(props) {
       picture:
         'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
       name: 'Alen Dwi Aya',
-      category: 'Income',
+      category: 'Outgoing',
+      topup_balance: '50000',
+      created_on: '10 Juli 2020',
+    },
+    {
+      id: 2,
+      picture:
+        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+      name: 'Alen Dwi Aya',
+      category: 'Outgoing',
+      topup_balance: '50000',
+      created_on: '10 Juli 2020',
+    },
+    {
+      id: 2,
+      picture:
+        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+      name: 'Alen Dwi Aya',
+      category: 'Outgoing',
+      topup_balance: '50000',
+      created_on: '10 Juli 2020',
+    },
+    {
+      id: 2,
+      picture:
+        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+      name: 'Alen Dwi Aya',
+      category: 'Outgoing',
       topup_balance: '50000',
       created_on: '10 Juli 2020',
     },
   ];
 
   const [isAvailable, setIsAvailable] = React.useState(true);
+  const [isIncoming, setIsIncoming] = React.useState('Incoming');
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      {isAvailable && (
-        <ScrollView>
-          <View style={{ paddingRight: 1 }}>
-            <View style={style.containerDel}>
-              <TouchableOpacity style={style.iconDel}>
-                <Icon name="trash" size={20} style={{ color: '#b9b3b3' }} />
-              </TouchableOpacity>
+    <View style={{ flex: 1 }}>
+      <View style={style.containerDel}>
+        <TouchableOpacity style={style.iconDel}>
+          <Icon name="trash" size={20} style={{ color: '#b9b3b3' }} />
+        </TouchableOpacity>
+      </View>
+      <View style={{ flex: 12, backgroundColor: 'white' }}>
+        {isAvailable && (
+          <ScrollView>
+            <View style={{ paddingRight: 1 }}>
+              {data.map((val, i) => (
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate('HistoryDetail', {
+                      id: val.id,
+                      name: val.name,
+                      category: val.category,
+                      picture: val.picture,
+                      created_on: val.created_on,
+                    })
+                  }>
+                  <ListItem
+                    title={val.name}
+                    titleStyle={{ fontWeight: 'bold', color: '#383838' }}
+                    subtitle={
+                      <View>
+                        <View>
+                          <Text style={style.categoryTitle}>
+                            {val.category}
+                          </Text>
+                        </View>
+                        <View>
+                          <Text style={style.date}>{val.created_on}</Text>
+                          <Text style={style.balance}>
+                            {isIncoming === val.category ? '+ ' : '- '}
+                            Rp. {val.topup_balance}
+                          </Text>
+                        </View>
+                      </View>
+                    }
+                    bottomDivider
+                    leftAvatar={{ source: { uri: val.picture } }}
+                  />
+                </TouchableOpacity>
+              ))}
             </View>
-            {data.map((val, i) => (
-              <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate('HistoryDetail', {
-                    id: val.id,
-                    name: val.name,
-                    category: val.category,
-                    picture: val.picture,
-                    created_on: val.created_on,
-                  })
-                }>
-                <ListItem
-                  title={val.name}
-                  titleStyle={{ fontWeight: 'bold', color: '#383838' }}
-                  subtitle={
-                    <View>
-                      <View>
-                        <Text style={style.categoryTitle}>{val.category}</Text>
-                      </View>
-                      <View>
-                        <Text style={style.date}>{val.created_on}</Text>
-                        <Text style={style.balance}>
-                          + Rp. {val.topup_balance}
-                        </Text>
-                      </View>
-                    </View>
-                  }
-                  bottomDivider
-                  leftAvatar={{ source: { uri: val.picture } }}
-                />
-              </TouchableOpacity>
-            ))}
+            <View style={{ flex: 1, height: 80 }}></View>
+          </ScrollView>
+        )}
+        {!isAvailable && (
+          <View style={style.container}>
+            <Text
+              style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}>
+              View History
+            </Text>
+            <Text style={{ color: '#909090' }}>There is no transaction</Text>
+            <Image source={Empty} style={style.emptyImg} />
           </View>
-        </ScrollView>
-      )}
-      {!isAvailable && (
-        <View style={style.container}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}>
-            View History
-          </Text>
-          <Text style={{ color: '#909090' }}>There is no transaction</Text>
-          <Image source={Empty} style={style.emptyImg} />
-        </View>
-      )}
+        )}
+      </View>
     </View>
   );
 }
@@ -125,11 +160,14 @@ const style = StyleSheet.create({
     width: 50,
     marginLeft: '100%',
     left: 0,
+    marginTop: 10,
   },
   containerDel: {
+    flex: 1,
     alignItems: 'center',
     paddingRight: 10,
-    marginTop: 13,
+    marginTop: 7,
+    backgroundColor: 'white',
   },
 });
 export default HistoryTransaction;

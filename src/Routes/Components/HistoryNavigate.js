@@ -19,27 +19,30 @@ export default function TopupNavigate() {
             let iconName;
             switch (route.name) {
               case 'Topup':
-                iconName = 'home';
+                iconName = 'upload';
                 break;
               case 'Transaction':
-                iconName = 'portrait';
+                iconName = 'sign-in-alt';
                 break;
               default:
                 iconName = 'opencart';
                 break;
             }
-            return <Icon name={iconName} size={22} color={color} />;
+            return <Icon name={iconName} size={16} color={color} />;
           },
         })}
         tabBarOptions={{
+          showIcon: true,
           activeTintColor: '#50b5a6',
           inactiveTintColor: '#6d6d6d',
           pressColor: 'grey',
           pressOpacity: 'black',
+
           labelStyle: {
-            fontSize: 14,
-            fontWeight: 'bold',
+            fontSize: 12,
+            marginLeft: -5,
             textTransform: 'capitalize',
+            marginTop: -5,
           },
           indicatorStyle: { backgroundColor: 'transparent' },
           style: {
