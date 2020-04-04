@@ -7,7 +7,7 @@ import Transfer from '../../Screens/Transaction/Transfer';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function TopupNavigate() {
+export default function TopupNavigate(props) {
   return (
     <>
       <Tab.Navigator
@@ -23,7 +23,8 @@ export default function TopupNavigate() {
           },
           indicatorStyle: { backgroundColor: '' },
           style: { backgroundColor: '#50b5a6' },
-        }}>
+        }}
+      >
         <Tab.Screen name="Transfer" component={Transfer} />
       </Tab.Navigator>
     </>
