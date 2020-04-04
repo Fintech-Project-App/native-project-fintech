@@ -14,7 +14,7 @@ function Header(props) {
       >
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}
+          onPress={() => navigation.goBack()}
         >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>

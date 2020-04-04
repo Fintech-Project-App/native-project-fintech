@@ -29,3 +29,13 @@ export const submitData = async (dataUrl, formData) => {
     throw err;
   }
 };
+
+export const patchData = async (dataUrl, formData) => {
+  try {
+    const url = API_URL + dataUrl;
+    const response = await axios.patch(url, formData, getConfig());
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

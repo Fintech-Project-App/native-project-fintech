@@ -13,6 +13,8 @@ import Icons from 'react-native-vector-icons/FontAwesome5';
 import BGChange from '../../Helpers/Image/bgchange.png';
 import key from '../../Helpers/Image/key.png';
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { changePassword } from '../../Redux/actions/userDataAction';
 import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
@@ -21,19 +23,24 @@ function ChangePassword(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   const dispatch = useDispatch();
   const FormLogin = useFormik({
-    initialValues: { username: '', password: '' },
+    initialValues: { password: '', new_password: '', confirm_password: '' },
     validationSchema: Yup.object({
-      username: Yup.string().required('Username is Required'),
-      password: Yup.string().required('Passowrd is Required'),
+      old_password: Yup.string().required('Passowrd is Required'),
+      new_password: Yup.string().required('New Password is Required'),
+      confirm_password: Yup.string().required('Confirm Password is Required'),
     }),
     onSubmit: async (values, form) => {
       try {
-        const response = await dispatch(userLogin(values));
-        if (response.data && !response.data.success) {
+        const response = await dispatch(changePassword(values));
+        console.log('response', response.data);
+        if (response && response.data.success) {
+          CustomAlert(response.data.success, response.data.msg);
+        } else {
           CustomAlert(response.data.success, response.data.msg);
         }
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
+        console.log('error', err);
       }
     },
   });
@@ -43,10 +50,12 @@ function ChangePassword(props) {
       <View style={style.container1}>
         <ImageBackground
           source={BGChange}
-          style={{ width: '100%', height: '100%' }}>
+          style={{ width: '100%', height: '100%' }}
+        >
           <TouchableOpacity
             style={{ width: 50, marginTop: 25 }}
-            onPress={() => props.navigation.goBack()}>
+            onPress={() => props.navigation.goBack()}
+          >
             <Icons name="chevron-left" size={20} style={style.backIcon} />
           </TouchableOpacity>
         </ImageBackground>
@@ -63,14 +72,17 @@ function ChangePassword(props) {
             containerStyle={style.avatar}
           />
           <ScrollView>
-            <Input
+            <CustomInputText
+              form={FormLogin}
+              name="old_password"
               placeholder="Old Password"
               secureTextEntry={hidePassword ? true : false}
               inputContainerStyle={{ ...style.input }}
               inputStyle={style.inputText}
               rightIcon={
                 <TouchableOpacity
-                  onPress={() => setHidePassword(!hidePassword)}>
+                  onPress={() => setHidePassword(!hidePassword)}
+                >
                   <Icons
                     name={hidePassword ? 'eye-slash' : 'eye'}
                     size={15}
@@ -79,14 +91,17 @@ function ChangePassword(props) {
                 </TouchableOpacity>
               }
             />
-            <Input
+            <CustomInputText
               placeholder="New Password"
+              form={FormLogin}
+              name="new_password"
               secureTextEntry={hidePassword ? true : false}
               inputContainerStyle={{ ...style.input }}
               inputStyle={style.inputText}
               rightIcon={
                 <TouchableOpacity
-                  onPress={() => setHidePassword(!hidePassword)}>
+                  onPress={() => setHidePassword(!hidePassword)}
+                >
                   <Icons
                     name={hidePassword ? 'eye-slash' : 'eye'}
                     size={15}
@@ -95,14 +110,17 @@ function ChangePassword(props) {
                 </TouchableOpacity>
               }
             />
-            <Input
+            <CustomInputText
               placeholder="Confirm Password"
+              form={FormLogin}
+              name="confirm_password"
               secureTextEntry={hidePassword ? true : false}
               inputContainerStyle={{ ...style.input }}
               inputStyle={style.inputText}
               rightIcon={
                 <TouchableOpacity
-                  onPress={() => setHidePassword(!hidePassword)}>
+                  onPress={() => setHidePassword(!hidePassword)}
+                >
                   <Icons
                     name={hidePassword ? 'eye-slash' : 'eye'}
                     size={15}
@@ -112,7 +130,11 @@ function ChangePassword(props) {
               }
             />
             <View style={style.changeContainer}>
-              <Button title="Reset Password" buttonStyle={style.changebtn} />
+              <Button
+                title="Reset Password"
+                buttonStyle={style.changebtn}
+                onPress={FormLogin.handleSubmit}
+              />
             </View>
           </ScrollView>
         </View>
