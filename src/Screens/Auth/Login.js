@@ -22,7 +22,7 @@ function Login(props) {
     initialValues: { username: '', password: '' },
     validationSchema: Yup.object({
       username: Yup.string().required('Username is Required'),
-      password: Yup.string().required('Passowrd is Required'),
+      password: Yup.string().required('Password is Required'),
     }),
     onSubmit: async (values, form) => {
       try {
@@ -41,7 +41,8 @@ function Login(props) {
       <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}>
+          onPress={() => props.navigation.goBack()}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
         <View style={style.container}>
@@ -55,7 +56,8 @@ function Login(props) {
               flexDirection: 'row',
               justifyContent: 'center',
               marginTop: -60,
-            }}>
+            }}
+          >
             <Button
               title="Facebook"
               icon={<Icons name="facebook-f" size={15} color="white" />}
@@ -82,7 +84,8 @@ function Login(props) {
                 paddingRight: 50,
                 marginTop: 30,
                 marginBottom: 50,
-              }}>
+              }}
+            >
               <CustomInputText
                 form={FormLogin}
                 name="username"
@@ -97,7 +100,8 @@ function Login(props) {
                 name="password"
                 rightIcon={
                   <TouchableOpacity
-                    onPress={() => setHidePassword(!hidePassword)}>
+                    onPress={() => setHidePassword(!hidePassword)}
+                  >
                     <Icons
                       name={hidePassword ? 'eye-slash' : 'eye'}
                       size={15}
@@ -112,9 +116,11 @@ function Login(props) {
                 inputStyle={style.inputText}
               />
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('CheckUsername')}>
+                onPress={() => props.navigation.navigate('CheckUsername')}
+              >
                 <Text
-                  style={{ ...style.quotes, marginTop: 2, textAlign: 'right' }}>
+                  style={{ ...style.quotes, marginTop: 2, textAlign: 'right' }}
+                >
                   Forgot your password
                 </Text>
               </TouchableOpacity>
