@@ -113,6 +113,7 @@ function Transfer(props) {
               >
                 <Avatar
                   rounded
+                  containerStyle={style.avatar}
                   title={
                     userReceiver.username &&
                     userReceiver.username.substring(0, 2)
@@ -122,12 +123,10 @@ function Transfer(props) {
                       uri: API_URL + userReceiver.picture,
                     }
                   }
-                  size={60}
+                  size={80}
                 />
                 <View>
-                  <Text style={{ fontWeight: 'bold' }}>
-                    {userReceiver.username}
-                  </Text>
+                  <Text style={style.receiver}>{userReceiver.username}</Text>
                 </View>
               </View>
             ) : (
@@ -296,5 +295,21 @@ const style = StyleSheet.create({
     backgroundColor: '#f6f6f7',
     marginTop: -0,
     elevation: 7,
+  },
+  avatar: {
+    marginTop: 10,
+    borderWidth: 4,
+    borderColor: '#f1f1f1',
+    elevation: 3,
+  },
+  receiver: {
+    fontSize: 12,
+    color: 'grey',
+    marginTop: 7,
+    marginBottom: 10,
+    backgroundColor: '#d8d8d8',
+    borderRadius: 7,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
   },
 });

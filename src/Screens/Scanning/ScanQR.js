@@ -7,35 +7,45 @@ import jwtDecode from 'jwt-decode';
 function ScanQR(props) {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 8, backgroundColor: 'grey', marginBottom: -30 }}>
-        <View style={{ flexDirection: 'row', height: 120 }}>
-          <TouchableOpacity
-            style={{ width: 50, marginTop: 25 }}
-            onPress={() => props.navigation.goBack()}
-          >
-            <Icons name="chevron-left" size={20} style={style.backIcon} />
-          </TouchableOpacity>
-          <Text style={style.title}>Scan to pay</Text>
-        </View>
+      <View
+        style={{ flex: 8, backgroundColor: 'transparent', marginBottom: -30 }}
+      >
         <RNCamera
           ref={useRef(null)}
           style={{
-            flex: 1,
             alignItems: 'center',
             alignContent: 'center',
             justifyContent: 'center',
+            height: '100%',
           }}
           onGoogleVisionBarcodesDetected={(payloadBarcode) => {
             const data = payloadBarcode.barcodes.map((codes) => codes.data)[0];
             const user = jwtDecode(data);
             if (user) {
-              props.navigation.navigate('Transfer', {
-                userId: user.id,
+              props.navigation.navigate('TransferNavigate', {
+                screen: 'Transfer',
+                params: { userId: user.id },
               });
             }
           }}
         >
-          <Spinner />
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: -240,
+              marginLeft: -30,
+              marginBottom: 130,
+            }}
+          >
+            <TouchableOpacity
+              style={{ width: 50, marginTop: 25 }}
+              onPress={() => props.navigation.goBack()}
+            >
+              <Icons name="chevron-left" size={20} style={style.backIcon} />
+            </TouchableOpacity>
+            <Text style={style.title}>Scan to pay</Text>
+          </View>
+          <Spinner size={60} color="white" />
         </RNCamera>
       </View>
       <View
@@ -69,12 +79,12 @@ const style = StyleSheet.create({
     width: 20,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
     color: 'white',
     marginTop: 25,
     marginRight: '25%',
-    marginLeft: '25%',
+    marginLeft: '22%',
     marginBottom: 20,
   },
 });
