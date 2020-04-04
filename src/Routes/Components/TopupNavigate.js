@@ -18,10 +18,10 @@ export default function TopupNavigate() {
             fontSize: 14,
             color: 'white',
             fontWeight: 'bold',
-            textTransform: 'capitalize'
+            textTransform: 'capitalize',
           },
           indicatorStyle: { backgroundColor: 'white' },
-          style: { backgroundColor: '#59cfbe' }
+          style: { backgroundColor: '#50b5a6' },
         }}>
         <Tab.Screen name="Instant topup" component={Topup} />
         <Tab.Screen name="Other method" component={TopupOther} />

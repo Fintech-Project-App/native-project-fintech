@@ -9,70 +9,23 @@ import {
 import { Image, ListItem } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Data from './Components/DataTransaction';
 
 function HistoryTransaction(props) {
-  const data = [
-    {
-      id: 1,
-      picture:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-      name: 'Haii Kevin',
-      category: 'Incoming',
-      topup_balance: '30000',
-      created_on: '3 Juli 2020',
-    },
-    {
-      id: 2,
-      picture:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-      name: 'Alen Dwi Aya',
-      category: 'Outgoing',
-      topup_balance: '50000',
-      created_on: '10 Juli 2020',
-    },
-    {
-      id: 2,
-      picture:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-      name: 'Alen Dwi Aya',
-      category: 'Outgoing',
-      topup_balance: '50000',
-      created_on: '10 Juli 2020',
-    },
-    {
-      id: 2,
-      picture:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-      name: 'Alen Dwi Aya',
-      category: 'Outgoing',
-      topup_balance: '50000',
-      created_on: '10 Juli 2020',
-    },
-    {
-      id: 2,
-      picture:
-        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-      name: 'Alen Dwi Aya',
-      category: 'Outgoing',
-      topup_balance: '50000',
-      created_on: '10 Juli 2020',
-    },
-  ];
-
   const [isAvailable, setIsAvailable] = React.useState(true);
   const [isIncoming, setIsIncoming] = React.useState('Incoming');
   return (
-    <View style={{ flex: 1 }}>
-      <View style={style.containerDel}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      {/* <View style={style.containerDel}>
         <TouchableOpacity style={style.iconDel}>
           <Icon name="trash" size={20} style={{ color: '#b9b3b3' }} />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={{ flex: 12, backgroundColor: 'white' }}>
         {isAvailable && (
           <ScrollView>
-            <View style={{ paddingRight: 1 }}>
-              {data.map((val, i) => (
+            <View style={{ paddingHorizontal: 20 }}>
+              {Data.map((val, i) => (
                 <TouchableOpacity
                   onPress={() =>
                     props.navigation.navigate('HistoryDetail', {
@@ -80,7 +33,9 @@ function HistoryTransaction(props) {
                       name: val.name,
                       category: val.category,
                       picture: val.picture,
-                      created_on: val.created_on,
+                      balance: val.topup_balance,
+                      date: val.created_on,
+                      desc: val.desc,
                     })
                   }>
                   <ListItem

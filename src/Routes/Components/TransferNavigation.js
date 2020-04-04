@@ -19,10 +19,10 @@ export default function TopupNavigate() {
             fontWeight: 'bold',
             textTransform: 'capitalize',
             marginBottom: 10,
-            marginTop: 15
+            marginTop: 15,
           },
-          indicatorStyle: { backgroundColor: '#59cfbe' },
-          style: { backgroundColor: '#59cfbe' }
+          indicatorStyle: { backgroundColor: '' },
+          style: { backgroundColor: '#50b5a6' },
         }}>
         <Tab.Screen name="Transfer" component={Transfer} />
       </Tab.Navigator>
