@@ -3,26 +3,32 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Icon,
+  Vibration,
   StyleSheet,
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import { Button, Input, Image } from 'react-native-elements';
+import { Button, Input, Image, Avatar } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import { updateProfile } from '../../Redux/actions/userDataAction';
 import { useSelector, useDispatch } from 'react-redux';
+import { getData, submitData } from '../../Helpers/CRUD';
+import { API_URL } from 'react-native-dotenv';
+import { useFormik } from 'formik';
+import formatRupiah from '../../Helpers/formatRupiah';
+import * as Yup from 'yup';
+import CustomInputText from '../../Components/CustomInputText';
+import CustomAlert from '../../Components/CustomAlert';
 
 function wait(timeout) {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
 }
-
 function Transfer(props) {
-  const [reset, setReset] = React.useState('');
-  const [throws, setThrows] = React.useState('');
+  const { dataProfile } = useSelector((state) => state.userData);
+  const [userReceiver, setUserReceiver] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -30,9 +36,62 @@ function Transfer(props) {
     setRefreshing(true);
     wait(200).then(() => {
       setRefreshing(false);
-      setThrows(dispatch(updateProfile()));
+      dispatch(updateProfile());
     });
   }, [refreshing]);
+  const FormTransfer = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      id_receiver: userReceiver.id || 0,
+      message: '',
+      amount: '',
+    },
+    validationSchema: Yup.object({
+      message: Yup.string().nullable(),
+      id_receiver: Yup.number().required(),
+      amount: Yup.number()
+        .max(dataProfile.balance || Infinity)
+        .required(),
+    }),
+    onSubmit: async (values, form) => {
+      try {
+        const response = await submitData('transfer', values);
+        if (response.data && response.data.success) {
+          setUserReceiver('');
+          form.resetForm();
+          form.setSubmitting(false);
+          dispatch(updateProfile());
+          CustomAlert(response.data.success, response.data.msg);
+        } else {
+          CustomAlert(response.data.success, response.data.msg);
+        }
+      } catch (err) {
+        if (err.response.data && err.response.data.msg) {
+          CustomAlert(err.response.data.success, err.response.data.msg);
+        } else {
+          console.log(err);
+        }
+      }
+    },
+  });
+  const getDataUser = async (id) => {
+    try {
+      const response = await getData('users/' + id);
+      if (response.data && response.data.success) {
+        setUserReceiver(response.data.data);
+      } else {
+        console.log(response.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  React.useEffect(() => {
+    if (props.route.params && props.route.params.userId) {
+      Vibration.vibrate(100);
+      getDataUser(props.route.params.userId);
+    }
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -44,43 +103,65 @@ function Transfer(props) {
         >
           <View style={{ paddingHorizontal: 25, marginTop: 30 }}>
             <Text style={style.betweenLabel}>Between Quick Cash User</Text>
-            <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
-              input the recipient's username
-            </Text>
-            <Input
-              placeholder="Username"
-              inputContainerStyle={{ ...style.input }}
-              inputStyle={style.inputText}
-              rightIcon={
-                <TouchableOpacity>
-                  <Icons
-                    name="times"
-                    size={15}
-                    color="grey"
-                    style={{ marginRight: 20 }}
-                    onPress={() => setReset(reset)}
-                  />
-                </TouchableOpacity>
-              }
-            />
+            {userReceiver ? (
+              <View
+                style={{
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                  marginTop: 15,
+                }}
+              >
+                <Avatar
+                  rounded
+                  title={
+                    userReceiver.username &&
+                    userReceiver.username.substring(0, 2)
+                  }
+                  source={
+                    userReceiver.picture && {
+                      uri: API_URL + userReceiver.picture,
+                    }
+                  }
+                  size={60}
+                />
+                <View>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    {userReceiver.username}
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              <>
+                <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
+                  input the recipient's username
+                </Text>
+                <Input
+                  placeholder="Username"
+                  inputContainerStyle={{ ...style.input }}
+                  inputStyle={style.inputText}
+                  rightIcon={
+                    <TouchableOpacity>
+                      <Icons
+                        name="times"
+                        size={15}
+                        color="grey"
+                        style={{ marginRight: 20 }}
+                        onPress={() => setReset(reset)}
+                      />
+                    </TouchableOpacity>
+                  }
+                />
+              </>
+            )}
             <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
               Message (optional)
             </Text>
-            <Input
+            <CustomInputText
+              form={FormTransfer}
+              name="message"
               placeholder="Message"
               inputContainerStyle={{ ...style.input }}
               inputStyle={style.inputText}
-              rightIcon={
-                <TouchableOpacity>
-                  <Icons
-                    name="times"
-                    size={15}
-                    color="grey"
-                    style={{ marginRight: 20 }}
-                    onPress={() => setReset(reset)}
-                  />
-                </TouchableOpacity>
-              }
             />
           </View>
           <View style={style.line} />
@@ -95,7 +176,7 @@ function Transfer(props) {
                   Quick Cash
                 </Text>
                 <Text style={{ color: '#646464', fontSize: 13 }}>
-                  Saldo Rp. 1000
+                  Saldo Rp. {formatRupiah(dataProfile.balance)}
                 </Text>
               </View>
             </View>
@@ -105,8 +186,10 @@ function Transfer(props) {
             <Text style={{ color: '#3a746b', fontWeight: 'bold' }}>
               Nominal Transfer
             </Text>
-            <Input
-              placeholder="Rp. 10.000 ..."
+            <CustomInputText
+              form={FormTransfer}
+              name="amount"
+              placeholder={`Rp. ${formatRupiah(dataProfile.balance)} ...`}
               keyboardType={'numeric'}
               inputContainerStyle={style.inputNominal}
               inputStyle={style.inputText}
@@ -115,7 +198,11 @@ function Transfer(props) {
         </ScrollView>
       </View>
       <View style={style.transferContainer}>
-        <Button title="Transfer" buttonStyle={style.transferbtn} />
+        <Button
+          title="Transfer"
+          buttonStyle={style.transferbtn}
+          onPress={FormTransfer.handleSubmit}
+        />
       </View>
     </View>
   );
