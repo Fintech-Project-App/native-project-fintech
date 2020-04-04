@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { Image, Avatar, Icon, Button } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome5';
@@ -24,7 +24,7 @@ function Profile(props) {
       )}
       <View style={{ flex: 2 }}>
         <Image source={BGProfile} style={{ width: '100%', height: 140 }} />
-        <View style={{ alignSelf: 'center' }}>
+        <View style={{ alignSelf: 'center', alignItems: 'center' }}>
           <Avatar
             rounded
             title={dataProfile.username && dataProfile.username.substring(0, 2)}
@@ -59,7 +59,8 @@ function Profile(props) {
             <View style={style.line} />
             <Text style={{ ...style.titleBlock, marginTop: 15 }}>Account</Text>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('ProfileUpdate')}>
+              onPress={() => props.navigation.navigate('ProfileUpdate')}
+            >
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
@@ -73,7 +74,8 @@ function Profile(props) {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('TopupNavigate')}>
+              onPress={() => props.navigation.navigate('TopupNavigate')}
+            >
               <View style={{ flexDirection: 'row', marginTop: 10 }}>
                 <Icon
                   reverse
@@ -89,7 +91,8 @@ function Profile(props) {
             <View style={style.line} />
             <Text style={{ ...style.titleBlock, marginTop: 15 }}>Security</Text>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('SecurityCode')}>
+              onPress={() => props.navigation.navigate('SecurityCode')}
+            >
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
@@ -103,7 +106,8 @@ function Profile(props) {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('ChangePassword')}>
+              onPress={() => props.navigation.navigate('ChangePassword')}
+            >
               <View style={{ flexDirection: 'row', marginTop: 10 }}>
                 <Icon
                   reverse
@@ -119,7 +123,8 @@ function Profile(props) {
             <View style={style.line} />
             <Text style={{ ...style.titleBlock, marginTop: 15 }}>About</Text>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('OnProgress')}>
+              onPress={() => props.navigation.navigate('OnProgress')}
+            >
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
@@ -151,52 +156,54 @@ const style = StyleSheet.create({
   avatar: {
     marginTop: -70,
     borderWidth: 5,
-    borderColor: '#f6f6f8'
+    borderColor: '#f6f6f8',
+    marginLeft: 15,
+    padding: 0,
   },
   email: {
     textAlign: 'center',
     marginTop: 5,
     fontSize: 13,
-    color: '#a6a6a6'
+    color: '#a6a6a6',
   },
   name: {
     textAlign: 'center',
     marginTop: 10,
     fontSize: 18,
-    color: '#555555'
+    color: '#555555',
   },
   list: {
     fontWeight: '600',
     fontSize: 15,
     color: '#605f5f',
     marginLeft: 10,
-    marginTop: 13
+    marginTop: 13,
   },
   line: {
     marginTop: 30,
     borderBottomColor: '#eaeaea',
     borderBottomWidth: 1,
     width: '100%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   icons: {
     color: '#c7c7c7',
     right: 0,
     width: 20,
     marginTop: 18,
-    position: 'absolute'
+    position: 'absolute',
   },
   block: {
     flex: 5,
     paddingHorizontal: 10,
     paddingLeft: 20,
     paddingTop: 20,
-    marginBottom: 70
+    marginBottom: 70,
   },
   titleBlock: {
     fontWeight: 'bold',
     color: '#4e4e4e',
-    fontSize: 16
+    fontSize: 16,
   },
   logout: {
     marginTop: 20,
@@ -204,15 +211,15 @@ const style = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#53C9BE',
     paddingRight: 10,
-    elevation: 4
+    elevation: 4,
   },
   hastag: {
     marginTop: 10,
     fontSize: 13,
     color: 'grey',
     textAlign: 'right',
-    marginRight: 10
-  }
+    marginRight: 10,
+  },
 });
 
 export default Profile;

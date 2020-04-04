@@ -79,7 +79,7 @@ function Home(props) {
             containerStyle={{ marginTop: 20, marginLeft: 20 }}
           />
           <TouchableOpacity style={{ marginLeft: 200 }}>
-            <View style={style.icoNotif}></View>
+            <View style={style.icoNotif} />
             <Icon
               reverse
               name="ios-notifications"
@@ -158,7 +158,7 @@ function Home(props) {
                     alignSelf: 'center',
                   }}
                 >
-                  {fiture.map((val) => (
+                  {fiture.map((val, i) => (
                     <TouchableOpacity
                       key={i}
                       style={{ marginHorizontal: 18 }}
