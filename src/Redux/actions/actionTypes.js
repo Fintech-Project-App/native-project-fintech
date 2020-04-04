@@ -1,3 +1,4 @@
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGOUT = 'USER_LOGOUT';
 export const USER_CHANGE_PASSWORD = 'USER_CHANGE_PASSWORD';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';

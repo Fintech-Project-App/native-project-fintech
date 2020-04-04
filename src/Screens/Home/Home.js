@@ -71,7 +71,8 @@ function Home(props) {
     <View style={{ flex: 1, backgroundColor: 'grey' }}>
       <View style={{ flex: 1 }}>
         <View
-          style={{ flex: 1, flexDirection: 'row', backgroundColor: '#37b2a1' }}>
+          style={{ flex: 1, flexDirection: 'row', backgroundColor: '#37b2a1' }}
+        >
           <Image
             source={Logo}
             style={{ width: 50, height: 40 }}
@@ -92,7 +93,8 @@ function Home(props) {
           <ScrollView>
             <ImageBackground
               source={Navbar}
-              style={{ width: '100%', height: '47%' }}>
+              style={{ width: '100%', height: '47%' }}
+            >
               <View style={{ paddingHorizontal: 20 }}>
                 <View>
                   <Text style={style.title}>Quick Cash</Text>
@@ -104,18 +106,22 @@ function Home(props) {
                 <View style={{ alignItem: 'center', marginTop: 5 }}>
                   <Card
                     style={style.cardMain}
-                    containerStyle={style.cardContainer}>
+                    containerStyle={style.cardContainer}
+                  >
                     <View
                       style={{
                         flexDirection: 'row',
                         alignSelf: 'center',
-                      }}>
-                      {data.map((val) => (
+                      }}
+                    >
+                      {data.map((val, i) => (
                         <TouchableOpacity
+                          key={i}
                           style={{ marginHorizontal: 25 }}
                           onPress={() =>
                             props.navigation.navigate(val.navigate)
-                          }>
+                          }
+                        >
                           <View>
                             <Image
                               source={val.image}
@@ -126,7 +132,8 @@ function Home(props) {
                               style={{
                                 color: '#3a746b',
                                 fontSize: 11,
-                              }}>
+                              }}
+                            >
                               {val.title}
                             </Text>
                           </View>
@@ -149,12 +156,15 @@ function Home(props) {
                   style={{
                     flexDirection: 'row',
                     alignSelf: 'center',
-                  }}>
+                  }}
+                >
                   {fiture.map((val) => (
                     <TouchableOpacity
+                      key={i}
                       style={{ marginHorizontal: 18 }}
                       PlaceholderContent={<ActivityIndicator />}
-                      onPress={() => props.navigation.navigate(val.navigate)}>
+                      onPress={() => props.navigation.navigate(val.navigate)}
+                    >
                       <View>
                         <Image
                           source={val.image}
@@ -177,9 +187,10 @@ function Home(props) {
             <View style={style.methodCard}>
               <ScrollView
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}>
+                showsHorizontalScrollIndicator={false}
+              >
                 {methode.map((val, idx) => {
-                  return <Method image={val.image} />;
+                  return <Method key={idx} image={val.image} />;
                 })}
               </ScrollView>
             </View>
