@@ -5,26 +5,45 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import { Image, ListItem } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import Data from './Components/DataTransaction';
+
+function wait(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 function HistoryTransaction(props) {
   const [isAvailable, setIsAvailable] = React.useState(true);
   const [isIncoming, setIsIncoming] = React.useState('Incoming');
   const [isRender, setIsRender] = React.useState(10);
+  const [throws, setThrows] = React.useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefreshing = React.useCallback(() => {
+    setRefreshing(true);
+    wait(200).then(() => {
+      setRefreshing(false);
+      setThrows(props.navigation.navigate('ProfileUpdate'));
+    });
+  }, [refreshing]);
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
-      {/* <View style={style.containerDel}>
-        <TouchableOpacity style={style.iconDel}>
-          <Icon name="trash" size={20} style={{ color: '#b9b3b3' }} />
-        </TouchableOpacity>
-      </View> */}
       <View style={{ flex: 12, backgroundColor: 'white' }}>
         {isAvailable && (
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefreshing}
+              />
+            }
+          >
             <View style={{ paddingHorizontal: 20 }}>
               {Data.map((val, index) => {
                 if (index + 1 < isRender) {
@@ -40,7 +59,8 @@ function HistoryTransaction(props) {
                           date: val.created_on,
                           desc: val.desc,
                         })
-                      }>
+                      }
+                    >
                       <ListItem
                         title={val.name}
                         titleStyle={{ fontWeight: 'bold', color: '#383838' }}
@@ -74,7 +94,8 @@ function HistoryTransaction(props) {
         {!isAvailable && (
           <View style={style.container}>
             <Text
-              style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}>
+              style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}
+            >
               View History
             </Text>
             <Text style={{ color: '#909090' }}>There is no transaction</Text>

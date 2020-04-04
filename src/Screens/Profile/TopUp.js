@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+} from 'react-native';
 import { Image, Button, Input } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,10 +17,28 @@ import { submitData } from '../../Helpers/CRUD';
 import OverlayImg from '../../Components/OverlayImg';
 import CustomAlert from '../../Components/CustomAlert';
 import CustomInputText from '../../Components/CustomInputText';
+
+function wait(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 function Topup(props) {
   const { dataProfile } = useSelector((state) => state.userData);
   const [activeBtn, setActiveBtn] = React.useState(0);
   const [isVisible, setHideVisible] = React.useState(false);
+  const [throws, setThrows] = React.useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefreshing = React.useCallback(() => {
+    setRefreshing(true);
+    wait(200).then(() => {
+      setRefreshing(false);
+      setThrows(dispatch(updateProfile()));
+    });
+  }, [refreshing]);
+
   const dispatch = useDispatch();
   const FormTopUp = useFormik({
     enableReinitialize: true,
@@ -56,7 +80,11 @@ function Topup(props) {
         />
       )}
       <View style={{ flex: 6, paddingTop: 20 }}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefreshing} />
+          }
+        >
           <View style={{ paddingHorizontal: 25 }}>
             <Text style={style.title}>Top Up to</Text>
             <View style={style.container}>

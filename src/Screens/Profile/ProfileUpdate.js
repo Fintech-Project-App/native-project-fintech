@@ -48,12 +48,12 @@ function ProfileUpdate(props) {
             } else {
               console.log('alen');
               formData.append('picture', {
-                name: values['picture'].fileName,
-                type: values['picture'].type,
+                name: values.picture.fileName,
+                type: values.picture.type,
                 uri:
                   Platform.OS === 'android'
-                    ? values['picture'].uri
-                    : values['picture'].uri.replace('file://', ''),
+                    ? values.picture.uri
+                    : values.picture.uri.replace('file://', ''),
               });
             }
           });
@@ -73,6 +73,7 @@ function ProfileUpdate(props) {
   const handleChangePicture = () => {
     const options = {
       noData: true,
+      quality: 0.6,
     };
     ImagePicker.showImagePicker(options, (response) => {
       if (response.uri) {

@@ -13,7 +13,8 @@ function Overlays(props) {
         height={180}
         borderRadius={20}
         style={{ padding: 20 }}
-        overlayStyle={{ padding: 20, paddingTop: 40 }}>
+        overlayStyle={{ padding: 20, paddingTop: 40 }}
+      >
         <>
           <Text
             style={{
@@ -21,7 +22,8 @@ function Overlays(props) {
               fontSize: 18,
               color: '#545454',
               marginTop: -10,
-            }}>
+            }}
+          >
             {props.message}
           </Text>
           <Button
