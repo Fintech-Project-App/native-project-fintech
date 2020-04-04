@@ -1,6 +1,6 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View} from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Home from '../../Screens/Home/Home';
 import Profile from '../../Screens/Profile/Profile';
@@ -11,8 +11,8 @@ function Main(props) {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           switch (route.name) {
             case 'Home':
@@ -60,7 +60,11 @@ function Main(props) {
           backgroundColor: '#fff',
         },
       }}>
-      <Tab.Screen name="Home" component={Home} options={{headerShown: true}} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: true }}
+      />
       <Tab.Screen name="ScanQR" component={ScanQR} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>

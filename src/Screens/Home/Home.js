@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import { Image, Card, Icon } from 'react-native-elements';
@@ -78,18 +79,7 @@ function Home(props) {
             containerStyle={{ marginTop: 20, marginLeft: 20 }}
           />
           <TouchableOpacity style={{ marginLeft: 200 }}>
-            <View
-              style={{
-                borderRadius: 100,
-                width: 8,
-                height: 8,
-                backgroundColor: 'red',
-                position: 'absolute',
-                marginTop: 27,
-                marginRight: 25,
-                right: 0,
-              }}
-            />
+            <View style={style.icoNotif} />
             <Icon
               reverse
               name="ios-notifications"
@@ -133,7 +123,11 @@ function Home(props) {
                           }
                         >
                           <View>
-                            <Image source={val.image} style={style.iconTopup} />
+                            <Image
+                              source={val.image}
+                              style={style.iconTopup}
+                              PlaceholderContent={<ActivityIndicator />}
+                            />
                             <Text
                               style={{
                                 color: '#3a746b',
@@ -168,6 +162,7 @@ function Home(props) {
                     <TouchableOpacity
                       key={i}
                       style={{ marginHorizontal: 18 }}
+                      PlaceholderContent={<ActivityIndicator />}
                       onPress={() => props.navigation.navigate(val.navigate)}
                     >
                       <View>
@@ -281,12 +276,22 @@ const style = StyleSheet.create({
   iconTopup: {
     width: 33,
     height: 33,
-    marginLeft: -20,
+    borderRadius: 7,
   },
   backIcon: {
     color: 'white',
     marginLeft: 15,
     width: 20,
+  },
+  icoNotif: {
+    borderRadius: 100,
+    width: 8,
+    height: 8,
+    backgroundColor: 'red',
+    position: 'absolute',
+    marginTop: 27,
+    marginRight: 25,
+    right: 0,
   },
 });
 export default Home;
