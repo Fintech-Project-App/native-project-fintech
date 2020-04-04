@@ -9,13 +9,15 @@ import Transfers from '../Screens/Transaction/Transfer';
 import Header from '../Screens/Profile/Component/Header';
 import OnProgress from '../Components/OnProgress';
 import ChangePassword from '../Screens/Security/ChangePassword';
+import SecurityCode from '../Screens/Security/SecurityCode';
+import HistoryDetail from '../Screens/Transaction/HistoryDetail';
 
 function PrivateNavigation(props) {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false
+        headerShown: false,
       }}>
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="TopupNavigate" component={TopupNavigate} />
@@ -25,6 +27,8 @@ function PrivateNavigation(props) {
       <Stack.Screen name="HistoryNavigate" component={HistoryNavigate} />
       <Stack.Screen name="Header" component={Header} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="SecurityCode" component={SecurityCode} />
+      <Stack.Screen name="HistoryDetail" component={HistoryDetail} />
       <Stack.Screen name="OnProgress" component={OnProgress} />
     </Stack.Navigator>
   );

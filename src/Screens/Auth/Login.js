@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
+  ScrollView
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import { Form } from 'native-base';
@@ -22,7 +22,7 @@ function Login(props) {
     initialValues: { username: '', password: '' },
     validationSchema: Yup.object({
       username: Yup.string().required('Username is Required'),
-      password: Yup.string().required('Passowrd is Required'),
+      password: Yup.string().required('Passowrd is Required')
     }),
     onSubmit: async (values, form) => {
       try {
@@ -33,7 +33,7 @@ function Login(props) {
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
-    },
+    }
   });
 
   return (
@@ -54,7 +54,7 @@ function Login(props) {
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
-              marginTop: -60,
+              marginTop: -60
             }}>
             <Button
               title="Facebook"
@@ -67,7 +67,7 @@ function Login(props) {
               icon={<Icons name="google-plus-g" size={15} color="white" />}
               buttonStyle={{
                 ...style.anotherLogin,
-                backgroundColor: '#c63027',
+                backgroundColor: '#c63027'
               }}
               titleStyle={style.textButton}
             />
@@ -81,7 +81,7 @@ function Login(props) {
                 paddingLeft: 50,
                 paddingRight: 50,
                 marginTop: 30,
-                marginBottom: 50,
+                marginBottom: 50
               }}>
               <CustomInputText
                 form={FormLogin}
@@ -138,23 +138,23 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    marginTop: 10,
+    marginTop: 10
   },
   titleLogin: {
     fontSize: 25,
     fontWeight: 'bold',
     color: '#4f4f4f',
-    marginTop: 15,
+    marginTop: 15
   },
   backIcon: {
     color: '#4f4f4f',
     marginLeft: 15,
-    width: 20,
+    width: 20
   },
   viewForm: {
     flex: 9,
     paddingTop: 50,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   anotherLogin: {
     marginTop: 60,
@@ -163,21 +163,21 @@ const style = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#41568d',
     elevation: 4,
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   login: {
     marginTop: 50,
     width: '100%',
     borderRadius: 18,
     backgroundColor: '#53C9BE',
-    elevation: 4,
+    elevation: 4
   },
   textButton: {
     fontSize: 14,
-    marginLeft: 15,
+    marginLeft: 15
   },
   inputContainer: {
-    marginBottom: 15,
+    marginBottom: 15
   },
   input: {
     borderRadius: 50,
@@ -187,18 +187,18 @@ const style = StyleSheet.create({
     width: 280,
     alignSelf: 'center',
     backgroundColor: '#F5F5F5',
-    paddingLeft: 10,
+    paddingLeft: 10
   },
   inputText: {
     fontSize: 15,
     paddingLeft: 20,
-    color: '#525252',
+    color: '#525252'
   },
   quotes: {
     textAlign: 'center',
     marginTop: 25,
     fontSize: 14,
-    color: '#4f4f4f',
-  },
+    color: '#4f4f4f'
+  }
 });
 export default Login;

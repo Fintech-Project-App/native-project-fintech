@@ -94,7 +94,8 @@ function Profile(props) {
             </TouchableOpacity>
             <View style={style.line} />
             <Text style={{ ...style.titleBlock, marginTop: 15 }}>Security</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('SecurityCode')}>
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
@@ -123,7 +124,8 @@ function Profile(props) {
             </TouchableOpacity>
             <View style={style.line} />
             <Text style={{ ...style.titleBlock, marginTop: 15 }}>About</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('OnProgress')}>
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
                 <Icon
                   reverse
