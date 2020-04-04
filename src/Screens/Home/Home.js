@@ -5,7 +5,7 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
-  FlatList,
+  RefreshControl,
   ActivityIndicator,
 } from 'react-native';
 import { Image, Card, Icon } from 'react-native-elements';
@@ -18,12 +18,30 @@ import Pay from '../../Helpers/Image/pay.png';
 import data from './Components/Data';
 import fiture from './Components/DataFiture';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile } from '../../Redux/actions/userDataAction';
 import formatRupiah from '../../Helpers/formatRupiah';
+
+function wait(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 function Home(props) {
   const methode = [{ image: Success }, { image: Pay }];
   const dispatch = useDispatch();
   const { dataProfile } = useSelector((state) => state.userData);
+  const [throws, setThrows] = React.useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefreshing = React.useCallback(() => {
+    setRefreshing(true);
+    wait(200).then(() => {
+      setRefreshing(false);
+      setThrows(dispatch(updateProfile()));
+    });
+  }, [refreshing]);
+
   return (
     <View style={{ flex: 1, backgroundColor: 'grey' }}>
       <View style={{ flex: 1 }}>
@@ -47,7 +65,14 @@ function Home(props) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 7, backgroundColor: 'white' }}>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefreshing}
+              />
+            }
+          >
             <ImageBackground
               source={Navbar}
               style={{ width: '100%', height: '47%' }}
@@ -141,7 +166,9 @@ function Home(props) {
               </View>
               <View style={style.line} />
               <View style={{ paddingHorizontal: 30 }}>
-                <Text style={style.methodTitle}>How to use Quick Cash</Text>
+                <Text style={style.methodTitle}>
+                  Get to know Quick Cash more closely
+                </Text>
               </View>
             </ImageBackground>
             <View style={style.methodCard}>
@@ -224,8 +251,8 @@ const style = StyleSheet.create({
   },
   methodTitle: {
     fontWeight: 'bold',
-    fontSize: 16,
-    color: '#363636',
+    fontSize: 15,
+    color: '#5d5d5d',
   },
   featureTitle: {
     marginTop: 8,
