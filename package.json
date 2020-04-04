@@ -1,5 +1,5 @@
 {
-  "name": "NativeProjectFintech",
+  "name": "QuickCash",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -17,13 +17,12 @@
     "@react-navigation/native": "^5.1.4",
     "@react-navigation/stack": "^5.2.9",
     "axios": "^0.19.2",
-    "expo-asset": "^8.1.2",
-    "expo-font": "^8.1.0",
     "formik": "^2.1.4",
     "jwt-decode": "^2.2.0",
     "native-base": "^2.13.12",
-    "react": "16.11.0",
-    "react-native": "0.62.0",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-camera": "^3.21.0",
     "react-native-dotenv": "^0.2.0",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.1",
@@ -35,9 +34,6 @@
     "react-native-svg": "^12.0.3",
     "react-native-tab-view": "^2.13.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-navigation": "^4.3.5",
-    "react-navigation-stack": "^2.3.9",
-    "react-navigation-tabs": "^2.8.9",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
@@ -48,11 +44,11 @@
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "@react-native-community/eslint-config": "^1.0.0",
-    "babel-jest": "^25.2.4",
+    "babel-jest": "^25.2.6",
     "eslint": "^6.8.0",
-    "jest": "^25.2.4",
+    "jest": "^25.2.7",
     "metro-react-native-babel-preset": "^0.59.0",
-    "react-test-renderer": "16.11.0"
+    "react-test-renderer": "16.9.0"
   },
   "jest": {
     "preset": "react-native"
