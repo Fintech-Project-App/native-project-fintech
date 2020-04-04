@@ -13,15 +13,17 @@ function InputValue(props) {
         height={260}
         borderRadius={20}
         style={{ padding: 20 }}
-        overlayStyle={{ padding: 20, paddingTop: 40 }}>
+        overlayStyle={{ padding: 20, paddingTop: 40 }}
+      >
         <>
           <Text
             style={{
               textAlign: 'center',
               fontSize: 17,
               color: '#252525',
-              marginTop: -10
-            }}>
+              marginTop: -10,
+            }}
+          >
             Enter Your Nominal Transfer
           </Text>
           <Input
@@ -48,7 +50,7 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     backgroundColor: '#53C9BE',
-    elevation: 4
+    elevation: 4,
   },
   input: {
     marginTop: 50,
@@ -59,12 +61,12 @@ const style = StyleSheet.create({
     width: 200,
     alignSelf: 'center',
     backgroundColor: 'white',
-    elevation: 2
+    elevation: 2,
   },
   inputText: {
     fontSize: 15,
     textAlign: 'center',
-    color: '#525252'
-  }
+    color: '#525252',
+  },
 });
 export default InputValue;

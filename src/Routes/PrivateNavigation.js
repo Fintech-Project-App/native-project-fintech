@@ -11,7 +11,6 @@ import OnProgress from '../Components/OnProgress';
 import ChangePassword from '../Screens/Security/ChangePassword';
 import SecurityCode from '../Screens/Security/SecurityCode';
 import HistoryDetail from '../Screens/Transaction/HistoryDetail';
-
 function PrivateNavigation(props) {
   const Stack = createStackNavigator();
   return (
