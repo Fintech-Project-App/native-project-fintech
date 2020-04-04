@@ -8,65 +8,22 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import Icons from 'react-native-vector-icons/FontAwesome5';
 import { Image, Card, Icon } from 'react-native-elements';
-import OnProgress from '../../Components/OnProgress';
 import Logo from '../../Helpers/Image/QC.png';
 import Navbar from '../../Helpers/Image/navbar.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Method from './Components/Method';
-import Topup from '../../Helpers/Image/topup.png';
-import History from '../../Helpers/Image/history.png';
-import TF from '../../Helpers/Image/trans.png';
-import PLN from '../../Helpers/Image/PLN.png';
-import Pulsa from '../../Helpers/Image/pulsa.png';
-import Data from '../../Helpers/Image/data.png';
-import BPJS from '../../Helpers/Image/BPJS.png';
 import Success from '../../Helpers/Image/success.png';
 import Pay from '../../Helpers/Image/pay.png';
+import data from './Components/Data';
+import fiture from './Components/DataFiture';
+import { useDispatch, useSelector } from 'react-redux';
+import formatRupiah from '../../Helpers/formatRupiah';
 
 function Home(props) {
-  const data = [
-    {
-      image: Topup,
-      title: 'Top Up',
-      navigate: 'TopupNavigate',
-    },
-    {
-      image: TF,
-      title: 'Transfer',
-      navigate: 'TransferNavigate',
-    },
-    {
-      image: History,
-      title: 'History',
-      navigate: 'HistoryNavigate',
-    },
-  ];
-  const fiture = [
-    {
-      image: PLN,
-      title: 'PLN',
-      navigate: 'OnProgress',
-    },
-    {
-      image: Pulsa,
-      title: 'Pulsa',
-      navigate: 'OnProgress',
-    },
-    {
-      image: Data,
-      title: 'Data',
-      navigate: 'OnProgress',
-    },
-    {
-      image: BPJS,
-      title: 'BPJS',
-      navigate: 'OnProgress',
-    },
-  ];
   const methode = [{ image: Success }, { image: Pay }];
-
+  const dispatch = useDispatch();
+  const { dataProfile } = useSelector((state) => state.userData);
   return (
     <View style={{ flex: 1, backgroundColor: 'grey' }}>
       <View style={{ flex: 1 }}>
@@ -100,7 +57,10 @@ function Home(props) {
                   <Text style={style.title}>Quick Cash</Text>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ ...style.cash, fontSize: 12 }}>Rp </Text>
-                    <Text style={{ ...style.cash }}>10.000</Text>
+                    <Text style={{ ...style.cash }}>
+                      {' '}
+                      {formatRupiah(dataProfile.balance)}
+                    </Text>
                   </View>
                 </View>
                 <View style={{ alignItem: 'center', marginTop: 5 }}>
