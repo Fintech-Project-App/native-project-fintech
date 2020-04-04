@@ -5,18 +5,43 @@ import {
   TouchableOpacity,
   Icon,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import { Button, Input, Image } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 import Icons from 'react-native-vector-icons/FontAwesome5';
+import { updateProfile } from '../../Redux/actions/userDataAction';
+import { useSelector, useDispatch } from 'react-redux';
+
+function wait(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 function Transfer(props) {
   const [reset, setReset] = React.useState('');
+  const [throws, setThrows] = React.useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const onRefreshing = React.useCallback(() => {
+    setRefreshing(true);
+    wait(200).then(() => {
+      setRefreshing(false);
+      setThrows(dispatch(updateProfile()));
+    });
+  }, [refreshing]);
 
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 8, marginBottom: 50 }}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefreshing} />
+          }
+        >
           <View style={{ paddingHorizontal: 25, marginTop: 30 }}>
             <Text style={style.betweenLabel}>Between Quick Cash User</Text>
             <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
@@ -104,12 +129,12 @@ const style = StyleSheet.create({
     color: 'white',
     marginTop: 25,
     marginLeft: 30,
-    marginBottom: 0
+    marginBottom: 0,
   },
   backIcon: {
     color: 'white',
     marginLeft: 15,
-    width: 20
+    width: 20,
   },
   input: {
     borderRadius: 10,
@@ -119,12 +144,12 @@ const style = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     marginTop: 10,
-    backgroundColor: '#eaeaea'
+    backgroundColor: '#eaeaea',
   },
   inputText: {
     fontSize: 13,
     marginLeft: 20,
-    color: '#525252'
+    color: '#525252',
   },
   line: {
     marginTop: 30,
@@ -132,7 +157,7 @@ const style = StyleSheet.create({
     borderBottomWidth: 6,
     width: '100%',
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   container: {
     borderWidth: 3,
@@ -142,7 +167,7 @@ const style = StyleSheet.create({
     marginTop: 10,
     paddingLeft: 15,
     paddingVertical: 12,
-    marginHorizontal: 35
+    marginHorizontal: 35,
   },
   banner: {
     alignSelf: 'center',
@@ -153,7 +178,7 @@ const style = StyleSheet.create({
     marginBottom: 50,
     padding: 15,
     paddingLeft: 30,
-    marginTop: 12
+    marginTop: 12,
   },
   transferbtn: {
     marginTop: -10,
@@ -162,7 +187,7 @@ const style = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#53C9BE',
     elevation: 4,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   inputNominal: {
     borderRadius: 10,
@@ -172,17 +197,17 @@ const style = StyleSheet.create({
     marginTop: -5,
     height: 50,
     width: '100%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   betweenLabel: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: '#444444'
+    color: '#444444',
   },
   transferContainer: {
     flex: 1,
     backgroundColor: '#f6f6f7',
     marginTop: -0,
-    elevation: 7
-  }
+    elevation: 7,
+  },
 });
