@@ -1,3 +1,4 @@
 import { combineReducers } from 'redux';
 import userData from '../reducers/userDataReducers';
-export default combineReducers({ userData });
+import historyData from '../reducers/historyData';
+export default combineReducers({ userData, historyData });
