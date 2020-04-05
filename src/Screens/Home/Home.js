@@ -13,8 +13,6 @@ import Logo from '../../Helpers/Image/QC.png';
 import Navbar from '../../Helpers/Image/navbar.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Method from './Components/Method';
-import Success from '../../Helpers/Image/success.png';
-import Pay from '../../Helpers/Image/pay.png';
 import data from './Components/Data';
 import fiture from './Components/DataFiture';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +26,6 @@ function wait(timeout) {
 }
 
 function Home(props) {
-  const methode = [{ image: Success }, { image: Pay }];
   const dispatch = useDispatch();
   const { dataProfile } = useSelector((state) => state.userData);
   const [throws, setThrows] = React.useState('');
@@ -176,9 +173,7 @@ function Home(props) {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                {methode.map((val, idx) => {
-                  return <Method key={idx} image={val.image} />;
-                })}
+                <Method />
               </ScrollView>
             </View>
           </ScrollView>
