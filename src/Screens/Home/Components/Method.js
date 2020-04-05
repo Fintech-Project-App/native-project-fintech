@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  View,
-  ImageBackground
-} from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import Success from '../../../Helpers/Image/success.png';
 import Pay from '../../../Helpers/Image/pay.png';
 function Method(props) {
@@ -20,8 +17,9 @@ function Method(props) {
               borderColor: '#dddddd',
               marginTop: 20,
               height: 140,
-              alignItems: 'center'
-            }}>
+              alignItems: 'center',
+            }}
+          >
             <ImageBackground
               source={val}
               style={{
