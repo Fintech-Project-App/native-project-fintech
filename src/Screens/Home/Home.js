@@ -80,7 +80,6 @@ function Home(props) {
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ ...style.cash, fontSize: 12 }}>Rp </Text>
                     <Text style={{ ...style.cash }}>
-                      {' '}
                       {formatRupiah(dataProfile.balance)}
                     </Text>
                   </View>

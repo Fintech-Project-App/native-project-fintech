@@ -6,14 +6,21 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  ActivityIndicator,
+  FlatList,
 } from 'react-native';
 import { Image, ListItem } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
-import Data from './Components/DataTopup';
+import formatRupiah from '../../Helpers/formatRupiah';
 import { useDispatch, useSelector } from 'react-redux';
 import { historyTopup } from '../../Redux/actions/userDataAction';
 import { API_URL } from 'react-native-dotenv';
-import moment from 'moment';
+
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings([
+  'Warning: VirtualizedLists should never be nested inside plain ScrollViews with the same orientation',
+  'Warning: Failed child context type: Invalid child',
+]);
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -24,10 +31,31 @@ function wait(timeout) {
 function HistoryTopup(props) {
   const [throws, setThrows] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [page, setPage] = React.useState(1);
 
   const dispatch = useDispatch();
-  const { dataHistory } = useSelector((state) => state.userData);
+  const { dataHistory } = useSelector((state) => state.historyData);
   const { dataProfile } = useSelector((state) => state.userData);
+  console.log(isLoading);
+
+  const renderFooter = () => {
+    return (
+      <View>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  };
+
+  const handleLoadMore = () => {
+    setPage(page + 1);
+    dispatch(historyTopup(page));
+  };
+
+  React.useCallback(() => {
+    setIsLoading(!isLoading);
+    dispatch(historyTopup());
+  }, []);
 
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
@@ -41,17 +69,21 @@ function HistoryTopup(props) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 12, backgroundColor: 'white' }}>
         {Object.keys(dataHistory).length > 0 && (
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefreshing}
-              />
-            }
-          >
+          <>
             <View style={{ paddingHorizontal: 20 }}>
-              {dataHistory.map((val, i) => (
-                <TouchableOpacity>
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefreshing}
+                  />
+                }
+                keyExtractor={(item) => item.id}
+                data={dataHistory}
+                ListFooterComponent={renderFooter}
+                onEndreached={handleLoadMore}
+                onEndreachedThreshold={0}
+                renderItem={({ item, index }) => (
                   <ListItem
                     title={
                       dataProfile.fullname !== null
@@ -66,10 +98,10 @@ function HistoryTopup(props) {
                         </View>
                         <View>
                           <Text style={style.date}>
-                            {new Date(val.createdAt).toDateString()}
+                            {new Date(item.createdAt).toDateString()}
                           </Text>
                           <Text style={style.balance}>
-                            + Rp. {val.topup_balance}
+                            + Rp.{formatRupiah(item.topup_balance)}
                           </Text>
                         </View>
                       </View>
@@ -79,11 +111,11 @@ function HistoryTopup(props) {
                       source: { uri: API_URL + dataProfile.picture },
                     }}
                   />
-                </TouchableOpacity>
-              ))}
+                )}
+              />
             </View>
             <View style={{ flex: 1, height: 80 }}></View>
-          </ScrollView>
+          </>
         )}
         {Object.keys(dataHistory).length < 1 && (
           <View style={style.container}>

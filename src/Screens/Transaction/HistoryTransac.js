@@ -6,10 +6,20 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  FlatList,
 } from 'react-native';
 import { Image, ListItem } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
 import Data from './Components/DataTransaction';
+import { useDispatch, useSelector } from 'react-redux';
+import { historyTransaction } from '../../Redux/actions/userDataAction';
+import { API_URL } from 'react-native-dotenv';
+import formatRupiah from '../../Helpers/formatRupiah';
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings([
+  'Warning: VirtualizedLists should never be nested inside plain ScrollViews with the same orientation',
+  'Warning: Failed child context type: Invalid child',
+]);
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -19,79 +29,96 @@ function wait(timeout) {
 
 function HistoryTransaction(props) {
   const [isAvailable, setIsAvailable] = React.useState(true);
-  const [isIncoming, setIsIncoming] = React.useState('Incoming');
+  const [isIncoming, setIsIncoming] = React.useState('Incoming Transfer');
   const [isRender, setIsRender] = React.useState(10);
   const [throws, setThrows] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const { dataTransaction } = useSelector((state) => state.historyData);
+  console.log('data', dataTransaction);
 
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
     wait(200).then(() => {
       setRefreshing(false);
-      setThrows(props.navigation.navigate('ProfileUpdate'));
+      setThrows(dispatch(historyTransaction()));
     });
   }, [refreshing]);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ flex: 12, backgroundColor: 'white' }}>
-        {isAvailable && (
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefreshing}
-              />
-            }
-          >
+        {dataTransaction.length > 0 && (
+          <>
             <View style={{ paddingHorizontal: 20 }}>
-              {Data.map((val, index) => {
-                if (index + 1 < isRender) {
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('HistoryDetail', {
-                          id: val.id,
-                          name: val.name,
-                          category: val.category,
-                          picture: val.picture,
-                          balance: val.topup_balance,
-                          date: val.created_on,
-                          desc: val.desc,
-                        })
-                      }
-                    >
-                      <ListItem
-                        title={val.name}
-                        titleStyle={{ fontWeight: 'bold', color: '#383838' }}
-                        subtitle={
-                          <View>
-                            <View>
-                              <Text style={style.categoryTitle}>
-                                {val.category}
-                              </Text>
-                            </View>
-                            <View>
-                              <Text style={style.date}>{val.created_on}</Text>
-                              <Text style={style.balance}>
-                                {isIncoming === val.category ? '+ ' : '- '}
-                                Rp. {val.topup_balance}
-                              </Text>
-                            </View>
-                          </View>
-                        }
-                        bottomDivider
-                        leftAvatar={{ source: { uri: val.picture } }}
-                      />
-                    </TouchableOpacity>
-                  );
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefreshing}
+                  />
                 }
-              })}
+                keyExtractor={(item) => item.id}
+                data={dataTransaction}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate('HistoryDetail', {
+                        name: item.senderName || item.receiverName,
+                        category: item.type_transaction,
+                        picture: item.senderPicture || item.receiverPicture,
+                        balance: item.amount,
+                        date: item.createdAt,
+                        desc: item.message,
+                      })
+                    }
+                  >
+                    <ListItem
+                      title={item.receiverName || item.senderName}
+                      titleStyle={{ fontWeight: 'bold', color: '#383838' }}
+                      subtitle={
+                        <View>
+                          <View>
+                            <Text style={style.categoryTitle}>
+                              {item.type_transaction}
+                            </Text>
+                          </View>
+                          <View>
+                            <Text style={style.date}>
+                              {new Date(item.createdAt).toDateString()}
+                            </Text>
+                            <Text style={style.balance}>
+                              {isIncoming === item.type_transaction
+                                ? '+ '
+                                : '- '}
+                              Rp. {formatRupiah(item.amount)}
+                            </Text>
+                            <Text style={style.from}>
+                              {isIncoming === item.type_transaction
+                                ? 'From'
+                                : 'For'}
+                            </Text>
+                          </View>
+                        </View>
+                      }
+                      bottomDivider
+                      leftAvatar={{
+                        source: {
+                          uri:
+                            API_URL +
+                            (item.senderPicture || item.receiverPicture),
+                        },
+                      }}
+                    />
+                  </TouchableOpacity>
+                )}
+              />
             </View>
             <View style={{ flex: 1, height: 80 }}></View>
-          </ScrollView>
+          </>
         )}
-        {!isAvailable && (
+        {!(dataHistory.length > 0) && (
           <View style={style.container}>
             <Text
               style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}
@@ -122,8 +149,9 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     backgroundColor: '#50b5a6',
-    borderRadius: 10,
-    width: 80,
+    borderRadius: 7,
+    width: 115,
+    padding: 2,
     color: 'white',
     fontSize: 12,
   },
@@ -149,6 +177,18 @@ const style = StyleSheet.create({
     paddingRight: 10,
     marginTop: 7,
     backgroundColor: 'white',
+  },
+  from: {
+    position: 'absolute',
+    right: 0,
+    marginTop: -41,
+    backgroundColor: '#bbbbbb',
+    borderRadius: 6,
+    width: 40,
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 11,
+    padding: 2,
   },
 });
 export default HistoryTransaction;

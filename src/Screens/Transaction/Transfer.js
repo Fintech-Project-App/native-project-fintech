@@ -11,7 +11,10 @@ import {
 import { Button, Input, Image, Avatar } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import { updateProfile } from '../../Redux/actions/userDataAction';
+import {
+  updateProfile,
+  historyTransaction,
+} from '../../Redux/actions/userDataAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, submitData } from '../../Helpers/CRUD';
 import { API_URL } from 'react-native-dotenv';
@@ -64,6 +67,7 @@ function Transfer(props) {
           form.resetForm();
           form.setSubmitting(false);
           dispatch(updateProfile());
+          dispatch(historyTransaction());
           CustomAlert(response.data.success, response.data.msg);
         } else {
           CustomAlert(response.data.success, response.data.msg);

@@ -5,17 +5,20 @@ import Icons from 'react-native-vector-icons/FontAwesome5';
 import Income from '../../Helpers/Image/income.png';
 import Outgoing from '../../Helpers/Image/outgoing.png';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import formatRupiah from '../../Helpers/formatRupiah';
+import { API_URL } from 'react-native-dotenv';
 
 function HistoryDetail(props) {
-  const [isPicture, setPicture] = React.useState('Incoming');
-  const [isIncoming, setIsIncoming] = React.useState('Incoming');
+  const [isPicture, setPicture] = React.useState('Incoming Transfer');
+  const [isIncoming, setIsIncoming] = React.useState('Incoming Transfer');
 
   return (
     <View style={{ flex: 1 }}>
       <View style={style.topContainer}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.navigate('Home')}>
+          onPress={() => props.navigation.navigate('Home')}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
         <Text style={style.title}>Detail</Text>
@@ -25,11 +28,12 @@ function HistoryDetail(props) {
           style={{
             backgroundColor: '#f7f7f6',
             height: 150,
-          }}>
+          }}
+        >
           <View style={{ flexDirection: 'row' }}>
             <Avatar
               rounded
-              source={{ uri: props.route.params.picture }}
+              source={{ uri: API_URL + props.route.params.picture }}
               size={50}
               title=""
               containerStyle={style.avatarUser}
@@ -43,7 +47,7 @@ function HistoryDetail(props) {
             </View>
             <Text style={style.balance}>
               {isIncoming === props.route.params.category ? '+ ' : '- '}
-              Rp. {props.route.params.balance}
+              Rp. {formatRupiah(props.route.params.balance)}
             </Text>
           </View>
         </View>
@@ -64,7 +68,9 @@ function HistoryDetail(props) {
                 <View style={style.detailContainer}>
                   <View style={{ flexDirection: 'row' }}>
                     <Icon name="clock" size={17} style={style.iconDetail} />
-                    <Text style={style.date}>{props.route.params.date}</Text>
+                    <Text style={style.date}>
+                      {new Date(props.route.params.date).toDateString()}
+                    </Text>
                   </View>
                   <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Icon
@@ -72,7 +78,11 @@ function HistoryDetail(props) {
                       size={17}
                       style={style.iconDetail}
                     />
-                    <Text style={style.desc}>{props.route.params.desc}</Text>
+                    <Text style={style.desc}>
+                      {!props.route.params.desc
+                        ? 'null'
+                        : props.route.params.desc}
+                    </Text>
                   </View>
                 </View>
               }
@@ -168,7 +178,8 @@ const style = StyleSheet.create({
     color: 'grey',
   },
   desc: {
-    color: '#3f3f3f',
+    color: '#8a8a8a',
+    marginLeft: 3,
   },
   iconDetail: {
     color: '#b9b3b3',

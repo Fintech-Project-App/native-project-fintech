@@ -1,9 +1,7 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Topup from '../../Screens/Profile/TopUp';
-import TopupOther from '../../Screens/Profile/TopUpOther';
-import Header from '../../Screens/Transaction/Components/Header';
 import Transfer from '../../Screens/Transaction/Transfer';
+import { YellowBox } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
