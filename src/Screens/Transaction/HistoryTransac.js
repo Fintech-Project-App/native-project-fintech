@@ -108,7 +108,7 @@ function HistoryTransaction(props) {
                           </View>
                           <View>
                             <Text style={style.date}>
-                              {new Date(item.createdAt).toTimeString()}
+                              {new Date(item.createdAt).toDateString()}
                             </Text>
                             <Text style={style.balance}>
                               {isIncoming === item.type_transaction
