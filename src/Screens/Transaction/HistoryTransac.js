@@ -10,9 +10,7 @@ import {
 } from 'react-native';
 import { Image, ListItem } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
-import Data from './Components/DataTransaction';
-import { useDispatch, useSelector } from 'react-redux';
-import { historyTransaction } from '../../Redux/actions/userDataAction';
+import { getData } from '../../Helpers/CRUD';
 import { API_URL } from 'react-native-dotenv';
 import formatRupiah from '../../Helpers/formatRupiah';
 import { YellowBox } from 'react-native';
@@ -28,23 +26,45 @@ function wait(timeout) {
 }
 
 function HistoryTransaction(props) {
-  const [isAvailable, setIsAvailable] = React.useState(true);
   const [isIncoming, setIsIncoming] = React.useState('Incoming Transfer');
-  const [isRender, setIsRender] = React.useState(10);
-  const [throws, setThrows] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
-
-  const dispatch = useDispatch();
-  const { dataTransaction } = useSelector((state) => state.historyData);
-  console.log('data', dataTransaction);
-
+  const [page, setPage] = React.useState(1);
+  const [statusNextPage, setStatusNextPage] = React.useState(true);
+  const [dataTransaction, setDataTransaction] = React.useState(false);
+  const historyTransaction = async (activepage) => {
+    try {
+      const response = await getData(
+        'history-transaction?limit=10&page=' + activepage
+      );
+      if (response.data && response.data.success && response.data.data) {
+        setStatusNextPage(response.data.pagination.nextPage ? true : false);
+        if (page > 1) {
+          setDataTransaction((data) => [...data, ...response.data.data]);
+        } else {
+          setDataTransaction(response.data.data);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
     wait(200).then(() => {
       setRefreshing(false);
-      setThrows(dispatch(historyTransaction()));
+      setPage(1);
+      historyTransaction(1);
     });
   }, [refreshing]);
+
+  const handleLoadMore = () => {
+    if (statusNextPage) {
+      setPage(page + 1);
+    }
+  };
+  React.useEffect(() => {
+    historyTransaction(page);
+  }, [page]);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -59,7 +79,9 @@ function HistoryTransaction(props) {
                     onRefresh={onRefreshing}
                   />
                 }
-                keyExtractor={(item) => item.id}
+                onEndReached={() => handleLoadMore()}
+                onEndReachedThreshold={0.01}
+                keyExtractor={(item, index) => index}
                 data={dataTransaction}
                 renderItem={({ item, index }) => (
                   <TouchableOpacity
@@ -86,7 +108,7 @@ function HistoryTransaction(props) {
                           </View>
                           <View>
                             <Text style={style.date}>
-                              {new Date(item.createdAt).toDateString()}
+                              {new Date(item.createdAt).toTimeString()}
                             </Text>
                             <Text style={style.balance}>
                               {isIncoming === item.type_transaction
@@ -115,21 +137,24 @@ function HistoryTransaction(props) {
                 )}
               />
             </View>
-            <View style={{ flex: 1, height: 80 }}></View>
+            <View style={{ flex: 1, height: 80 }} />
           </>
         )}
         {!(dataTransaction && dataTransaction.length > 0) && (
-          <ScrollView refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefreshing}
-            />}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefreshing}
+              />
+            }
+          >
             <View style={style.container}>
               <Text
                 style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}
               >
                 View History
-            </Text>
+              </Text>
               <Text style={{ color: '#909090' }}>There is no transaction</Text>
               <Image source={Empty} style={style.emptyImg} />
             </View>
