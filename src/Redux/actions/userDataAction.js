@@ -4,6 +4,7 @@ import {
   UPDATE_PROFILE,
   USER_CHANGE_PASSWORD,
   HISTORY_TOPUP,
+  HISTORY_TRANSACTION,
 } from './actionTypes';
 import { getData, submitData, patchData } from '../../Helpers/CRUD';
 
@@ -59,11 +60,27 @@ export const changePassword = (data) => async (dispatch) => {
 
 export const historyTopup = () => async (dispatch) => {
   try {
-    const response = await getData('history-topup');
+    const response = await getData(`history-topup`);
     console.log('data', response.data.data);
     if (response.data && response.data.success) {
       await dispatch({
         type: HISTORY_TOPUP,
+        payload: response.data.data,
+      });
+    }
+    return response.data.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const historyTransaction = () => async (dispatch) => {
+  try {
+    const response = await getData(`history-transaction`);
+    if (response.data && response.data.success) {
+      await dispatch({
+        type: HISTORY_TRANSACTION,
         payload: response.data.data,
       });
     }
