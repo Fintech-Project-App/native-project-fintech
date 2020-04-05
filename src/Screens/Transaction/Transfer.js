@@ -75,7 +75,7 @@ function Transfer(props) {
           CustomAlert(response.data.success, response.data.msg);
         }
       } catch (err) {
-        if (err.response.data && err.response.data.msg) {
+        if (err.response && err.response.data && err.response.data.msg) {
           CustomAlert(err.response.data.success, err.response.data.msg);
         } else {
           console.log(err);

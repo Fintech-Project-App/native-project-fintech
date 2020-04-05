@@ -29,14 +29,20 @@ function Login(props) {
       password: Yup.string().required('Password is Required'),
     }),
     onSubmit: async (values, form) => {
+      setLoading(true);
       try {
-        setLoading(true);
         const response = await dispatch(userLogin(values));
         if (response.data && !response.data.success) {
           CustomAlert(response.data.success, response.data.msg);
         }
       } catch (err) {
-        CustomAlert(err.response.data.success, err.response.data.msg);
+        setLoading(false);
+        console.log('er', err)
+        if (!(err.message === 'Network Error')) {
+          if (err.response) {
+            CustomAlert(err.response.data.success, err.response.data.msg);
+          }
+        }
       }
       setLoading(false);
     },

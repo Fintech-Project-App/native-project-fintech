@@ -25,9 +25,8 @@ function ForgotPassword(props) {
       username: Yup.string().required('Enter Username To Reset Your Password'),
     }),
     onSubmit: async (values, form) => {
-      console.log(values);
+      setLoading(true);
       try {
-        setLoading(true);
         const response = await submitData('forgot-password', values);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
@@ -39,7 +38,11 @@ function ForgotPassword(props) {
           CustomAlert(response.data.success, response.data.msg);
         }
       } catch (err) {
-        CustomAlert(err.response.data.success, err.response.data.msg);
+        if (!(err.message === 'Network Error')) {
+          if (err.response) {
+            CustomAlert(err.response.data.success, err.response.data.msg);
+          }
+        }
       }
       setLoading(false);
     },

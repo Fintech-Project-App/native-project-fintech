@@ -70,7 +70,11 @@ function ProfileUpdate(props) {
         }
       } catch (err) {
         console.log(err);
-        CustomAlert(err.response.data.success, err.response.data.msg);
+        if (!(err.message === 'Network Error')) {
+          if (err.response) {
+            CustomAlert(err.response.data.success, err.response.data.msg);
+          }
+        }
       }
       setLoading(false);
     },

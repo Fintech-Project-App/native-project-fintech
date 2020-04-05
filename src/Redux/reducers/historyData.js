@@ -1,4 +1,4 @@
-import { HISTORY_TOPUP, HISTORY_TRANSACTION } from '../actions/actionTypes';
+import { HISTORY_TOPUP, HISTORY_TRANSACTION, CLEAR_HISTORY } from '../actions/actionTypes';
 const initialState = {
   dataHistory: [],
   dataTransaction: [],
@@ -16,6 +16,8 @@ export default function historyData(state = initialState, action) {
         ...state,
         dataTransaction: action.payload,
       };
+    case CLEAR_HISTORY:
+      return initialState
     default:
       return state;
   }

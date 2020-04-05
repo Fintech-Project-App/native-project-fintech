@@ -5,6 +5,7 @@ import {
   USER_CHANGE_PASSWORD,
   HISTORY_TOPUP,
   HISTORY_TRANSACTION,
+  CLEAR_HISTORY
 } from './actionTypes';
 import { getData, submitData, patchData } from '../../Helpers/CRUD';
 
@@ -19,12 +20,18 @@ export const userLogin = (data) => async (dispatch) => {
     }
     return response;
   } catch (err) {
-    throw err;
+    console.log('alen', err)
+    if (!(err.message === 'Network Error')) {
+      throw err;
+    }
   }
 };
 export const userLogout = () => async (dispatch) => {
   await dispatch({
     type: USER_LOGOUT,
+  });
+  await dispatch({
+    type: CLEAR_HISTORY,
   });
 };
 export const updateProfile = () => async (dispatch) => {
@@ -38,8 +45,10 @@ export const updateProfile = () => async (dispatch) => {
     }
     return response.data;
   } catch (err) {
-    console.log(err);
-    throw err;
+    console.log(err)
+    if (!(err.message === 'Network Error')) {
+      throw err;
+    }
   }
 };
 
@@ -54,14 +63,16 @@ export const changePassword = (data) => async (dispatch) => {
     }
     return response;
   } catch (err) {
-    throw err;
+    console.log(err)
+    if (!(err.message === 'Network Error')) {
+      throw err;
+    }
   }
 };
 
 export const historyTopup = () => async (dispatch) => {
   try {
     const response = await getData(`history-topup`);
-    console.log('data', response.data.data);
     if (response.data && response.data.success) {
       await dispatch({
         type: HISTORY_TOPUP,
@@ -70,8 +81,10 @@ export const historyTopup = () => async (dispatch) => {
     }
     return response.data.data;
   } catch (err) {
-    console.log(err);
-    throw err;
+    console.log(err)
+    if (!(err.message === 'Network Error')) {
+      throw err;
+    }
   }
 };
 
@@ -86,7 +99,9 @@ export const historyTransaction = () => async (dispatch) => {
     }
     return response.data.data;
   } catch (err) {
-    console.log(err);
-    throw err;
+    console.log(err)
+    if (!(err.message === 'Network Error')) {
+      throw err;
+    }
   }
 };
