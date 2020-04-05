@@ -80,7 +80,6 @@ function Home(props) {
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ ...style.cash, fontSize: 12 }}>Rp </Text>
                     <Text style={{ ...style.cash }}>
-                      {' '}
                       {formatRupiah(dataProfile.balance)}
                     </Text>
                   </View>
@@ -101,7 +100,7 @@ function Home(props) {
                           key={i}
                           style={{ marginHorizontal: 25 }}
                           onPress={() =>
-                            props.navigation.navigate(val.navigate)
+                            props.navigation.navigate(val.navigate, val.params)
                           }
                         >
                           <View>

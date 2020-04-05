@@ -11,7 +11,10 @@ import {
 import { Button, Input, Image, Avatar } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 import Icons from 'react-native-vector-icons/FontAwesome5';
-import { updateProfile } from '../../Redux/actions/userDataAction';
+import {
+  updateProfile,
+  historyTransaction,
+} from '../../Redux/actions/userDataAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, submitData } from '../../Helpers/CRUD';
 import { API_URL } from 'react-native-dotenv';
@@ -28,11 +31,12 @@ function wait(timeout) {
   });
 }
 function Transfer(props) {
+  console.log('alen')
   const { dataProfile } = useSelector((state) => state.userData);
   const [userReceiver, setUserReceiver] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-
+  const [dataUser, setDataUser] = React.useState(false)
   const dispatch = useDispatch();
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
@@ -60,10 +64,12 @@ function Transfer(props) {
         setLoading(true);
         const response = await submitData('transfer', values);
         if (response.data && response.data.success) {
-          setUserReceiver('');
+          setUserReceiver(false);
+          setDataUser(false)
           form.resetForm();
           form.setSubmitting(false);
           dispatch(updateProfile());
+          dispatch(historyTransaction());
           CustomAlert(response.data.success, response.data.msg);
         } else {
           CustomAlert(response.data.success, response.data.msg);
@@ -78,7 +84,7 @@ function Transfer(props) {
       setLoading(false);
     },
   });
-  const getDataUser = async (id) => {
+  const getUserReceiver = async (id) => {
     try {
       const response = await getData('users/' + id);
       if (response.data && response.data.success) {
@@ -90,10 +96,26 @@ function Transfer(props) {
       console.log(err);
     }
   };
+  const getAllUser = async (value) => {
+    try {
+      if (value.length > 2) {
+        const response = await getData('users?search=' + value);
+        if (response.data && response.data.success) {
+          setDataUser(response.data.data);
+        } else {
+          console.log(response.data);
+        }
+      } else {
+        setDataUser(false);
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
   React.useEffect(() => {
     if (props.route.params && props.route.params.userId) {
       Vibration.vibrate(100);
-      getDataUser(props.route.params.userId);
+      getUserReceiver(props.route.params.userId);
     }
   }, []);
 
@@ -102,6 +124,7 @@ function Transfer(props) {
       {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={{ flex: 8, marginBottom: 50 }}>
         <ScrollView
+          nestedScrollEnabled={true}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefreshing} />
           }
@@ -116,6 +139,9 @@ function Transfer(props) {
                   marginTop: 15,
                 }}
               >
+                <TouchableOpacity onPress={() => { setDataUser(false); setUserReceiver(false) }}>
+                  <Icons name='times' size={20} color='red'></Icons>
+                </TouchableOpacity>
                 <Avatar
                   rounded
                   containerStyle={style.avatar}
@@ -135,28 +161,30 @@ function Transfer(props) {
                 </View>
               </View>
             ) : (
-              <>
-                <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
-                  input the recipient's username
-                </Text>
-                <Input
-                  placeholder="Username"
-                  inputContainerStyle={{ ...style.input }}
-                  inputStyle={style.inputText}
-                  rightIcon={
-                    <TouchableOpacity>
-                      <Icons
-                        name="times"
-                        size={15}
-                        color="grey"
-                        style={{ marginRight: 20 }}
-                        onPress={() => setReset(reset)}
-                      />
-                    </TouchableOpacity>
+                <>
+                  <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
+                    input the recipient's username
+                  </Text>
+                  <Input
+                    placeholder="Username"
+                    onChangeText={(value) => getAllUser(value)}
+                    inputContainerStyle={{ ...style.input }}
+                    inputStyle={style.inputText} />
+                  {
+                    dataUser && (
+                      <ScrollView style={{ maxHeight: 100, paddingHorizontal: 15, borderRadius: 5 }} nestedScrollEnabled={true}>
+                        <View style={{ backgroundColor: '#eee', position: 'relative', zIndex: 9 }}>
+                          {dataUser.map((v) => (
+                            <TouchableOpacity key={v.id} style={{ paddingVertical: 7, paddingHorizontal: 20, borderBottomStartRadius: 10, borderBottomEndRadius: 10 }} onPress={() => setUserReceiver(v)}>
+                              <Text style={{ color: '#333', fontSize: 15 }}>{v.username}</Text>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                      </ScrollView>
+                    )
                   }
-                />
-              </>
-            )}
+                </>
+              )}
             <Text style={{ fontSize: 13, color: '#7e7e7e', marginTop: 15 }}>
               Message (optional)
             </Text>

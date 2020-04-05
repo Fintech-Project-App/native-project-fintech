@@ -2,13 +2,11 @@ import {
   USER_LOGIN,
   USER_LOGOUT,
   UPDATE_PROFILE,
-  HISTORY_TOPUP,
 } from '../actions/actionTypes';
 const initialState = {
   token: '',
   isLogin: false,
   dataProfile: {},
-  dataHistory: [],
 };
 
 export default function userData(state = initialState, action) {
@@ -25,11 +23,6 @@ export default function userData(state = initialState, action) {
       return {
         ...state,
         dataProfile: action.payload,
-      };
-    case HISTORY_TOPUP:
-      return {
-        ...state,
-        dataHistory: action.payload,
       };
     default:
       return state;
