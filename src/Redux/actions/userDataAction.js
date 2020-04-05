@@ -5,7 +5,7 @@ import {
   USER_CHANGE_PASSWORD,
   HISTORY_TOPUP,
   HISTORY_TRANSACTION,
-  CLEAR_HISTORY
+  CLEAR_HISTORY,
 } from './actionTypes';
 import { getData, submitData, patchData } from '../../Helpers/CRUD';
 
@@ -20,7 +20,6 @@ export const userLogin = (data) => async (dispatch) => {
     }
     return response;
   } catch (err) {
-    console.log('alen', err)
     if (!(err.message === 'Network Error')) {
       throw err;
     }
@@ -45,7 +44,6 @@ export const updateProfile = () => async (dispatch) => {
     }
     return response.data;
   } catch (err) {
-    console.log(err)
     if (!(err.message === 'Network Error')) {
       throw err;
     }
@@ -63,7 +61,6 @@ export const changePassword = (data) => async (dispatch) => {
     }
     return response;
   } catch (err) {
-    console.log(err)
     if (!(err.message === 'Network Error')) {
       throw err;
     }
@@ -72,7 +69,7 @@ export const changePassword = (data) => async (dispatch) => {
 
 export const historyTopup = () => async (dispatch) => {
   try {
-    const response = await getData(`history-topup`);
+    const response = await getData('history-topup?limit=3&page=1');
     if (response.data && response.data.success) {
       await dispatch({
         type: HISTORY_TOPUP,
@@ -81,7 +78,6 @@ export const historyTopup = () => async (dispatch) => {
     }
     return response.data.data;
   } catch (err) {
-    console.log(err)
     if (!(err.message === 'Network Error')) {
       throw err;
     }
@@ -90,8 +86,9 @@ export const historyTopup = () => async (dispatch) => {
 
 export const historyTransaction = () => async (dispatch) => {
   try {
-    const response = await getData(`history-transaction`);
+    const response = await getData('history-transaction?limit=1&page=1');
     if (response.data && response.data.success) {
+      console.log(response.data.pagination);
       await dispatch({
         type: HISTORY_TRANSACTION,
         payload: response.data.data,
@@ -99,7 +96,6 @@ export const historyTransaction = () => async (dispatch) => {
     }
     return response.data.data;
   } catch (err) {
-    console.log(err)
     if (!(err.message === 'Network Error')) {
       throw err;
     }

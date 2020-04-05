@@ -9,12 +9,12 @@ import {
   ActivityIndicator,
   FlatList,
 } from 'react-native';
-import { Image, ListItem } from 'react-native-elements';
+import { Image, ListItem, Divider } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
 import formatRupiah from '../../Helpers/formatRupiah';
-import { useDispatch, useSelector } from 'react-redux';
-import { historyTopup } from '../../Redux/actions/userDataAction';
+import { useSelector } from 'react-redux';
 import { API_URL } from 'react-native-dotenv';
+import { getData } from '../../Helpers/CRUD';
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings([
@@ -31,40 +31,44 @@ function wait(timeout) {
 function HistoryTopup(props) {
   const [throws, setThrows] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
   const [page, setPage] = React.useState(1);
-
-  const dispatch = useDispatch();
-  const { dataHistory } = useSelector((state) => state.historyData);
+  const [statusNextPage, setStatusNextPage] = React.useState(true);
+  const [dataHistory, setDataHistory] = React.useState(false);
   const { dataProfile } = useSelector((state) => state.userData);
-  console.log(isLoading);
-
-  const renderFooter = () => {
-    return (
-      <View>
-        <ActivityIndicator size="large" />
-      </View>
-    );
+  const historyTopup = async (activePage) => {
+    try {
+      const response = await getData(
+        'history-topup?limit=10&page=' + activePage
+      );
+      if (response.data && response.data.success && response.data.data) {
+        setStatusNextPage(response.data.pagination.nextPage ? true : false);
+        if (activePage > 1) {
+          setDataHistory((data) => [...data, ...response.data.data]);
+        } else {
+          setDataHistory(response.data.data);
+        }
+      }
+      return response.data.data;
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-  const handleLoadMore = () => {
-    setPage(page + 1);
-    dispatch(historyTopup(page));
+  const handleLoadMore = async () => {
+    if (statusNextPage) {
+      setPage(page + 1);
+    }
   };
-
-  React.useCallback(() => {
-    setIsLoading(!isLoading);
-    dispatch(historyTopup());
-  }, []);
 
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
-    wait(200).then(() => {
+    wait(200).then(async () => {
       setRefreshing(false);
-      setThrows(dispatch(historyTopup()));
+      setPage(1);
     });
   }, [refreshing]);
-
+  React.useEffect(() => {
+    historyTopup(page);
+  }, [page]);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 12, backgroundColor: 'white' }}>
@@ -78,11 +82,11 @@ function HistoryTopup(props) {
                     onRefresh={onRefreshing}
                   />
                 }
-                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={true}
+                keyExtractor={(item, index) => index}
                 data={dataHistory}
-                ListFooterComponent={renderFooter}
-                onEndreached={handleLoadMore}
-                onEndreachedThreshold={0}
+                onEndReached={() => handleLoadMore()}
+                onEndReachedThreshold={0.01}
                 renderItem={({ item, index }) => (
                   <ListItem
                     title={
@@ -114,21 +118,24 @@ function HistoryTopup(props) {
                 )}
               />
             </View>
-            <View style={{ flex: 1, height: 80 }}></View>
+            <View style={{ flex: 1, height: 80 }} />
           </>
         )}
         {!(dataHistory && dataHistory.length > 0) && (
-          <ScrollView refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefreshing}
-            />}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefreshing}
+              />
+            }
+          >
             <View style={style.container}>
               <Text
                 style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}
               >
                 View History
-            </Text>
+              </Text>
               <Text style={{ color: '#909090' }}>There is no transaction</Text>
               <Image source={Empty} style={style.emptyImg} />
             </View>
