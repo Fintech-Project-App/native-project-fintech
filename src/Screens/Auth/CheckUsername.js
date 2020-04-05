@@ -14,7 +14,11 @@ import * as Yup from 'yup';
 import CustomTextInput from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
 import { submitData } from '../../Helpers/CRUD';
+import Loader from '../../Components/Loader';
+
 function ForgotPassword(props) {
+  const [loading, setLoading] = React.useState(false);
+
   const FormCheckUsername = useFormik({
     initialValues: { username: '' },
     validationSchema: Yup.object({
@@ -23,6 +27,7 @@ function ForgotPassword(props) {
     onSubmit: async (values, form) => {
       console.log(values);
       try {
+        setLoading(true);
         const response = await submitData('forgot-password', values);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
@@ -36,14 +41,17 @@ function ForgotPassword(props) {
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}>
+          onPress={() => props.navigation.goBack()}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
       </View>

@@ -20,6 +20,7 @@ import formatRupiah from '../../Helpers/formatRupiah';
 import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
+import Loader from '../../Components/Loader';
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -30,8 +31,9 @@ function Transfer(props) {
   const { dataProfile } = useSelector((state) => state.userData);
   const [userReceiver, setUserReceiver] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(false);
 
+  const dispatch = useDispatch();
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
     wait(200).then(() => {
@@ -55,6 +57,7 @@ function Transfer(props) {
     }),
     onSubmit: async (values, form) => {
       try {
+        setLoading(true);
         const response = await submitData('transfer', values);
         if (response.data && response.data.success) {
           setUserReceiver('');
@@ -72,6 +75,7 @@ function Transfer(props) {
           console.log(err);
         }
       }
+      setLoading(false);
     },
   });
   const getDataUser = async (id) => {
@@ -95,6 +99,7 @@ function Transfer(props) {
 
   return (
     <View style={{ flex: 1 }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={{ flex: 8, marginBottom: 50 }}>
         <ScrollView
           refreshControl={

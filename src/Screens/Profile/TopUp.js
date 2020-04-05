@@ -10,6 +10,7 @@ import { Image, Button, Input } from 'react-native-elements';
 import QCTopup from '../../Helpers/Image/QCTopup.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../../Redux/actions/userDataAction';
+import { historyTopup } from '../../Redux/actions/userDataAction';
 import formatRupiah from '../../Helpers/formatRupiah';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -17,6 +18,7 @@ import { submitData } from '../../Helpers/CRUD';
 import OverlayImg from '../../Components/OverlayImg';
 import CustomAlert from '../../Components/CustomAlert';
 import CustomInputText from '../../Components/CustomInputText';
+import Loader from '../../Components/Loader';
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -30,6 +32,7 @@ function Topup(props) {
   const [isVisible, setHideVisible] = React.useState(false);
   const [throws, setThrows] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
@@ -50,9 +53,11 @@ function Topup(props) {
     }),
     onSubmit: async (values, form) => {
       try {
+        setLoading(true);
         const response = await submitData('topup', values);
         if (response.data && response.data.success) {
           dispatch(updateProfile());
+          dispatch(historyTopup());
           setActiveBtn(0);
           form.setSubmitting(false);
           form.resetForm();
@@ -64,6 +69,7 @@ function Topup(props) {
         console.log(err);
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
   const handleBtnNominalTopup = (value) => {
@@ -72,6 +78,7 @@ function Topup(props) {
   };
   return (
     <View style={{ flex: 1, backgroundColor: '#fbfbfb' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       {isVisible && (
         <OverlayImg
           message={`Topup Success For ${dataProfile.username}`}
@@ -97,6 +104,7 @@ function Topup(props) {
                   <Text style={{ fontWeight: 'bold', color: '#646464' }}>
                     Quick Cash
                   </Text>
+
                   <Text style={{ color: '#646464', fontSize: 13 }}>
                     Saldo Rp. {formatRupiah(dataProfile.balance)}
                   </Text>

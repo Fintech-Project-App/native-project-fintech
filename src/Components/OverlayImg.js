@@ -14,7 +14,8 @@ function OverlayImg(props) {
         height={310}
         borderRadius={20}
         style={{ padding: 20 }}
-        overlayStyle={{ padding: 20, paddingTop: 40 }}>
+        overlayStyle={{ padding: 20, paddingTop: 40 }}
+      >
         <>
           <Text
             style={{
@@ -22,7 +23,8 @@ function OverlayImg(props) {
               fontSize: 18,
               color: '#545454',
               marginTop: -10,
-            }}>
+            }}
+          >
             {props.message}
           </Text>
           <View style={{ alignSelf: 'center', marginTop: 20 }}>
@@ -44,7 +46,7 @@ function OverlayImg(props) {
 
 const style = StyleSheet.create({
   confirm: {
-    marginTop: 50,
+    marginTop: 30,
     width: '50%',
     alignSelf: 'center',
     borderRadius: 10,
