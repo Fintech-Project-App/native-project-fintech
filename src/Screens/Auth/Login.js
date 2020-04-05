@@ -15,8 +15,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
+import Loader from '../../Components/Loader';
+
 function Login(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
   const dispatch = useDispatch();
   const FormLogin = useFormik({
     initialValues: { username: '', password: '' },
@@ -26,6 +30,7 @@ function Login(props) {
     }),
     onSubmit: async (values, form) => {
       try {
+        setLoading(true);
         const response = await dispatch(userLogin(values));
         if (response.data && !response.data.success) {
           CustomAlert(response.data.success, response.data.msg);
@@ -33,11 +38,13 @@ function Login(props) {
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f1edee' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}

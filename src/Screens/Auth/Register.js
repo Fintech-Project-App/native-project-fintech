@@ -14,15 +14,19 @@ import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
 import { submitData } from '../../Helpers/CRUD';
 import CustomAlert from '../../Components/CustomAlert';
+import Loader from '../../Components/Loader';
+
 function Register(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [hideConfirmPass, setHideConfirmPass] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
   const FormRegister = useFormik({
     initialValues: {
       username: '',
       email: '',
       password: '',
-      confirm_passoword: '',
+      confirm_password: '',
     },
     validationSchema: Yup.object({
       username: Yup.string()
@@ -40,6 +44,7 @@ function Register(props) {
     }),
     onSubmit: async (values, form) => {
       try {
+        setLoading(true);
         const response = await submitData('register', values);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
@@ -53,14 +58,17 @@ function Register(props) {
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
   return (
     <View style={{ flex: 1, backgroundColor: '#f1edee' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={{ flex: 1, paddingBottom: 30 }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}>
+          onPress={() => props.navigation.goBack()}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
         <View style={style.container}>
@@ -83,7 +91,8 @@ function Register(props) {
                 paddingRight: 50,
                 marginTop: 60,
                 marginBottom: 70,
-              }}>
+              }}
+            >
               <CustomInputText
                 placeholder="Your username ..."
                 form={FormRegister}
@@ -105,7 +114,8 @@ function Register(props) {
                 secureTextEntry={hidePassword ? true : false}
                 rightIcon={
                   <TouchableOpacity
-                    onPress={() => setHidePassword(!hidePassword)}>
+                    onPress={() => setHidePassword(!hidePassword)}
+                  >
                     <Icons
                       name={hidePassword ? 'eye-slash' : 'eye'}
                       size={15}
@@ -125,7 +135,8 @@ function Register(props) {
                 secureTextEntry={hideConfirmPass ? true : false}
                 rightIcon={
                   <TouchableOpacity
-                    onPress={() => setHideConfirmPass(!hideConfirmPass)}>
+                    onPress={() => setHideConfirmPass(!hideConfirmPass)}
+                  >
                     <Icons
                       name={hideConfirmPass ? 'eye-slash' : 'eye'}
                       size={15}
@@ -157,12 +168,14 @@ function Register(props) {
 
               <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
                 <Text
-                  style={{ ...style.quotes, marginTop: 70, marginBottom: -60 }}>
+                  style={{ ...style.quotes, marginTop: 70, marginBottom: -60 }}
+                >
                   Already have account ?
                 </Text>
                 <TouchableOpacity
                   onPress={() => props.navigation.navigate('Login')}
-                  style={{ marginTop: 45, marginBottom: -60 }}>
+                  style={{ marginTop: 45, marginBottom: -60 }}
+                >
                   <Text style={style.alreadySign}>Log in</Text>
                 </TouchableOpacity>
               </View>

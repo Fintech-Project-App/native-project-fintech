@@ -14,7 +14,11 @@ import * as Yup from 'yup';
 import CustomTextInput from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
 import { getData } from '../../Helpers/CRUD';
+import Loader from '../../Components/Loader';
+
 function Verify(props) {
+  const [loading, setLoading] = React.useState(false);
+
   const FormVerify = useFormik({
     initialValues: { code_verify: '' },
     validationSchema: Yup.object({
@@ -24,6 +28,7 @@ function Verify(props) {
     }),
     onSubmit: async (values, form) => {
       try {
+        setLoading(true);
         const response = await getData('verify?code=' + values.code_verify);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
@@ -35,14 +40,17 @@ function Verify(props) {
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}>
+          onPress={() => props.navigation.goBack()}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
       </View>
