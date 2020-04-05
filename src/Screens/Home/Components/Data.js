@@ -12,6 +12,10 @@ export default data = [
     image: TF,
     title: 'Transfer',
     navigate: 'TransferNavigate',
+    params: {
+      screen: 'Transfer',
+      params: { userId: 0 },
+    }
   },
   {
     image: History,

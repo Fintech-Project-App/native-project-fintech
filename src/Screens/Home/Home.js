@@ -101,7 +101,7 @@ function Home(props) {
                           key={i}
                           style={{ marginHorizontal: 25 }}
                           onPress={() =>
-                            props.navigation.navigate(val.navigate)
+                            props.navigation.navigate(val.navigate, val.params)
                           }
                         >
                           <View>

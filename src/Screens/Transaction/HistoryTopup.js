@@ -40,7 +40,7 @@ function HistoryTopup(props) {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 12, backgroundColor: 'white' }}>
-        {Object.keys(dataHistory).length > 0 && (
+        {dataHistory && (
           <ScrollView
             refreshControl={
               <RefreshControl
@@ -51,7 +51,7 @@ function HistoryTopup(props) {
           >
             <View style={{ paddingHorizontal: 20 }}>
               {dataHistory.map((val, i) => (
-                <TouchableOpacity>
+                <TouchableOpacity key={i}>
                   <ListItem
                     title={
                       dataProfile.fullname !== null
@@ -85,7 +85,7 @@ function HistoryTopup(props) {
             <View style={{ flex: 1, height: 80 }}></View>
           </ScrollView>
         )}
-        {Object.keys(dataHistory).length < 1 && (
+        {!dataHistory && (
           <View style={style.container}>
             <Text
               style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}
