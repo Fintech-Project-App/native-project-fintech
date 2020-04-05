@@ -10,6 +10,10 @@ import {
 import { Image, ListItem } from 'react-native-elements';
 import Empty from '../../Helpers/Image/empty.png';
 import Data from './Components/DataTopup';
+import { useDispatch, useSelector } from 'react-redux';
+import { historyTopup } from '../../Redux/actions/userDataAction';
+import { API_URL } from 'react-native-dotenv';
+import moment from 'moment';
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -18,22 +22,25 @@ function wait(timeout) {
 }
 
 function HistoryTopup(props) {
-  const [isAvailable, setIsAvailable] = React.useState(true);
   const [throws, setThrows] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const { dataHistory } = useSelector((state) => state.userData);
+  const { dataProfile } = useSelector((state) => state.userData);
 
   const onRefreshing = React.useCallback(() => {
     setRefreshing(true);
     wait(200).then(() => {
       setRefreshing(false);
-      setThrows(props.navigation.navigate('ProfileUpdate'));
+      setThrows(dispatch(historyTopup()));
     });
   }, [refreshing]);
 
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 12, backgroundColor: 'white' }}>
-        {isAvailable && (
+        {Object.keys(dataHistory).length > 0 && (
           <ScrollView
             refreshControl={
               <RefreshControl
@@ -43,20 +50,24 @@ function HistoryTopup(props) {
             }
           >
             <View style={{ paddingHorizontal: 20 }}>
-              {Data.map((val, i) => (
+              {dataHistory.map((val, i) => (
                 <TouchableOpacity>
                   <ListItem
-                    title={val.name}
+                    title={
+                      dataProfile.fullname !== null
+                        ? dataProfile.fullname
+                        : dataProfile.username
+                    }
                     titleStyle={{ fontWeight: 'bold', color: '#383838' }}
                     subtitle={
                       <View>
                         <View>
-                          <Text style={style.categoryTitle}>
-                            {val.category}
-                          </Text>
+                          <Text style={style.categoryTitle}>Topup</Text>
                         </View>
                         <View>
-                          <Text style={style.date}>{val.created_on}</Text>
+                          <Text style={style.date}>
+                            {new Date(val.createdAt).toDateString()}
+                          </Text>
                           <Text style={style.balance}>
                             + Rp. {val.topup_balance}
                           </Text>
@@ -64,7 +75,9 @@ function HistoryTopup(props) {
                       </View>
                     }
                     bottomDivider
-                    leftAvatar={{ source: { uri: val.picture } }}
+                    leftAvatar={{
+                      source: { uri: API_URL + dataProfile.picture },
+                    }}
                   />
                 </TouchableOpacity>
               ))}
@@ -72,7 +85,7 @@ function HistoryTopup(props) {
             <View style={{ flex: 1, height: 80 }}></View>
           </ScrollView>
         )}
-        {!isAvailable && (
+        {Object.keys(dataHistory).length < 1 && (
           <View style={style.container}>
             <Text
               style={{ fontSize: 18, fontWeight: 'bold', color: '#1f675e' }}

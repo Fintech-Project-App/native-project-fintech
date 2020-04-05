@@ -18,12 +18,15 @@ import { changePassword } from '../../Redux/actions/userDataAction';
 import * as Yup from 'yup';
 import CustomInputText from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
+import Loader from '../../Components/Loader';
 
 function ChangePassword(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
   const dispatch = useDispatch();
-  const FormLogin = useFormik({
-    initialValues: { password: '', new_password: '', confirm_password: '' },
+  const FormChangePass = useFormik({
+    initialValues: { old_password: '', new_password: '', confirm_password: '' },
     validationSchema: Yup.object({
       old_password: Yup.string().required('Passowrd is Required'),
       new_password: Yup.string().required('New Password is Required'),
@@ -31,6 +34,7 @@ function ChangePassword(props) {
     }),
     onSubmit: async (values, form) => {
       try {
+        setLoading(true);
         const response = await dispatch(changePassword(values));
         console.log('response', response.data);
         if (response && response.data.success) {
@@ -42,11 +46,13 @@ function ChangePassword(props) {
         CustomAlert(err.response.data.success, err.response.data.msg);
         console.log('error', err);
       }
+      setLoading(false);
     },
   });
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View style={style.container1}>
         <ImageBackground
           source={BGChange}
@@ -73,7 +79,7 @@ function ChangePassword(props) {
           />
           <ScrollView>
             <CustomInputText
-              form={FormLogin}
+              form={FormChangePass}
               name="old_password"
               placeholder="Old Password"
               secureTextEntry={hidePassword ? true : false}
@@ -93,7 +99,7 @@ function ChangePassword(props) {
             />
             <CustomInputText
               placeholder="New Password"
-              form={FormLogin}
+              form={FormChangePass}
               name="new_password"
               secureTextEntry={hidePassword ? true : false}
               inputContainerStyle={{ ...style.input }}
@@ -112,7 +118,7 @@ function ChangePassword(props) {
             />
             <CustomInputText
               placeholder="Confirm Password"
-              form={FormLogin}
+              form={FormChangePass}
               name="confirm_password"
               secureTextEntry={hidePassword ? true : false}
               inputContainerStyle={{ ...style.input }}
@@ -133,7 +139,8 @@ function ChangePassword(props) {
               <Button
                 title="Reset Password"
                 buttonStyle={style.changebtn}
-                onPress={FormLogin.handleSubmit}
+                onPress={FormChangePass.handleSubmit}
+                disabled={!FormChangePass.isValid}
               />
             </View>
           </ScrollView>

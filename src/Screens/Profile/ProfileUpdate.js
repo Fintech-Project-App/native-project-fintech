@@ -18,9 +18,12 @@ import { updateProfile } from '../../Redux/actions/userDataAction';
 import { patchData } from '../../Helpers/CRUD';
 import ImagePicker from 'react-native-image-picker';
 import { API_URL } from 'react-native-dotenv';
+import Loader from '../../Components/Loader';
 
 function ProfileUpdate(props) {
   const [srcImageUpdate, setSrcImageUpdate] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+
   const { dataProfile } = useSelector((state) => state.userData);
   const dispatch = useDispatch();
   const FormUpdateUser = useFormik({
@@ -34,6 +37,7 @@ function ProfileUpdate(props) {
       picture: Yup.mixed().nullable(),
     }),
     onSubmit: async (values, form) => {
+      setLoading(true);
       try {
         const formData = new FormData();
         const fillAble = ['fullname', 'email', 'gender', 'address', 'picture'];
@@ -68,6 +72,7 @@ function ProfileUpdate(props) {
         console.log(err);
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
   const handleChangePicture = () => {
@@ -85,6 +90,7 @@ function ProfileUpdate(props) {
   };
   return (
     <View style={{ flex: 1 }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       <View
         style={{
           flex: 1,

@@ -15,11 +15,14 @@ import * as Yup from 'yup';
 import CustomTextInput from '../../Components/CustomInputText';
 import CustomAlert from '../../Components/CustomAlert';
 import { submitData } from '../../Helpers/CRUD';
+import Loader from '../../Components/Loader';
 
 function ChangePassword(props) {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [hideConfirmPass, setHideConfirmPass] = React.useState(true);
   const [isVisible, setHideVisible] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
   const FormChangePassword = useFormik({
     initialValues: { code_verify: '', new_password: '', confirm_password: '' },
     validationSchema: Yup.object({
@@ -34,13 +37,12 @@ function ChangePassword(props) {
         .required('Confirm Password Is Required'),
     }),
     onSubmit: async (values, form) => {
-      console.log(values);
       try {
+        setLoading(true);
         const response = await submitData(
           'change-password?code=' + values.code_verify,
           values
         );
-        console.log(response.data);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
           form.resetForm();
@@ -51,11 +53,13 @@ function ChangePassword(props) {
       } catch (err) {
         CustomAlert(err.response.data.success, err.response.data.msg);
       }
+      setLoading(false);
     },
   });
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
+      {loading && <Loader loading={loading} setLoading={setLoading} />}
       {isVisible && (
         <OverlayImg
           message={'Success To Changes Password'}
@@ -69,7 +73,8 @@ function ChangePassword(props) {
       <View style={{ flex: 2, paddingBottom: 20 }}>
         <TouchableOpacity
           style={{ width: 50, marginTop: 25 }}
-          onPress={() => props.navigation.goBack()}>
+          onPress={() => props.navigation.goBack()}
+        >
           <Icons name="chevron-left" size={20} style={style.backIcon} />
         </TouchableOpacity>
       </View>
@@ -118,7 +123,8 @@ function ChangePassword(props) {
             secureTextEntry={hidePassword ? true : false}
             rightIcon={
               <TouchableOpacity
-                onPress={() => setHideConfirmPass(!hideConfirmPass)}>
+                onPress={() => setHideConfirmPass(!hideConfirmPass)}
+              >
                 <Icons
                   name={hideConfirmPass ? 'eye-slash' : 'eye'}
                   size={15}

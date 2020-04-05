@@ -3,6 +3,7 @@ import {
   USER_LOGOUT,
   UPDATE_PROFILE,
   USER_CHANGE_PASSWORD,
+  HISTORY_TOPUP,
 } from './actionTypes';
 import { getData, submitData, patchData } from '../../Helpers/CRUD';
 
@@ -44,7 +45,6 @@ export const updateProfile = () => async (dispatch) => {
 export const changePassword = (data) => async (dispatch) => {
   try {
     const response = await patchData('profile', data);
-    console.log('form', response.data);
     if (response.data && response.data.success) {
       await dispatch({
         type: USER_CHANGE_PASSWORD,
@@ -53,6 +53,23 @@ export const changePassword = (data) => async (dispatch) => {
     }
     return response;
   } catch (err) {
+    throw err;
+  }
+};
+
+export const historyTopup = () => async (dispatch) => {
+  try {
+    const response = await getData('history-topup');
+    console.log('data', response.data.data);
+    if (response.data && response.data.success) {
+      await dispatch({
+        type: HISTORY_TOPUP,
+        payload: response.data.data,
+      });
+    }
+    return response.data.data;
+  } catch (err) {
+    console.log(err);
     throw err;
   }
 };
