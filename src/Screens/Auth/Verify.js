@@ -27,8 +27,8 @@ function Verify(props) {
         .required('Code Verify Is Required'),
     }),
     onSubmit: async (values, form) => {
+      setLoading(true);
       try {
-        setLoading(true);
         const response = await getData('verify?code=' + values.code_verify);
         if (response.data && response.data.success) {
           form.setSubmitting(false);
@@ -38,7 +38,9 @@ function Verify(props) {
           CustomAlert(response.data.success, response.data.msg);
         }
       } catch (err) {
-        CustomAlert(err.response.data.success, err.response.data.msg);
+        if (!(err.message === 'Network Error')) {
+          CustomAlert(err.response.data.success, err.response.data.msg);
+        }
       }
       setLoading(false);
     },

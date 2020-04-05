@@ -37,8 +37,8 @@ function ChangePassword(props) {
         .required('Confirm Password Is Required'),
     }),
     onSubmit: async (values, form) => {
+      setLoading(true);
       try {
-        setLoading(true);
         const response = await submitData(
           'change-password?code=' + values.code_verify,
           values
@@ -51,7 +51,12 @@ function ChangePassword(props) {
           CustomAlert(response.data.success, response.data.msg);
         }
       } catch (err) {
-        CustomAlert(err.response.data.success, err.response.data.msg);
+        console.log(err)
+        if (!(err.message === 'Network Error')) {
+          if (err.response) {
+            CustomAlert(err.response.data.success, err.response.data.msg);
+          }
+        }
       }
       setLoading(false);
     },
