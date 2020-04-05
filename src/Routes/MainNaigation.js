@@ -7,7 +7,9 @@ import Splash from '../Screens/Splash/Splash';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLogout } from '../Redux/actions/userDataAction';
 import jwt_decode from 'jwt-decode';
-
+import SplashScreen from 'react-native-splash-screen';
+import NetInfo from '@react-native-community/netinfo'
+import { Toast } from 'native-base'
 function MainRoutes(props) {
   const { isLogin, token } = useSelector((state) => state.userData);
   const dispatch = useDispatch();
@@ -24,6 +26,20 @@ function MainRoutes(props) {
 
 function MainNavigation(props) {
   const Stack = createStackNavigator();
+  React.useEffect(() => {
+    SplashScreen.hide();
+    NetInfo.fetch().then(state => {
+      if (!state.isConnected) {
+        Toast.show({
+          text: 'No Internet Connection',
+          buttonText: 'Ok',
+          duration: 15000,
+          position: 'bottom',
+          type: "warning"
+        })
+      }
+    });
+  });
   return (
     <NavigationContainer>
       <Stack.Navigator

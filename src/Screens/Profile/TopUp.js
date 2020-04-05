@@ -52,8 +52,8 @@ function Topup(props) {
         .required('Required Nominal'),
     }),
     onSubmit: async (values, form) => {
+      setLoading(true);
       try {
-        setLoading(true);
         const response = await submitData('topup', values);
         if (response.data && response.data.success) {
           dispatch(updateProfile());
@@ -67,7 +67,11 @@ function Topup(props) {
         }
       } catch (err) {
         console.log(err);
-        CustomAlert(err.response.data.success, err.response.data.msg);
+        if (!(err.message === 'Network Error')) {
+          if (err.response) {
+            CustomAlert(err.response.data.success, err.response.data.msg);
+          }
+        }
       }
       setLoading(false);
     },
